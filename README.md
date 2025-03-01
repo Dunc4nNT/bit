@@ -35,14 +35,14 @@ allows users to easily import FASTA files and receive a model in return.*
 
 ## Contact
 
-For bug reports please use *github issues link here*.<br>
+For bug reports please use https://github.com/Dunc4nNT/bit/issues.<br>
 For questions about the app, please use *github discussions link here*.<br>
 
 ## References
 
 *list of references*
 
-1. *wgd v2 link*
+1. [wgd v2 github](https://github.com/heche-psb/wgd)
 
 ## License
 
