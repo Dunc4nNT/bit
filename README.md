@@ -9,7 +9,7 @@ allows users to easily import FASTA files and receive a model in return.*
 
 ## Prerequisites
 
-- Python 3.6
+- Python 3.7
 
 ## Installation
 
