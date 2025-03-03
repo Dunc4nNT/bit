@@ -24,8 +24,8 @@ Please follow the instructions below to install python 3.7.
 $ mkdir python
 $ cd python
 $ wget https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tgz
-$ tar xzf Python3.7.17.tgz
-$ cd Python3.7.17
+$ tar xzf Python-3.7.17.tgz
+$ cd Python-3.7.17
 $ ./configure --enable-optimizations --prefix=/home/<username>/python
 $ make altinstall
 $ export PATH=$HOME/python/bin:$PATH
