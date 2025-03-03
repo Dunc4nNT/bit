@@ -17,15 +17,15 @@ Installation instructions for the tool and website can be found below.
 
 ### Python
 
-To use the wgd tool, python 3.6 is required, newer versions won't work.
-Please follow the instructions below to install python 3.6.
+To use the wgd tool, python 3.7 is required, newer versions won't work.
+Please follow the instructions below to install python 3.7.
 
 ```sh
 $ mkdir python
 $ cd python
-$ wget https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz
-$ tar xzf Python3.6.15.tgz
-$ cd Python3.6.15
+$ wget https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tgz
+$ tar xzf Python3.7.17.tgz
+$ cd Python3.7.17
 $ ./configure --enable-optimizations --prefix=/home/<username>/python
 $ make altinstall
 $ export PATH=$HOME/python/bin:$PATH
@@ -38,11 +38,12 @@ To install the commandline wgd tool, please follow the instructions below.
 1. Go to a directory you want to install the tool in.
 2. `git clone https://github.com/heche-psb/wgd` Clone the repository.
 3. `cd wgd` Go inside the tool's directory.
-4. `python3.6 -m venv .venv` Create a virtual environment.
+4. `python3.7 -m venv .venv` Create a virtual environment.
 5. `source .venv/bin/activate` Activate the virtual environment.
-6. `pip3 install -r requirements.txt` Install the necessary packages.
-7. `pip3 install -e .` Install the tool.
-8. `wgd -h` The tool should be installed and print its manual here.
+6. `pip3 install setuptools`
+7. `pip3 install -r requirements.txt` Install the necessary packages.
+8. `pip3 install -e .` Install the tool.
+9. `wgd -h` The tool should be installed and print its manual here.
 
 ### Website
 
