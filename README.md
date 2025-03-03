@@ -2,10 +2,16 @@
 
 *2025-02-25 version 0.1.0a*
 
-*The purpose of this website is to simplify the tool [wgd v2](https://github.com/heche-psb/wgd), by 
+The purpose of this website is to simplify the tool [wgd v2](https://github.com/heche-psb/wgd), by 
 making it accesible to users who may not have a background
 in programming. Our goal is to provide an intuitive interface that
-allows users to easily import FASTA files and receive a model in return.*
+allows users to easily import FASTA files and receive a model in return.
+
+Wgd stands for whole genome duplication, the tool can get DNA-sequences from a FASTA file. The
+tool can eventually convert the sequence into a plot that shows when a wgd has occured. Comprising
+seven sub-tools: *dmd, focus, ksd, mix, peak, syn and viz.* Because every sub-tool is extensive enough
+to be a project itself.. We will first focus on the sub-tool dmd. This tool can help with drawing 
+conclusions from the sequences, such as determing orthological groups, and phylogeny.
 
 ## Prerequisites
 
