@@ -2,7 +2,7 @@
 
 *2025-02-25 version 0.1.0a*
 
-*The purpose of this website is to simplify the tool Wgd v2, by 
+*The purpose of this website is to simplify the tool [wgd v2](https://github.com/heche-psb/wgd), by 
 making it accesible to users who may not have a background
 in programming. Our goal is to provide an intuitive interface that
 allows users to easily import FASTA files and receive a model in return.*
@@ -67,9 +67,10 @@ For questions about the app, please use *github discussions link here*.<br>
 
 ## References
 
-*list of references*
-
-1. [wgd v2 github](https://github.com/heche-psb/wgd)
+1. Chen, A. Zwaenepoel, and Y. Van De Peer, “wgd v2: 
+a suite of tools to uncover and date ancient polyploidy and 
+whole-genome duplication,” Bioinformatics, vol. 40, no. 5, Apr. 2024, 
+doi: 10.1093/bioinformatics/btae272.
 
 ## License
 
