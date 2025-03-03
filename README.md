@@ -10,7 +10,7 @@ allows users to easily import FASTA files and receive a model in return.
 Wgd stands for whole genome duplication, the tool can get DNA-sequences from a FASTA file. The
 tool can eventually convert the sequence into a plot that shows when a wgd has occured. Comprising
 seven sub-tools: *dmd, focus, ksd, mix, peak, syn and viz.* Because every sub-tool is extensive enough
-to be a project itself. For this reason we focused on the sub-toold dmd. This tool can help with drawing 
+to be a project itself. For this reason we focused on the sub-tool dmd. This tool can help with drawing 
 conclusions from the sequences, such as determing orthological groups, and phylogeny.
 
 ## Prerequisites
