@@ -9,13 +9,40 @@ allows users to easily import FASTA files and receive a model in return.*
 
 ## Prerequisites
 
-- Python
+- Python 3.6
 
 ## Installation
 
-### Wgd v2
+Installation instructions for the tool and website can be found below.
 
-*installation instructions for wgd v2*
+### Python
+
+To use the wgd tool, python 3.6 is required, newer versions won't work.
+Please follow the instructions below to install python 3.6.
+
+```sh
+$ mkdir python
+$ cd python
+$ wget https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz
+$ tar xzf Python3.6.15.tgz
+$ cd Python3.6.15
+$ ./configure --enable-optimizations --prefix=/home/<username>/python
+$ make altinstall
+$ export PATH=$HOME/python/bin:$PATH
+```
+
+### Tool installation (wgd)
+
+To install the commandline wgd tool, please follow the instructions below.
+
+1. Go to a directory you want to install the tool in.
+2. `git clone https://github.com/heche-psb/wgd` Clone the repository.
+3. `cd wgd` Go inside the tool's directory.
+4. `python3.6 -m venv .venv` Create a virtual environment.
+5. `source .venv/bin/activate` Activate the virtual environment.
+6. `pip3 install -r requirements.txt` Install the necessary packages.
+7. `pip3 install -e .` Install the tool.
+8. `wgd -h` The tool should be installed and print its manual here.
 
 ### Website
 
