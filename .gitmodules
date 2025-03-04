@@ -1,0 +1,3 @@
+[submodule "tools/wgd"]
+	path = tools/wgd
+	url = git@github.com:heche-psb/wgd.git
