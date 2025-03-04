@@ -97,7 +97,7 @@ convention = "numpy"
 
 
 [tool.pyright]
-include = ["app", "tests"]
+include = ["wgd_manager", "tests"]
 
 pythonVersion = "3.13"
 pythonPlatform = "All"
