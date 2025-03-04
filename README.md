@@ -16,12 +16,30 @@ conclusions from the sequences, such as determing orthological groups, and phylo
 ## Prerequisites
 
 - Python 3.7
+- Python 3.13
+- uv
 
 ## Installation
 
 Installation instructions for the tool and website can be found below.
 
-### Python
+To start, clone the repository including its submodule.
+
+```sh
+$ git clone --recurse-submodules -j8 git@github.com:Dunc4nNT/bit.git
+```
+
+As we'll be using [uv](https://docs.astral.sh/uv/) as package manager for our python projects, please install this first.
+
+```sh
+$ curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### Tool installation (wgd)
+
+To install the commandline wgd tool, please follow the instructions below.
+
+#### Python
 
 To use the wgd tool, python 3.7 is required, newer versions won't work.
 Please follow the instructions below to install python 3.7.
@@ -37,23 +55,25 @@ $ make altinstall
 $ export PATH=$HOME/python/bin:$PATH
 ```
 
-### Tool installation (wgd)
+#### The Tool
 
-To install the commandline wgd tool, please follow the instructions below.
-
-1. Go to a directory you want to install the tool in.
-2. `git clone https://github.com/heche-psb/wgd` Clone the repository.
-3. `cd wgd` Go inside the tool's directory.
-4. `python3.7 -m venv .venv` Create a virtual environment.
-5. `source .venv/bin/activate` Activate the virtual environment.
-6. `pip3 install setuptools`
-7. `pip3 install -r requirements.txt` Install the necessary packages.
-8. `pip3 install -e .` Install the tool.
-9. `wgd -h` The tool should be installed and print its manual here.
+1. `cd tools/wgd` Go inside the tool's directory.
+2. `python3.7 -m venv .venv` Create a virtual environment.
+3. `source .venv/bin/activate` Activate the virtual environment.
+4. `pip3 install setuptools`
+5. `pip3 install -r requirements.txt` Install the necessary packages.
+6. `pip3 install -e .` Install the tool.
+7. `wgd -h` The tool should be installed and print its manual here.
 
 ### Website
 
-*installation instructions for our website*
+1. `cd website` Go inside the website's directory.
+2. `uv sync` Creates a virtual environment, and installs all the packages.
+
+### Wgd Manager
+
+1. `cd tools/wgd_manager` Go inside the wgd manager's directory.
+2. `uv sync` Creates a virtual environment, and installs all the packages.
 
 ## Configuration
 
