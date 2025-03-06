@@ -11,7 +11,7 @@
 /* list of text and list of images */
 .nav_bar ul {
     list-style-type: none; /* remove the list bullet points */
-    margin-top: 20vh; /* how far from the top of the window the content is */
+    margin-top: 15vh; /* how far from the top of the window the content is */
     padding: 0; /* remove default padding */
     z-index: 1; /* stay on top */
     position: relative; /* needed for z-index*/
@@ -19,7 +19,7 @@
 
 /* set the li height of both the images and text */
 .nav_bar li {
-    height: 100px;
+    height: 125px;
 }
 
 /* each image in the list of the navigation bar */
@@ -27,9 +27,9 @@
     width: 50px; /* image size, both should be the same as the contents height */
     height: 50px; /* image size */
     background-color: rgb(228, 226, 203); /* border color */
-    border-radius: 0 30px 30px 0; /* border with rounded corners */
+    border-radius: 0 40px 40px 0; /* border with rounded corners */
     padding: 10px 20px 10px 5px; /* padding for border size, top right bottom left */
-    margin-top: 10px; /* move image slightly down to center it */
+    margin-top: 20px; /* move image slightly down to center it */
 }
 
 /* on hover, show the nav bar contents*/
@@ -56,9 +56,9 @@
     font-size: 45px;
     color: white; /* text color */
     background-color: rgba(164, 180, 101, 0.49); /* border color */
-    border-radius: 0 30px 30px 0; /* border with rounded corners */
-    padding-top: 20px; /* padding for border size */
-    padding-bottom: 20px; /* padding for border size */
+    border-radius: 0 40px 40px 0; /* border with rounded corners */
+    padding-top: 30px; /* padding for border size, when changed, change img margin-top to center image */
+    padding-bottom: 30px; /* padding for border size */
     display: block; /* for space between each line */
 }
 
