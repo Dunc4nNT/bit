@@ -1,14 +1,12 @@
-/* nav bar with only the icons */
+/* nav bar base */
 .nav_bar {
-    height: 100%; /* cover the full length of the window */
-    width: 75px; /* width of the bar with icons */
     top: 0; /* set the top of the bar at position 0*/
     left: 0; /* set the left of the bar at position 0 */
     background-color: #626F47;
     position: fixed; /* always stay in the same position, even when scrolled */
 }
 
-/* list of text and list of images */
+/* ul of text and list of images */
 .nav_bar ul {
     list-style-type: none; /* remove the list bullet points */
     margin-top: 15vh; /* how far from the top of the window the content is */
@@ -17,57 +15,58 @@
     position: relative; /* needed for z-index*/
 }
 
-/* set the li height of both the images and text */
+/* li height of both the images and text */
 .nav_bar li {
-    height: 125px;
+    height: 135px; /* use to change distance between each image/link */
 }
 
 /* each image in the list of the navigation bar */
 .nav_bar img {
-    width: 50px; /* image size, both should be the same as the contents height */
-    height: 50px; /* image size */
+    width: 40px; /* image size, both should be the same as the contents height */
+    height: 40px; /* image size */
     background-color: rgb(228, 226, 203); /* border color */
     border-radius: 0 40px 40px 0; /* border with rounded corners */
     padding: 10px 20px 10px 5px; /* padding for border size, top right bottom left */
-    margin-top: 20px; /* move image slightly down to center it */
+    margin-top: 25px; /* move image slightly down to center it */
 }
 
 /* on hover, show the nav bar contents*/
 .nav_bar:hover .nav_bar_contents{
-        left: 0;
-    }
+    left: 0;
+}
 
 /* the navigation bar contents */
 .nav_bar_contents {
     height: 100%; /* cover entire screen height */
-    width: 200px;
+    width: 190px; /* width of the bar when hovered minus the padding */
     top: 0; /* set the top at 0 */
-    left: -125px; /* set the left outside the screen */
+    left: -120px; /* set most of the contents outside the screen by default */
     background-color: #626F47;
     transition: 0.3s; /* transition on hover */
     position: fixed; /* always stay in position, even when scrolled */
+    padding-right: 10px; /* distance between icon borders and navigation bar */
 }
 
 /* each link in the list of the navigation bar */
 .nav_bar_contents a {
-    padding-left: 80px; /* distance from text to window border */
-    height: 50px; /* set the same height for all the links, same as image size */
+    padding-left: 70px; /* distance from text to window border */
+    height: 40px; /* height for all the links, same as image size */
     text-decoration: none; /* remove default lines */
-    font-size: 45px;
+    font-size: 40px; /* text size */
     color: white; /* text color */
     background-color: rgba(164, 180, 101, 0.49); /* border color */
-    border-radius: 0 40px 40px 0; /* border with rounded corners */
-    padding-top: 30px; /* padding for border size, when changed, change img margin-top to center image */
-    padding-bottom: 30px; /* padding for border size */
+    border-radius: 0 60px 60px 0; /* border with rounded corners */
+    padding-top: 35px; /* padding for border size */
+    padding-bottom: 35px; /* padding for border size */
     display: block; /* for space between each line */
 }
 
 /* set font of background reading nav bar smaller due to length */
 #background_reading{
-  font-size: 23px;
+  font-size: 18px;
 }
 
 /* set the text to the right of the navigation bar */
 main {
-    margin-left: 200px; /* = nav bar width + nav bar */
+    margin-left: 200px; /* = nav_bar_contents_width + nav_bar_contents_padding-right */
 }
