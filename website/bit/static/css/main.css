@@ -55,9 +55,6 @@ header {
 
 /* nav bar base */
 nav {
-  top: 0; /* set the top of the bar at position 0*/
-  left: 0; /* set the left of the bar at position 0 */
-  background-color: #626F47;
   position: fixed; /* always stay in the same position, even when scrolled */
 }
 
@@ -82,7 +79,7 @@ nav img {
   background-color: rgb(228, 226, 203); /* border color */
   border-radius: 0 40px 40px 0; /* border with rounded corners */
   padding: 10px 20px 10px 5px; /* padding for border size, top right bottom left */
-  margin-top: 25px; /* move image slightly down to center it */
+  margin-top: 1rem; /* move image slightly down to center it */
 }
 
 /* on hover, show the nav bar contents*/
