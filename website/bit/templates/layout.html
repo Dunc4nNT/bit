@@ -4,21 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{% endblock title %} - bit</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
   {% include "_components/navbar.html" %}
-  <section class="content">
-    <header>
-      {% block header %}{% endblock header %}
-    </header>
-    <main>
-      {% include "_components/alerts.html" %}
-      {% block content %}{% endblock content %}
-    </main>
-  </section>
-  {% include "_components/footer.html" %}
 
+  <div class="wrapper">
+    <section class="content">
+      <header>
+        {% block header %}{% endblock header %}
+      </header>
+      <main>
+        {% include "_components/alerts.html" %}
+        {% block content %}{% endblock content %}
+      </main>
+    </section>
+    {% include "_components/footer.html" %}
+  </div>
+  
   {% block script %}{% endblock script %}
 </body>
 </html>
