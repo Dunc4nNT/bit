@@ -5,16 +5,221 @@
 {% endblock header %}
 
 {% block content %}
-  <section>
-    <h2>Header tekst</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+  <p>
+    <i>Just looking for what a certain word means?
+    Check out the [Glossary](#glossary) for a quick reference including many words and acronyms used throughout the website.</i>
+  </p>
+
+  <p>
+    To start, we will need to know what whole genome duplication (WGD) is.
+    WGD, as the name may suggest, is the duplication of the entire genome, either during meiosis or mitosis.
+    In meiosis this is due to nondisjunction, when chromosomes fail to separate [#12], and in mitosis this is due to somatic doubling. [#11]
+    This duplication results in paralogous genes [#16], the complete set of these genes in a genome being called a paranome. [#15]
+    Though a lot is not (completely) known about WGD, it is clear that there is an increase in expression divergence, a phynotypic trait showing difference during evolution [#21];
+    regulatory-motif divergence, a sequence which serves a regulatory function [#20];
+    and coding sequence divergence. [#6, #18]
+    WGD is common in plants, though its role has not yet been rigorously tested, there is a strong theoretical basis for it being a facilitator in diversification. [#2, #3, #5, #10]
+  </p>
+
+  <h2>wgd Tools</h2>
+  <p>
+    To aid in identifying and dating WGD events, there is a suite of tools, wgd. [#1, #2]
+    To avoid confusion, WGD capitalised refers to whole genome duplication, while wgd lowercased refers to the wgd tool.
+    The tool was first made by a small team of researchers, and more recently updated by another person doing their own research.
+    This website uses the <a href="https://github.com/heche-psb/wgd">second version of the tool</a>.
+  </p>
+  <p>
+  The tool exists of seven smaller tools, subtools, each subtool plays a role in visualising and the analysis of WGD events.
+  The subtools are as follows: dmd, ksd, mix, syn, peak, focus, viz.
+  Short explanations of each can be found below, extensive documentation can be found on the <a href="{{ url_for('tools.index') }}">tools page</a>.
+  </p>
+
+  <h3>dmd</h3>
+  <p>
+    This is the first of the subtools, used for whole paranome, global/local MRBHs, orthogroups, and phylogeny interference.
+    To use this subtool, a (or multiple) FASTA file containing DNA coding sequences need to be provided.
+    These FASTA files can be downloaded from databases, e.g. <a href="https://www.ncbi.nlm.nih.gov/genbank/">GenBank</a>.
+    The output of this is a paralogous/orthologous gene family file, provided as <code>.tsv</code>, which will be used in the next subtool.
+    <figure>
+      <img src="{{ url_for('static', filename='images/background_reading/wgd_dmd.svg') }}" alt="dmd workflow.">
+      <figcaption>dmd workflow. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+    </figure>
+  </p>
+
+  <h3>ksd</h3>
+  <p>
+    ksd is used to construct a K<sub>s</sub> distribution, with K<sub>s</sub> being synonymous substitutions.
+    A synonymous substitution is a change in the DNA sequence which codes for the same amino acid.
+    This is what the tool uses to analyze WGD events.
+    <figure>
+      <img src="{{ url_for('static', filename='images/background_reading/ksd_distribution.svg') }}" alt="ksd distribution visualised.">
+      <figcaption>ksd distribution visualised. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+    </figure>
+  </p>
+
+  <h3>mix</h3>
+  <p>
+    This is used to mixture module a Ks distribution.
+    In the background it uses scikit-learn's mixture moduling.
+    A mixture module is a probabilistic model in statistics which shows the presence of subpopulations.
+    <figure>
+      <img src="{{ url_for('static', filename='images/background_reading/mixture_model.svg') }}" alt="Mixture model.">
+      <figcaption>Mixture model. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+    </figure>
+  </p>
+
+  <h3>syn</h3>
+  <p>
+    syn, short for synteny, is used for synteny inference.
+    Synteny refers to (groups of) genes that are present more than once on the same chromosome.
+    <figure>
+      <img src="{{ url_for('static', filename='images/background_reading/synteny.svg') }}" alt="Synteny inference showing the distribution of duplicated segments across chromosomes.">
+      <figcaption>Synteny inference showing the distribution of duplicated segments across chromosomes. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+    </figure>
+  </p>
+
+  <h3>peak</h3>
+  <p>
+    peak is used to select anchor pairs in orthogroup construction.
+    <figure>
+      <img src="{{ url_for('static', filename='images/background_reading/peak.svg') }}" alt="peak.">
+      <figcaption>peak. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+    </figure>
+  </p>
+
+  <h3>focus</h3>
+  <p>
+    Used for concatenation-/coalescence-based phylogenetic inference, creating functional annotation of gene families, and date WGD events.
+    <figure>
+      <img src="{{ url_for('static', filename='images/background_reading/concatenation_vs_coalescence.png') }}" alt="Methods of concatenation and coalescence.">
+      <figcaption>
+        Methods of concatenation and coalescence.
+        (A) Concatenation method joins all gene sequences of each species into each super-gene sequence.
+        These super-gene sequences are then used in aligning and building phylogeny trees;
+        (B) Coalescence method extracts the same gene sequences from all species and merges them into each single parallel-gene sequence file.
+        Then all parallel-gene sequence files are aligned separately to build trees.
+        Finally, all those trees are computed to get the final tree.
+        <a href="https://www.researchgate.net/figure/Methods-of-concatenation-and-coalescence-A-Concatenation-method-joins-all-gene_fig2_357352303">Source</a>
+      </figcaption>
+    </figure>
+  </p>
+
+  <h3>viz</h3>
+  <p>
+    This is the visualisation module of the tool used for K<sub>s</sub> distributions and synteny.
+    <figure>
+      <img src="{{ url_for('static', filename='images/background_reading/viz.svg') }}" alt="K<sub>s</sub> distribution of multiple multiple species.">
+      <figcaption>K<sub>s</sub> distribution of multiple multiple species. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+    </figure>
+  </p>
+
+  <section aria-labelledby="glossary">
+    <h2 id="glossary">Glossary</h2>
+
+    <ul>
+      <li>WGD = Whole genome duplication</li>
+      <li>Polyploidization = Synonym for WGD.</li>
+      <li>wgd = Refers to the whole genome duplication tool.</li>
+      <li>Nondisjunction = When chromosomes fail to separate during the cell cycle, causing too many chromosomes to be present in the daughter cells.</li>
+      <li>Somatic doubling = Doubling of the amount of chromosomes in a new cell. [#19]</li>
+      <li>FASTA = File format used to store one or more sequences (DNA or RNA).</li>
+      <li>RBH = Reciprocal best hits, used to compare genomes in orthology. When two genes in different genomes find each other as the best match. [#4]</li>
+      <li>Paranome = Complete set of paralogous genes in a genome. [#15]</li>
+      <li>Paralogues/Paralogous genes = Genes separated by gene duplication events.</li>
+      <li>Orthology = Relationship between multiple genes that share a common ancestor. [#17]</li>
+      <li>dmd = A subtool within the wgd tool, used for whole paranome, global/local MRBHs, orthogroups, and phylogeny interference. [#1]</li>
+      <li>Ks distribution = Distribution which denotes expected number of synonymous substitutions per site between two DNA sequences.</li>
+      <li>Synonymous substitution = Within context of DNA and RNA, it's a substition in DNA which codes for the same amino acid.</li>
+      <li>ksd = A subtool within the wgd tool, used to construct the Ks distribution. [#1]</li>
+      <li>mix = A subtool within the wgd tool, used to mixture module a Ks distribution. [#1]</li>
+      <li>Synteny = When (group of) genes are present more than once on the same chromosome.</li>
+      <li>syn = A subtool within the wgd tool, used for synteny inference. [#1]</li>
+      <li>WGD dating = The dating of WGD events.</li>
+      <li>peak = A subtool within the wgd tool, used to find anchor pairs used in WGD dating. [#1]</li>
+      <li>Concatenation = The joining of gene sequences per species. [#14]</li>
+      <li>Coalescence = Extracts same gene sequences from all the species and merges them. [#14]</li>
+      <li>focus = A subtool within the wgd tool, used for concatenation-/coalescence-based phylogenetic inference, creating functional annotation of gene families, and date WGD events. [#1]</li>
+      <li>viz = A subtool within the wgd tool, used to visualise Ks distributions and synteny. [#1]</li>
+    </ul>
   </section>
-  <section>
-    <h2>Header tekst</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+
+  <section aria-labelledby="references">
+    <h2 id="references">References</h2>
+
+    <ol>
+      <li>
+        https://wgdv2.readthedocs.io/en/latest/
+      </li>
+      <li>
+        https://www.sciencedirect.com/science/article/pii/S0959437X07001724
+      </li>
+      <li>
+        https://www.nature.com/articles/s41559-023-02299-z
+      </li>
+      <li>
+        https://europepmc.org/article/MED/25013894
+      </li>
+      <li>
+        https://www.sciencedirect.com/science/article/pii/S0092867407013402
+      </li>
+      <li>
+        https://pmc.ncbi.nlm.nih.gov/articles/PMC7540024/
+      </li>
+      <li>
+        https://www.nature.com/articles/s41586-024-07070-3
+      </li>
+      <li>
+        https://academic.oup.com/bioinformatics/article/35/12/2153/5162749
+      </li>
+      <li>
+        https://academic.oup.com/bioinformatics/article/40/5/btae272/7649322
+      </li>
+      <li>
+        https://www.sciencedirect.com/science/article/pii/S1360138518301596
+      </li>
+      <li>
+        https://link.springer.com/article/10.1007/s00438-014-0889-2
+      </li>
+      <li>
+        https://www.ncbi.nlm.nih.gov/books/NBK482240/
+      </li>
+      <li>
+        https://www.researchgate.net/figure/Methods-of-concatenation-and-coalescence-A-Concatenation-method-joins-all-gene_fig2_357352303
+      </li>
+      <li>
+        https://www.researchgate.net/publication/357352303_Reassessment_of_Annamocarya_sinesis_Carya_sinensis_Taxonomy_through_Concatenation_and_Coalescence_Phylogenetic_Analysis
+      </li>
+      <li>
+        https://en.wiktionary.org/wiki/paranome
+      </li>
+      <li>
+        https://www.nlm.nih.gov/ncbi/workshops/2023-08_BLAST_evol/ortho_para.html
+      </li>
+      <li>
+        https://www.sciencedirect.com/topics/biochemistry-genetics-and-molecular-biology/orthology
+      </li>
+      <li>
+        https://www.sciencedirect.com/science/article/pii/S0168952505002337
+      </li>
+      <li>
+        https://groups.molbiosci.northwestern.edu/holmgren/Glossary/Definitions/Def-S/somatic_doubling.html
+      </li>
+      <li>
+        https://bio.libretexts.org/Bookshelves/Computational_Biology/Book%3A_Computational_Biology_-_Genomes_Networks_and_Evolution_(Kellis_et_al.)/04%3A_Comparative_Genomics_I-_Genome_Annotation/4.07%3A_Regulatory_Motifs
+      </li>
+      <li>
+        https://biologydirect.biomedcentral.com/articles/10.1186/1745-6150-5-51
+      </li>
+      <li>
+        https://github.com/heche-psb/wgd
+      </li>
+      <li>
+        https://www.ncbi.nlm.nih.gov/genbank/
+      </li>
+      <li>
+        https://en.wikipedia.org/wiki/Mixture_model
+      </li>
+    </ol>
   </section>
-  <section>
-    <h2>Header tekst</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
-  </section>
+
 {% endblock content %}
