@@ -22,13 +22,17 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+.content {
+  padding: 1.5rem;
+  margin: auto;
+  max-width: 65rem;
+}
+
 .footer {
   display: flex;
   justify-content: center;
   background-color: #ede8c7;
-  padding: 20px;
-  margin-left: 80px;
-  margin-top: 30px;
+  padding: 2rem;
   text-align: center;
 }
 .footer ul {
@@ -44,13 +48,15 @@ body {
   color: #7b8653;
 }
 
-header {
-  height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.header {
+  text-align: center;
+  height: 6.5rem;
+  line-height: 6.5rem;
   background-color: darkgreen;
   color: white;
+}
+.header h1 {
+  margin: 0;
 }
 
 /* nav bar base */
@@ -113,24 +119,15 @@ nav:hover .nav_bar_contents {
   display: block; /* for space between each line */
 }
 
-/* set the text to the right of the navigation bar */
-.content {
-  margin-left: 200px; /* = nav_bar_contents_width + nav_bar_contents_padding-right */
-}
-
 #background_reading {
   font-size: 18px;
 }
 
 .logo {
-  position: fixed;
-  left: 80px;
   width: 50px;
   height: 50px;
   background-color: yellowgreen;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  vertical-align: middle;
 }
 
 /*# sourceMappingURL=main.css.map */

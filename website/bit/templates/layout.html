@@ -10,11 +10,11 @@
   {% include "_components/navbar.html" %}
 
   <div class="wrapper">
-    <section class="content">
-      <header>
+    <section class="page-content">
+      <header class="header">
         {% block header %}{% endblock header %}
       </header>
-      <main>
+      <main class="content">
         {% include "_components/alerts.html" %}
         {% block content %}{% endblock content %}
       </main>
