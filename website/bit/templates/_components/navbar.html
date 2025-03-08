@@ -6,11 +6,6 @@
       </a>
     </li>
     <li>
-      <a href="{{ url_for('core.about') }}">
-        <img src="{{ url_for('static', filename='images/navbar/about.png') }}" alt="about page image">
-      </a>
-    </li>
-    <li>
       <a href="{{ url_for('tools.index') }}">
         <img src="{{ url_for('static', filename='images/navbar/tool.png') }}" alt="tool page image">
       </a>
@@ -18,6 +13,11 @@
     <li>
       <a href="{{ url_for('core.background_reading') }}">
         <img src="{{ url_for('static', filename='images/navbar/background_reading.png') }}" alt="background reading page image">
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('core.about') }}">
+        <img src="{{ url_for('static', filename='images/navbar/about.png') }}" alt="about page image">
       </a>
     </li>
   </ul>
@@ -29,11 +29,6 @@
         </a>
       </li>
       <li>
-        <a href="{{ url_for('core.about') }}">
-          About
-        </a>
-      </li>
-      <li>
         <a href="{{ url_for('tools.index') }}">
           Tool
         </a>
@@ -41,6 +36,11 @@
       <li>
         <a href="{{ url_for('core.background_reading') }}" id="background_reading">
           Background reading
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('core.about') }}">
+          About
         </a>
       </li>
     </ul>
