@@ -1,48 +1,28 @@
-<nav>
+<nav class="nav">
   <ul>
     <li>
       <a href="{{ url_for('core.index') }}">
         <img src="{{ url_for('static', filename='images/navbar/home.png') }}" alt="home page image">
+        <span class="navbar-item-title">Home</span>
       </a>
     </li>
     <li>
       <a href="{{ url_for('tools.index') }}">
         <img src="{{ url_for('static', filename='images/navbar/tool.png') }}" alt="tool page image">
+        <span class="navbar-item-title">Tool</span>
       </a>
     </li>
     <li>
       <a href="{{ url_for('core.background_reading') }}">
         <img src="{{ url_for('static', filename='images/navbar/background_reading.png') }}" alt="background reading page image">
+        <span class="navbar-item-title">Background Reading</span>
       </a>
     </li>
     <li>
       <a href="{{ url_for('core.about') }}">
         <img src="{{ url_for('static', filename='images/navbar/about.png') }}" alt="about page image">
+        <span class="navbar-item-title">About</span>
       </a>
     </li>
   </ul>
-  <div class="nav_bar_contents">
-    <ul>
-      <li>
-        <a href="{{ url_for('core.index') }}">
-          Home
-        </a>
-      </li>
-      <li>
-        <a href="{{ url_for('tools.index') }}">
-          Tool
-        </a>
-      </li>
-      <li>
-        <a href="{{ url_for('core.background_reading') }}" id="background_reading">
-          Background reading
-        </a>
-      </li>
-      <li>
-        <a href="{{ url_for('core.about') }}">
-          About
-        </a>
-      </li>
-    </ul>
-  </div>
 </nav>
