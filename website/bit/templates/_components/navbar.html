@@ -1,0 +1,48 @@
+<nav>
+  <ul>
+    <li>
+      <a href="{{ url_for('core.index') }}">
+        <img src="{{ url_for('static', filename='images/navbar/home.png') }}" alt="home page image" />
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('core.about') }}">
+        <img src="{{ url_for('static', filename='images/navbar/about.png') }}" alt="about page image" />
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('tools.index') }}">
+        <img src="{{ url_for('static', filename='images/navbar/tool.png') }}" alt="tool page image" />
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('core.background_reading') }}">
+        <img src="{{ url_for('static', filename='images/navbar/background_reading.png') }}" alt="background reading page image" />
+      </a>
+    </li>
+  </ul>
+  <div class="nav_bar_contents">
+    <ul>
+      <li>
+        <a href="{{ url_for('core.index') }}">
+          Home
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('core.about') }}">
+          About
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('tools.index') }}">
+          Tool
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('core.background_reading') }}" id="background_reading">
+          Background reading
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

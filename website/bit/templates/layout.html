@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock title %} - bit</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  {% include "_components/navbar.html" %}
+  <section class="content">
+    <header>
+      {% block header %}{% endblock header %}
+    </header>
+    <main>
+      {% include "_components/alerts.html" %}
+      {% block content %}{% endblock content %}
+    </main>
+  </section>
+  {% include "_components/footer.html" %}
+
+  {% block script %}{% endblock script %}
+</body>
+</html>
