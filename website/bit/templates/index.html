@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block header %}
-  <h1>{% block title %}<img src="{{ url_for('static', filename='images/navbar/home.png') }}" alt="home page icon" class="logo"> Home{% endblock title %}</h1>
+  <h1><img src="{{ url_for('static', filename='images/navbar/home.png') }}" alt="home page icon" class="logo"> {% block title %}Home{% endblock title %}</h1>
 {% endblock header %}
 
 {% block content %}
