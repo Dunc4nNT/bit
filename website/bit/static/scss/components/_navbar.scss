@@ -1,7 +1,7 @@
 .nav {
   position: fixed;
   height: 100vh;
-  width: 9rem;
+  width: 8.5rem;
   transition: width 1000ms ease;
   z-index: 1;
   overflow: hidden;
@@ -29,19 +29,19 @@
   }
 
   li {
+    padding-left: 2rem;
     white-space: nowrap;
   }
   
   a {
     text-decoration: none;
+    display: block;
   }
 
   img {
     vertical-align: middle;
     width: 4.5rem;
     height: 4.5rem;
-    background-color: hsl(55, 32%, 85%);
-    border-radius: 0 100vw 100vw 0;
   }
 
   .navbar-item-title {
@@ -50,7 +50,7 @@
     visibility: hidden;
     opacity: 0;
     transition: visibility 1000ms, opacity 1000ms;
-    padding-left: .5rem;
+    padding-left: 1.5rem;
     font-size: 1.5rem;
     font-weight: 700;
   }
