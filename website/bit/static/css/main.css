@@ -1,9 +1,12 @@
 body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f8ec;
+}
+
+.wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: Arial, sans-serif;
-  background-color: #f9f8ec;
 }
 
 * {
@@ -29,6 +32,7 @@ body {
 }
 
 .footer {
+  margin-top: auto;
   display: flex;
   justify-content: center;
   background-color: #ede8c7;
