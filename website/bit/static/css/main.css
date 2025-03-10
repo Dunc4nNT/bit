@@ -11,6 +11,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-left: 8.5rem;
 }
 
 figure > img {
@@ -49,7 +50,7 @@ body {
 }
 .content {
   padding-bottom: 2.5em;
-  margin: auto;
+  padding-left: 2rem;
   max-width: 65rem;
 }
 
@@ -57,10 +58,10 @@ body {
   --flow-space: auto;
   padding: 1.5rem;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   gap: 5rem;
   background-color: hsl(55, 52%, 85%);
-  text-align: center;
+  text-align: left;
 }
 .footer ul {
   list-style: none;
