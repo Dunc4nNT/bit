@@ -1,6 +1,6 @@
 # Bio-informatics Toolbox
 
-*2025-02-25 version 0.1.0a*
+*2025-02-25 version 0.2.0a*
 
 The purpose of this website is to simplify the tool [wgd v2](https://github.com/heche-psb/wgd), by 
 making it accesible to users who may not have a background
@@ -18,6 +18,7 @@ conclusions from the sequences, such as determing orthological groups, and phylo
 - Python 3.7
 - Python 3.13
 - uv
+- dart-sass
 
 ## Installation
 
@@ -35,7 +36,7 @@ As we'll be using [uv](https://docs.astral.sh/uv/) as package manager for our py
 $ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### Tool installation (wgd)
+### Tool
 
 To install the commandline wgd tool, please follow the instructions below.
 
@@ -48,14 +49,14 @@ Please follow the instructions below to install python 3.7.
 $ mkdir python
 $ cd python
 $ wget https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tgz
-$ tar xzf Python-3.7.17.tgz
+$ tar xvzf Python-3.7.17.tgz
 $ cd Python-3.7.17
 $ ./configure --enable-optimizations --prefix=/home/<username>/python
 $ make altinstall
 $ export PATH=$HOME/python/bin:$PATH
 ```
 
-#### The Tool
+#### wgd
 
 1. `cd tools/wgd` Go inside the tool's directory.
 2. `python3.7 -m venv .venv` Create a virtual environment.
@@ -69,6 +70,37 @@ $ export PATH=$HOME/python/bin:$PATH
 
 1. `cd website` Go inside the website's directory.
 2. `uv sync` Creates a virtual environment, and installs all the packages.
+3. `cp .env.example .env` Creates a `.env` file for a few configuration options.
+
+#### Sass
+
+**This is only required for development of the website, the compiled stylesheet is in the repo.**
+
+Follow the instructions on the [sass website](https://sass-lang.com/install/) to install sass, or follow the instructions below.
+
+```sh
+$ mkdir sass
+$ cd sass
+$ wget https://github.com/sass/dart-sass/releases/download/1.85.1/dart-sass-1.85.1-linux-x64.tar.gz
+$ tar xvzf dart-sass-1.85.1-linux-x64.tar.gz
+$ export PATH=$HOME/sass/dart-sass:$PATH
+```
+
+Running the sass compiler:
+
+```sh
+$ cd /path/to/repo/website/static
+$ sass scss/main.scss css/main.css # compiles once.
+
+$ sass --watch scss/main.scss css/main.css # compiles on save.
+```
+
+#### Running flask
+
+```sh
+$ cd /path/to/repo/website
+$ uv run flask run
+```
 
 ### Wgd Manager
 
