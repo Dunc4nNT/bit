@@ -1,12 +1,25 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f9f8ec;
+  color: hsl(80, 22%, 45%);
+  background-color: hsl(55, 52%, 95%);
+  line-height: 1.5;
+  font-size: 1rem;
+  font-weight: 400;
 }
 
 .wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+figure > img {
+  max-width: 1000px;
+  max-height: 1000px;
+}
+
+figure > figcaption {
+  font-style: italic;
 }
 
 * {
@@ -35,32 +48,53 @@ body {
   margin-top: auto;
   display: flex;
   justify-content: center;
-  background-color: #ede8c7;
-  padding: 2rem;
+  gap: 5rem;
+  background-color: hsl(55, 52%, 85%);
   text-align: center;
 }
 .footer ul {
   padding: 0;
   list-style: none;
 }
-.footer h3 {
-  font-size: 18px;
-  margin-right: 10px;
-  color: #444;
-}
-.footer li {
-  color: #7b8653;
-}
 
 .header {
   text-align: center;
   height: 6.5rem;
   line-height: 6.5rem;
-  background-color: darkgreen;
-  color: white;
+  background-color: hsl(80, 22%, 15%);
 }
 .header h1 {
+  color: hsl(0, 0%, 95%);
   margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: hsl(0, 0%, 15%);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1.125rem;
+}
+
+h6 {
+  font-size: 1rem;
 }
 
 .nav {
@@ -70,7 +104,7 @@ body {
   transition: width 1000ms ease;
   z-index: 1;
   overflow: hidden;
-  background-color: hsl(80, 22%, 36%);
+  background-color: hsl(80, 22%, 35%);
 }
 .nav:hover {
   width: 25rem;
@@ -104,7 +138,7 @@ body {
 }
 .nav .navbar-item-title {
   vertical-align: middle;
-  color: white;
+  color: hsl(0, 0%, 100%);
   visibility: hidden;
   opacity: 0;
   transition: visibility 1000ms, opacity 1000ms;
@@ -114,9 +148,9 @@ body {
 }
 
 .logo {
-  width: 50px;
-  height: 50px;
-  background-color: yellowgreen;
+  width: 3rem;
+  height: 3rem;
+  background-color: hsl(55, 52%, 55%);
   vertical-align: middle;
 }
 

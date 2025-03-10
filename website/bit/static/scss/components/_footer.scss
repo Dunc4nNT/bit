@@ -1,23 +1,15 @@
+@use "../abstracts/" as *;
+
 .footer {
   margin-top: auto;
   display: flex;
   justify-content: center;
-  background-color: #ede8c7;
-  padding: 2rem;
+  gap: 5rem;
+  background-color: $clr-primary-200;
   text-align: center;
 
   ul {
     padding: 0;
     list-style: none;
-  }
-
-  h3 {
-    font-size: 18px;
-    margin-right: 10px;
-    color: #444;
-  }
-
-  li {
-      color: #7b8653;
   }
 }

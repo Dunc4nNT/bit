@@ -1,3 +1,5 @@
+@use "../abstracts/" as *;
+
 .nav {
   position: fixed;
   height: 100vh;
@@ -5,7 +7,7 @@
   transition: width 1000ms ease;
   z-index: 1;
   overflow: hidden;
-  background-color: hsl(80, 22%, 36%);
+  background-color: $clr-secondary-700;
 
   &:hover {
     width: 25rem;
@@ -46,7 +48,7 @@
 
   .navbar-item-title {
     vertical-align: middle;
-    color: white;
+    color: $clr-white;
     visibility: hidden;
     opacity: 0;
     transition: visibility 1000ms, opacity 1000ms;
