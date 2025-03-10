@@ -124,7 +124,7 @@ h6 {
   list-style: none;
   display: flex;
   flex-flow: column;
-  gap: 2.5rem;
+  gap: 1rem;
 }
 .nav ul:first-child {
   padding-top: 8.5rem;
@@ -132,10 +132,14 @@ h6 {
 .nav li {
   white-space: nowrap;
 }
+.nav li:is(:hover, :focus-within) {
+  background-color: hsl(80, 22%, 25%);
+}
 .nav a {
   color: hsl(0, 0%, 100%);
   text-decoration: none;
   display: block;
+  padding: 1.5rem 0;
 }
 .nav a:is(:hover, :focus) {
   color: hsl(55, 52%, 65%);
