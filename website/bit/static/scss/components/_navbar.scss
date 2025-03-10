@@ -9,7 +9,7 @@
   overflow: hidden;
   background-color: $clr-secondary-700;
 
-  &:hover {
+  &:is(:hover, :focus-within) {
     width: 25rem;
 
     .navbar-item-title {
@@ -35,8 +35,13 @@
   }
   
   a {
+    color: $clr-white;
     text-decoration: none;
     display: block;
+
+    &:is(:hover, :focus) {
+      color: $clr-primary-400;
+    }
   }
 
   img {
@@ -47,7 +52,6 @@
 
   .navbar-item-title {
     vertical-align: middle;
-    color: $clr-white;
     visibility: hidden;
     opacity: 0;
     transition: visibility 1000ms, opacity 1000ms;

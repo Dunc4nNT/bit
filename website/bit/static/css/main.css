@@ -113,10 +113,10 @@ h6 {
   overflow: hidden;
   background-color: hsl(80, 22%, 35%);
 }
-.nav:hover {
+.nav:is(:hover, :focus-within) {
   width: 25rem;
 }
-.nav:hover .navbar-item-title {
+.nav:is(:hover, :focus-within) .navbar-item-title {
   visibility: visible;
   opacity: 1;
 }
@@ -134,8 +134,12 @@ h6 {
   white-space: nowrap;
 }
 .nav a {
+  color: hsl(0, 0%, 100%);
   text-decoration: none;
   display: block;
+}
+.nav a:is(:hover, :focus) {
+  color: hsl(55, 52%, 65%);
 }
 .nav img {
   vertical-align: middle;
@@ -144,7 +148,6 @@ h6 {
 }
 .nav .navbar-item-title {
   vertical-align: middle;
-  color: hsl(0, 0%, 100%);
   visibility: hidden;
   opacity: 0;
   transition: visibility 1000ms, opacity 1000ms;
