@@ -1,6 +1,6 @@
 # Bio-informatics Toolbox
 
-*2025-02-25 version 0.1.0a*
+*2025-02-25 version 0.2.0a*
 
 The purpose of this website is to simplify the tool [wgd v2](https://github.com/heche-psb/wgd), by 
 making it accesible to users who may not have a background
