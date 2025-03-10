@@ -9,19 +9,19 @@
 <body>
   {% include "_components/navbar.html" %}
 
-  <div class="wrapper">
-    <section class="page-content">
-      <header class="header">
+  <div class="wrapper flow">
+    <section class="page-content flow">
+      <header class="header flow">
         {% block header %}{% endblock header %}
       </header>
-      <main class="content">
+      <main class="content flow">
         {% include "_components/alerts.html" %}
         {% block content %}{% endblock content %}
       </main>
     </section>
     {% include "_components/footer.html" %}
   </div>
-  
+
   {% block script %}{% endblock script %}
 </body>
 </html>

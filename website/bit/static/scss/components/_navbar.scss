@@ -20,13 +20,12 @@
 
   ul {
     list-style: none;
-    padding: 0;
     display: flex;
     flex-flow: column;
     gap: 2.5rem;
 
     &:first-child {
-      padding-top: 7.5rem;
+      padding-top: 8.5rem;
     }
   }
 
