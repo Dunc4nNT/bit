@@ -130,7 +130,6 @@ h6 {
   padding-top: 8.5rem;
 }
 .nav li {
-  padding-left: 2rem;
   white-space: nowrap;
 }
 .nav a {
@@ -142,8 +141,8 @@ h6 {
   color: hsl(55, 52%, 65%);
 }
 .nav img {
+  padding-left: 2rem;
   vertical-align: middle;
-  width: 4.5rem;
   height: 4.5rem;
 }
 .nav .navbar-item-title {
