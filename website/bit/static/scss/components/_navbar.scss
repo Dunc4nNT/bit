@@ -1,10 +1,15 @@
 @use "../abstracts/" as *;
 
+$navbar-hover-color: $clr-primary-400;
+$navbar-hover-gradient: linear-gradient(90deg, $clr-secondary-800 20%, $clr-secondary-700);
+$navbar-active-color: $clr-secondary-800;
+$navbar-active-gradient: linear-gradient(90deg, $clr-primary-400 20%, $clr-secondary-700);
+
 .nav {
   position: fixed;
   height: 100vh;
-  width: 8.5rem;
-  transition: width 1000ms ease;
+  width: 10.5rem;
+  transition: width 1000ms ease-in-out;
   z-index: 1;
   overflow: hidden;
   background-color: $clr-secondary-700;
@@ -15,6 +20,10 @@
     .navbar-item-title {
       visibility: visible;
       opacity: 1;
+    }
+    
+    .nav-item-background {
+      border-radius: 0 0 0 0 !important;
     }
   }
 
@@ -30,21 +39,22 @@
   }
 
   li {
+    display: flex;
     white-space: nowrap;
 
     &:is(:hover, :focus-within) {
-      background-color: $clr-secondary-800;
+      background: $navbar-hover-gradient
     }
   }
   
   a {
+    flex-grow: 1;
     color: $clr-white;
     text-decoration: none;
-    display: block;
     padding: 1.5rem 0;
 
     &:is(:hover, :focus) {
-      color: $clr-primary-400;
+      color: $navbar-hover-color;
     }
   }
 
@@ -58,9 +68,30 @@
     vertical-align: middle;
     visibility: hidden;
     opacity: 0;
-    transition: visibility 1000ms, opacity 1000ms;
+    transition: visibility 1000ms, opacity 1000ms  ease-in-out;
     padding-left: 1.5rem;
     font-size: 1.5rem;
     font-weight: 700;
+  }
+
+  .active {
+    .nav-item-background {
+      position: absolute;
+      z-index: -1;
+      width: 100%;
+      height: 7.5rem;
+      border-radius: 0 100% 100% 0;
+      background: $navbar-active-gradient;
+      transition: border-radius 1000ms  ease-in-out;
+    }
+
+    a {
+      color: $navbar-active-color;
+
+      &:is(:hover, :focus-within) {
+        color: $navbar-hover-color;
+        background: $navbar-hover-gradient;
+      }
+    }
   }
 }
