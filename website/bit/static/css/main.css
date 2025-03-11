@@ -199,8 +199,11 @@ h6 {
 .logo {
   width: 3rem;
   height: 3rem;
-  background-color: hsl(55, 52%, 55%);
+  background: #a4b365;
+  background-size: 6rem;
   vertical-align: middle;
+  border-radius: 60px;
+  padding: 0.2rem;
 }
 
 .flow > *:where(:not(:first-child)) {
