@@ -1,12 +1,22 @@
 @use "../abstracts/" as *;
 
 .header {
-  text-align: right;
   background-color: $clr-secondary-900;
   padding: 1.5rem;
-
-  h1 {
+  display:flex;
+  justify-content: space-between;
+  h1, h2{
     color: $clr-grey-100;
-    padding-right: 5rem;
+
   }
+}
+
+.header h1{
+  padding: 0;
+  margin: 0;
+}
+
+.header h2{
+  padding-left: 2rem;
+  padding-top: 0.5rem;
 }
