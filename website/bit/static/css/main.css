@@ -72,6 +72,15 @@ body {
   padding-left: 0.25rem;
 }
 
+.footer hr {
+  border: 1.5px solid hsl(80, 22%, 35%);
+}
+
+.footer a {
+  text-decoration: none;
+  color: hsl(80, 22%, 45%);
+}
+
 .header {
   background-color: hsl(80, 22%, 15%);
   padding: 1.5rem;
