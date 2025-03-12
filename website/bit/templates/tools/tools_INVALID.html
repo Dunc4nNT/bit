@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <h2> Invalid file type </h2>
+  <p>
+    Expected a <b>.fasta</b> file, but got a <b>.{{ file_extension }}</b> file instead
+  </p>
+  <a href="{{ url_for("tools.index") }}">
+    <u><i>Try again</i></u>
+  </a>
+{% endblock content %}

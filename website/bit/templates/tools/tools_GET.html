@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h2>Upload file</h2>
+  <p>Upload a <b>.fasta</b> file</p>
+  <form action = "" method = "POST" enctype = "multipart/form-data">
+    <input type = "file" name = "file"/>
+    <input type = "submit"/>
+  </form>
+{% endblock content %}
