@@ -1,7 +1,7 @@
 @use "../abstracts/" as *;
 
 .header {
-  background-color: $clr-secondary-900;
+  background: linear-gradient(to right, $clr-secondary-700 45%,$clr-secondary-900);
   padding: 1.5rem;
   display:flex;
   justify-content: space-between;

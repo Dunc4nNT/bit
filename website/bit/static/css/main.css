@@ -82,7 +82,7 @@ body {
 }
 
 .header {
-  background-color: hsl(80, 22%, 15%);
+  background: linear-gradient(to right, hsl(80, 22%, 35%) 45%, hsl(80, 22%, 15%));
   padding: 1.5rem;
   display: flex;
   justify-content: space-between;
