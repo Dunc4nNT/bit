@@ -1,0 +1,15 @@
+@use "../abstracts/" as *;
+
+.footer {
+  --flow-space: auto;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
+  background-color: $clr-primary-200;
+  text-align: center;
+
+  ul {
+    list-style: none;
+  }
+}

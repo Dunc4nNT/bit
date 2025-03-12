@@ -1,0 +1,25 @@
+@use "../abstracts/" as *;
+
+body {
+  font-family: $font-family;
+  color: $clr-secondary-600;
+  background-color: $clr-primary-100;
+  line-height: 1.5;
+  font-size: $font-size-400;
+  font-weight: $font-weight-default;
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+figure > img {
+  max-width: 1000px;
+  max-height: 1000px;
+}
+
+figure > figcaption {
+  font-style: italic;
+}
