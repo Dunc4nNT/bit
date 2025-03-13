@@ -1,14 +1,16 @@
 {% extends "tools/index.html" %}
 
 {% block content %}
-  <h2>Upload file</h2>
+  <h2>Upload file(s)</h2>
   <p>
     Allowed file extensions:
+  </p>
     <ul>
       {% for extension in allowed_extensions %}
         <li>.{{ extension }}</li>
       {% endfor %}
-    </ul><br />
+    </ul>
+  <p>
     To upload multiple files, hold down the CTRL key while selecting.
   </p>
   <form action = "" method = "POST" enctype = "multipart/form-data">
