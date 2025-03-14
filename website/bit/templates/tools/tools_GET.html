@@ -1,20 +1,28 @@
 {% extends "tools/index.html" %}
 
 {% block content %}
-  <h2>Upload file(s)</h2>
-  <p>
-    Allowed file extensions:
-  </p>
-    <ul>
-      {% for extension in allowed_extensions %}
-        <li>.{{ extension }}</li>
-      {% endfor %}
-    </ul>
-  <p>
-    To upload multiple files, hold down the CTRL key while selecting.
-  </p>
-  <form action = "" method = "POST" enctype = "multipart/form-data">
-    <input type = "file" class="file_upload" name = "files" accept=".fasta" multiple="multiple" />
-    <input type = "submit" class="submit" />
+  <div class="tool_text_box">
+    <h2>Upload file(s)</h2>
+    <p>
+      Allowed file extensions:
+    </p>
+      <ul>
+        {% for extension in allowed_extensions %}
+          <li>.{{ extension }}</li>
+        {% endfor %}
+      </ul>
+    <p>
+      To upload multiple files, hold down the CTRL key while selecting.
+    </p>
+  </div>
+  <form class="file_upload_box" action="" method="POST" enctype="multipart/form-data">
+
+    <input id="file_upload" type="file" name="files" accept=".fasta"
+               multiple="multiple"/>
+    <label class="file_upload_button" for="file_upload">Upload file(s)</label>
+
+    <input id="file_submit" type="submit" />
+    <label class="submit_button" for="file_submit">Submit</label>
+
   </form>
 {% endblock content %}
