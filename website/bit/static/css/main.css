@@ -180,6 +180,86 @@ h6 {
   background: linear-gradient(90deg, hsl(80, 22%, 25%) 20%, hsl(80, 22%, 35%));
 }
 
+@media screen and (max-width: 500px) {
+  .nav {
+    position: fixed;
+    height: 6rem;
+    width: 100vh;
+    transition: height 1000ms ease-in-out;
+    z-index: 1;
+    overflow: hidden;
+    background-color: hsl(80, 22%, 35%);
+  }
+  .nav:is(:hover, :focus-within) {
+    height: 7rem;
+    width: 100vh;
+  }
+  .nav:is(:hover, :focus-within) .navbar-item-title {
+    visibility: visible;
+    opacity: 1;
+  }
+  .nav:is(:hover, :focus-within) .nav-item-background {
+    border-radius: 0 0 0 0 !important;
+  }
+  .nav ul {
+    list-style: none;
+    display: flex;
+    flex-flow: row;
+    gap: 0rem;
+  }
+  .nav ul:first-child {
+    padding-top: 0rem;
+  }
+  .nav li {
+    display: flex;
+    white-space: nowrap;
+    width: 7.5rem;
+  }
+  .nav li:is(:hover, :focus-within) {
+    background: linear-gradient(90deg, hsl(80, 22%, 25%) 20%, hsl(80, 22%, 35%));
+  }
+  .nav a {
+    flex-grow: 1;
+    color: hsl(0, 0%, 100%);
+    text-decoration: none;
+    padding: 1.5rem 0;
+  }
+  .nav a:is(:hover, :focus) {
+    color: hsl(55, 52%, 65%);
+  }
+  .nav img {
+    padding-left: 1rem;
+    horiz-align: center;
+    height: 2.5rem;
+  }
+  .nav .navbar-item-title {
+    display: block;
+    width: 7.5rem;
+    horiz-align: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 1000ms, opacity 1000ms ease-in-out;
+    padding-left: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .nav .active .nav-item-background {
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 7.5rem;
+    border-radius: 0 0 100% 100%;
+    background: linear-gradient(90deg, hsl(55, 52%, 65%) 20%, hsl(80, 22%, 35%));
+    transition: border-radius 1000ms ease-in-out;
+  }
+  .nav .active a {
+    color: hsl(80, 22%, 25%);
+  }
+  .nav .active a:is(:hover, :focus-within) {
+    color: hsl(55, 52%, 65%);
+    background: linear-gradient(90deg, hsl(80, 22%, 25%) 20%, hsl(80, 22%, 35%));
+  }
+}
 .logo {
   width: 3rem;
   height: 3rem;
