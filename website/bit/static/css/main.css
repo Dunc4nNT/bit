@@ -11,6 +11,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-left: 8.5rem;
 }
 
 figure > img {
@@ -49,31 +50,55 @@ body {
 }
 .content {
   padding-bottom: 2.5em;
-  margin: auto;
   max-width: 65rem;
+  padding-left: 3.5rem;
 }
 
 .footer {
   --flow-space: auto;
   padding: 1.5rem;
+  padding-left: 3.5rem;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   gap: 5rem;
   background-color: hsl(55, 52%, 85%);
-  text-align: center;
+  text-align: left;
 }
 .footer ul {
   list-style: none;
 }
 
-.header {
-  text-align: right;
-  background-color: hsl(80, 22%, 15%);
-  padding: 1.5rem;
+.footer li {
+  padding-left: 0.25rem;
 }
-.header h1 {
+
+.footer hr {
+  border: 1.5px solid hsl(80, 22%, 35%);
+}
+
+.footer a {
+  text-decoration: none;
+  color: hsl(80, 22%, 45%);
+}
+
+.header {
+  background: linear-gradient(to right, hsl(80, 22%, 35%) 45%, hsl(80, 22%, 15%));
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.header h1, .header h2 {
   color: hsl(0, 0%, 95%);
-  padding-right: 5rem;
+}
+
+.header h1 {
+  padding: 0;
+  margin: 0;
+}
+
+.header h2 {
+  padding-left: 2rem;
+  padding-top: 0.5rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -263,8 +288,11 @@ h6 {
 .logo {
   width: 3rem;
   height: 3rem;
-  background-color: hsl(55, 52%, 55%);
+  background: #a4b365;
+  background-size: 6rem;
   vertical-align: middle;
+  border-radius: 60px;
+  padding: 0.2rem;
 }
 
 .file_upload_box {
