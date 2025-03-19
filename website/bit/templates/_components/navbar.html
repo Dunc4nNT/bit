@@ -1,28 +1,40 @@
+{% set navbar_items = [
+  {
+    "id": "core.index",
+    "img_src": "images/navbar/home.png",
+    "img_alt": "home page image",
+    "span": "Home",
+  },
+  {
+    "id": "tools.index",
+    "img_src": "images/navbar/tool.png",
+    "img_alt": "tool page image",
+    "span": "Tools",
+  },
+  {
+    "id": "core.background_reading",
+    "img_src": "images/navbar/background_reading.png",
+    "img_alt": "background reading page image",
+    "span": "Background Reading",
+  },
+  {
+    "id": "core.about",
+    "img_src": "images/navbar/about.png",
+    "img_alt": "about page image",
+    "span": "About",
+  }
+] %}
+
 <nav class="nav flow">
   <ul>
-    <li>
-      <a href="{{ url_for('core.index') }}">
-        <img src="{{ url_for('static', filename='images/navbar/home.png') }}" alt="home page image">
-        <span class="navbar-item-title">Home</span>
-      </a>
-    </li>
-    <li>
-      <a href="{{ url_for('tools.index') }}">
-        <img src="{{ url_for('static', filename='images/navbar/tool.png') }}" alt="tool page image">
-        <span class="navbar-item-title">Tool</span>
-      </a>
-    </li>
-    <li>
-      <a href="{{ url_for('core.background_reading') }}">
-        <img src="{{ url_for('static', filename='images/navbar/background_reading.png') }}" alt="background reading page image">
-        <span class="navbar-item-title">Background Reading</span>
-      </a>
-    </li>
-    <li>
-      <a href="{{ url_for('core.about') }}">
-        <img src="{{ url_for('static', filename='images/navbar/about.png') }}" alt="about page image">
-        <span class="navbar-item-title">About</span>
-      </a>
-    </li>
+    {% for navbar_item in navbar_items %}
+      <li {{ 'class=active' if request.endpoint == navbar_item['id'] }}>
+        <div class="nav-item-background"></div>
+        <a href="{{ url_for(navbar_item['id']) }}">
+          <img src="{{ url_for('static', filename=navbar_item['img_src']) }}" alt="{{ navbar_item['img_alt'] }}">
+          <span class="navbar-item-title">{{ navbar_item['span'] }}</span>
+        </a>
+      </li>
+    {% endfor %}
   </ul>
 </nav>

@@ -1,0 +1,78 @@
+@use "../abstracts/" as *;
+
+.file_upload_box {
+  position: relative;
+  width: 25rem;
+  height: 20rem;
+  background-color: $clr-primary-200;
+  border-radius: 1rem;
+
+  p {
+    background-color: $clr-secondary-600;
+    color: $clr-white; /* text color*/
+    padding-left: 2rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    border-radius: 1rem 1rem 0 0;
+
+    img {
+      position: absolute;
+      right: 2rem;
+      padding-bottom: .5rem;
+      height: 2rem;
+    }
+  }
+}
+
+#file_uploads {
+  position: absolute;
+  top: 4rem;
+  left: 2rem;
+}
+
+#file_uploads::file-selector-button {
+  display: none;
+}
+
+.file_upload_button {
+  display: block;
+  position: absolute;
+  bottom: 4rem;
+  left: 2rem;
+  width: 21rem;
+  height: 5rem;
+  text-align: center;
+  align-content: center;
+  border-style: dashed;
+  border-color: $clr-secondary-600;
+  border-width: .25rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.file_upload_button:hover {
+  border-color: $clr-secondary-700;
+  color: $clr-secondary-700; /* text color */
+}
+
+#file_submit {
+  display: none;
+}
+
+.submit_button {
+  display: block;
+  position: absolute;
+  left: 10rem;
+  bottom: 1rem;
+  width: 5rem;
+  height: auto;
+  text-align: center;
+  color: $clr-white; /* text color */
+  background-color: $clr-secondary-600;
+  border-radius: 1rem;
+  cursor:pointer;
+}
+
+.submit_button:hover {
+  background-color: $clr-secondary-700;
+}
