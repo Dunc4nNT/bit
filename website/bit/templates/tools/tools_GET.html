@@ -1,0 +1,33 @@
+{% extends "tools/index.html" %}
+
+{% block content %}
+  <h2>Upload files</h2>
+  <p>
+    Allowed file extensions:
+  </p>
+    <ul>
+      {% for extension in allowed_extensions %}
+        <li>.{{ extension }}</li>
+      {% endfor %}
+    </ul>
+  <p>
+    To upload multiple files, hold down the CTRL key while selecting.
+  </p>
+  <form class="file_upload_box" action="" method="POST" enctype="multipart/form-data">
+    <p>
+      Files <img src="../../static/images/tools/files.png" alt="file image">
+    </p>
+
+    <input id="file_uploads" type="file" name="files" accept=".fasta"
+               multiple="multiple"/>
+    <label class="file_upload_button" for="file_uploads">
+      Click here to upload files
+    </label>
+
+    <input id="file_submit" type="submit" />
+    <label class="submit_button" for="file_submit">
+      Submit
+    </label>
+
+  </form>
+{% endblock content %}
