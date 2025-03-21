@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 
 {% block header %}
-  <h1>{% block title %}Tools{% endblock title %}</h1>
+  <h2><img src="{{ url_for('static', filename='images/navbar/tool.png') }}" alt="tools page icon" class="logo"> {% block title %}Tools{% endblock title %}</h2>
 {% endblock header %}
 
 {% block content %}
-  <p>Tool stuff</p>
 {% endblock content %}

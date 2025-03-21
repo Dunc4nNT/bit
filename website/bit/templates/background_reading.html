@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block header %}
-  <h1>{% block title %}Background Reading{% endblock title %}</h1>
+  <h2><img src="{{ url_for('static', filename='images/navbar/background_reading.png') }}" alt="background reading page icon" class="logo"> {% block title %}Background Reading{% endblock title %}</h2>
 {% endblock header %}
 
 {% block content %}
