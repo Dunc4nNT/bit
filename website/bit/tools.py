@@ -10,12 +10,16 @@ max_file_size = 500 * 1024 * 1024
 # max_file_size = 98_816
 
 def valid_file(file):
+    """
+    This function checks if a file is valid.
+    starts with >
+    :param file:
+    :return: True if file is valid, else False
+    """
     first_line = file.readline()
     # opening file in bytes mode, so made a string
     first_line = str(first_line, encoding="utf-8")
-    print(f"First line of the file: {first_line}")  # Debug statement
     if first_line.startswith(">"):
-        print(first_line[0])
         return True
 
 @blueprint.route("/", methods=["GET", "POST"])
