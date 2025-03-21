@@ -205,6 +205,86 @@ h6 {
   background: linear-gradient(90deg, hsl(80, 22%, 25%) 20%, hsl(80, 22%, 35%));
 }
 
+@media screen and (max-width: 500px) {
+  .nav {
+    position: fixed;
+    height: 6rem;
+    width: 100vh;
+    transition: height 1000ms ease-in-out;
+    z-index: 1;
+    overflow: hidden;
+    background-color: hsl(80, 22%, 35%);
+  }
+  .nav:is(:hover, :focus-within) {
+    height: 7rem;
+    width: 100vh;
+  }
+  .nav:is(:hover, :focus-within) .navbar-item-title {
+    visibility: visible;
+    opacity: 1;
+  }
+  .nav:is(:hover, :focus-within) .nav-item-background {
+    border-radius: 0 0 0 0 !important;
+  }
+  .nav ul {
+    list-style: none;
+    display: flex;
+    flex-flow: row;
+    gap: 0rem;
+  }
+  .nav ul:first-child {
+    padding-top: 0rem;
+  }
+  .nav li {
+    display: flex;
+    white-space: nowrap;
+    width: 7.5rem;
+  }
+  .nav li:is(:hover, :focus-within) {
+    background: linear-gradient(90deg, hsl(80, 22%, 25%) 20%, hsl(80, 22%, 35%));
+  }
+  .nav a {
+    flex-grow: 1;
+    color: hsl(0, 0%, 100%);
+    text-decoration: none;
+    padding: 1.5rem 0;
+  }
+  .nav a:is(:hover, :focus) {
+    color: hsl(55, 52%, 65%);
+  }
+  .nav img {
+    padding-left: 1rem;
+    horiz-align: center;
+    height: 2.5rem;
+  }
+  .nav .navbar-item-title {
+    display: block;
+    width: 7.5rem;
+    horiz-align: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 1000ms, opacity 1000ms ease-in-out;
+    padding-left: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .nav .active .nav-item-background {
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 7.5rem;
+    border-radius: 0 0 100% 100%;
+    background: linear-gradient(90deg, hsl(55, 52%, 65%) 20%, hsl(80, 22%, 35%));
+    transition: border-radius 1000ms ease-in-out;
+  }
+  .nav .active a {
+    color: hsl(80, 22%, 25%);
+  }
+  .nav .active a:is(:hover, :focus-within) {
+    color: hsl(55, 52%, 65%);
+    background: linear-gradient(90deg, hsl(80, 22%, 25%) 20%, hsl(80, 22%, 35%));
+  }
+}
 .logo {
   width: 3rem;
   height: 3rem;
@@ -213,6 +293,81 @@ h6 {
   vertical-align: middle;
   border-radius: 60px;
   padding: 0.2rem;
+}
+
+.file_upload_box {
+  position: relative;
+  width: 25rem;
+  height: 20rem;
+  background-color: hsl(55, 52%, 85%);
+  border-radius: 1rem;
+}
+.file_upload_box p {
+  background-color: hsl(80, 22%, 45%);
+  color: hsl(0, 0%, 100%); /* text color*/
+  padding-left: 2rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1rem 1rem 0 0;
+}
+.file_upload_box p img {
+  position: absolute;
+  right: 2rem;
+  padding-bottom: 0.5rem;
+  height: 2rem;
+}
+
+#file_uploads {
+  position: absolute;
+  top: 4rem;
+  left: 2rem;
+}
+
+#file_uploads::file-selector-button {
+  display: none;
+}
+
+.file_upload_button {
+  display: block;
+  position: absolute;
+  bottom: 4rem;
+  left: 2rem;
+  width: 21rem;
+  height: 5rem;
+  text-align: center;
+  align-content: center;
+  border-style: dashed;
+  border-color: hsl(80, 22%, 45%);
+  border-width: 0.25rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.file_upload_button:hover {
+  border-color: hsl(80, 22%, 35%);
+  color: hsl(80, 22%, 35%); /* text color */
+}
+
+#file_submit {
+  display: none;
+}
+
+.submit_button {
+  display: block;
+  position: absolute;
+  left: 10rem;
+  bottom: 1rem;
+  width: 5rem;
+  height: auto;
+  text-align: center;
+  color: hsl(0, 0%, 100%); /* text color */
+  background-color: hsl(80, 22%, 45%);
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.submit_button:hover {
+  background-color: hsl(80, 22%, 35%);
 }
 
 .flow > *:where(:not(:first-child)) {
