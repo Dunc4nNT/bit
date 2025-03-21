@@ -62,6 +62,7 @@ def index() -> str:
             if kwargs["file_size"] > max_file_size:
                 return render_template("tools/tools_FILE_TOO_LARGE.html", **kwargs)
 
+            # if not valid return to tools_INVALID.html
             if not valid_file(file.stream):
                 return render_template("tools/tools_INVALID.html", **kwargs)
 
