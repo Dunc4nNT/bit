@@ -1,12 +1,22 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
+
 blueprint: Blueprint = Blueprint("tools", __name__, url_prefix="/tools")
 
 allowed_extensions = ["fasta"]
-# sets max upload size to 16mb
-max_file_size = 16 * 1024 * 1024
+# sets max upload size to 500mb
+max_file_size = 500 * 1024 * 1024
 # max_file_size = 98_816
+
+def valid_file(file):
+    first_line = file.readline()
+    # opening file in bytes mode, so made a string
+    first_line = str(first_line, encoding="utf-8")
+    print(f"First line of the file: {first_line}")  # Debug statement
+    if first_line.startswith(">"):
+        print(first_line[0])
+        return True
 
 @blueprint.route("/", methods=["GET", "POST"])
 def index() -> str:
@@ -47,6 +57,9 @@ def index() -> str:
             # if a file exceeds the size limit, return to tools_FILE_TOO_LARGE.html
             if kwargs["file_size"] > max_file_size:
                 return render_template("tools/tools_FILE_TOO_LARGE.html", **kwargs)
+
+            if not valid_file(file.stream):
+                return render_template("tools/tools_INVALID.html", **kwargs)
 
     return render_template("tools/tools_POST.html", files=files)
 

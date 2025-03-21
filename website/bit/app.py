@@ -21,8 +21,8 @@ def create_app() -> Flask:
     """
     app: Flask = Flask(__name__)
     app.config.from_file("../settings.toml", load=tomllib.load, text=False)
-    # sets max upload size to 16mb
-    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+    # sets max upload size to 500mb
+    app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024
     # app.config['MAX_CONTENT_LENGTH'] = 98_816
     register_blueprints(app)
 
