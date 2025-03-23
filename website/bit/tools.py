@@ -11,16 +11,22 @@ max_file_size = 500 * 1024 * 1024
 
 def valid_file(file):
     """
-    This function checks if a file is valid.
+    This function checks if a file is more "likely" valid.
     starts with >
     :param file:
-    :return: True if file is valid, else False
+    :return: True if file is valid and saves data, else False
     """
-    first_line = file.readline()
+    data_list = []
+    header_list = []
+    header = file.readline()
+    data = file.readlines()
     # opening file in bytes mode, so made a string
-    first_line = str(first_line, encoding="utf-8")
-    if first_line.startswith(">"):
-        return True
+    header = str(header, encoding="utf-8")
+    if header.startswith(">"):
+        data_list.append(data)
+        header_list.append(header)
+        return True, data_list, header_list
+
 
 @blueprint.route("/", methods=["GET", "POST"])
 def index() -> str:
@@ -71,4 +77,3 @@ def index() -> str:
 @blueprint.errorhandler(RequestEntityTooLarge)
 def request_entity_too_large(error):
     return render_template('tools/tools_FILE_TOO_LARGE.html'), 413
-
