@@ -44,4 +44,4 @@ jobs:
 
       - name: Run stylelint
         run: |
-          stylelint "./scss/**/*.scss" --config .stylelintrc
+          npx stylelint "./scss/**/*.scss" --config .stylelintrc
