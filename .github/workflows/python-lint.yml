@@ -15,7 +15,16 @@ jobs:
 
     name: Website (${{ matrix.python-version }})
     steps:
-      - name: Checkout and Setup uv
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            .github
+            website
+          sparse-checkout-cone-mode: false
+
+      - name: Setup uv and Install
         uses: './.github/workflows/setup-uv-monorepo'
         with:
           version: '0.6.9'
@@ -47,7 +56,16 @@ jobs:
 
     name: WGD Manager (${{ matrix.python-version }})
     steps:
-      - name: Checkout and Setup uv
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            .github
+            tools/wgd_manager
+          sparse-checkout-cone-mode: false
+
+      - name: Setup uv and Install
         uses: './.github/workflows/setup-uv-monorepo'
         with:
           version: '0.6.9'

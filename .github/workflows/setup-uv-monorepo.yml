@@ -22,15 +22,8 @@ jobs:
     strategy:
       fail-fast: false
 
+    name: "Setup and Install"
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          sparse-checkout: |
-            ${{ inputs.directory }}
-          sparse-checkout-cone-mode: false
-
       - name: "Make Subdirectory Root."
         run: |
           ls -lAh
