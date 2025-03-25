@@ -1,0 +1,28 @@
+name: Lint Style
+
+on:
+  push:
+    paths:
+      - 'website/bit/static/scss/**'
+  pull_request:
+      types: [ opened, reopened, synchronize ]
+      paths:
+        - 'website/bit/static/scss/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    defaults:
+      run:
+        working-directory: "./website"
+
+    name: Style Lint
+    steps:
+      - name: Run stylelint
+        uses: actions-hub/stylelint@master
+        env:
+          PATTERN: "bit/static/scss/*"
+          CONFIG_PATH: "./.stylelintrc"
