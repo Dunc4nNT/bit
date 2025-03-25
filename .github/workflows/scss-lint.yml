@@ -23,8 +23,15 @@ jobs:
         with:
           fetch-depth: 0
           sparse-checkout: |
-            website/.stylelintrc
             website/bit/static
+          sparse-checkout-cone-mode: false
+
+      - name: "Make Subdirectory Root."
+        run: |
+          ls -lAh
+          mv website/bit/static/* .
+          rm -rf website
+          ls -lAh
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -32,12 +39,8 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install Packages
-        run: |
-          npm i stylelint-config-standard-scss
-
       - name: Run stylelint
         uses: actions-hub/stylelint@master
         env:
-          PATTERN: "./website/**/*.scss"
-          CONFIG_PATH: "website/.stylelintrc"
+          PATTERN: "./scss/**/*.scss"
+          CONFIG_PATH: ".stylelintrc"
