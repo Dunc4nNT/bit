@@ -1,6 +1,7 @@
-name: Lint Style
+name: Lint (SCSS)
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'website/bit/static/scss/**'

@@ -1,0 +1,45 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+      types: [ opened, reopened, synchronize ]
+
+jobs:
+  website:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ '3.13' ]
+
+    name: Website (${{ matrix.python-version }})
+    steps:
+      - name: Checkout and Setup uv
+        uses: './.github/workflows/setup-uv-monorepo'
+        with:
+          version: '0.6.9'
+          python-version: ${{ matrix.python-version }}
+          directory: 'website'
+
+      - name: Run pytest
+        run: uv run pytest
+
+  wgd_manager:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ '3.13' ]
+
+    name: WGD Manager (${{ matrix.python-version }})
+    steps:
+      - name: Checkout and Setup uv
+        uses: './.github/workflows/setup-uv-monorepo'
+        with:
+          version: '0.6.9'
+          python-version: ${{ matrix.python-version }}
+          directory: 'tools/wgd_manager'
+
+      - name: Run pytest
+        run: uv run pytest

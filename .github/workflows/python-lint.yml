@@ -1,0 +1,71 @@
+name: Lint (Python)
+
+on:
+  push:
+  pull_request:
+      types: [ opened, reopened, synchronize ]
+
+jobs:
+  website:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ '3.13' ]
+
+    name: Website (${{ matrix.python-version }})
+    steps:
+      - name: Checkout and Setup uv
+        uses: './.github/workflows/setup-uv-monorepo'
+        with:
+          version: '0.6.9'
+          python-version: ${{ matrix.python-version }}
+          directory: 'website'
+
+      - name: Run Linter
+        uses: astral-sh/ruff-action@v3
+        with:
+          args: check
+
+      - name: Run Formatter
+        uses: astral-sh/ruff-action@v3
+        with:
+          args: format --check --diff
+
+      - name: Run pyright
+        uses: jakebailey/pyright-action@v2
+        with:
+          version: '1.1.397'
+          warnings: false
+
+  wgd_manager:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ '3.13' ]
+
+    name: WGD Manager (${{ matrix.python-version }})
+    steps:
+      - name: Checkout and Setup uv
+        uses: './.github/workflows/setup-uv-monorepo'
+        with:
+          version: '0.6.9'
+          python-version: ${{ matrix.python-version }}
+          directory: 'tools/wgd_manager'
+
+      - name: Run Linter
+        uses: astral-sh/ruff-action@v3
+        with:
+          args: check
+
+      - name: Run Formatter
+        uses: astral-sh/ruff-action@v3
+        with:
+          args: format --check --diff
+
+      - name: Run pyright
+        uses: jakebailey/pyright-action@v2
+        with:
+          version: '1.1.397'
+          warnings: false
