@@ -24,12 +24,23 @@ jobs:
             website
           sparse-checkout-cone-mode: false
 
-      - name: Setup uv and Install
-        uses: './.github/workflows/setup-uv-monorepo.yml'
+      - name: "Make Subdirectory Root."
+        run: |
+          ls -lAh
+          mv website/* .
+          rm -rf website
+          ls -lAh
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
           version: '0.6.9'
           python-version: ${{ matrix.python-version }}
-          directory: 'website'
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install Project and Dependencies
+        run: uv sync --all-extras --dev
 
       - name: Run Linter
         uses: astral-sh/ruff-action@v3
@@ -65,12 +76,23 @@ jobs:
             tools/wgd_manager
           sparse-checkout-cone-mode: false
 
-      - name: Setup uv and Install
-        uses: './.github/workflows/setup-uv-monorepo.yml'
+      - name: "Make Subdirectory Root."
+        run: |
+          ls -lAh
+          mv tools/wgd_manager/* .
+          rm -rf tools
+          ls -lAh
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
           version: '0.6.9'
           python-version: ${{ matrix.python-version }}
-          directory: 'tools/wgd_manager'
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install Project and Dependencies
+        run: uv sync --all-extras --dev
 
       - name: Run Linter
         uses: astral-sh/ruff-action@v3
