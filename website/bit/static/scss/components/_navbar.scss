@@ -14,19 +14,6 @@ $navbar-active-gradient: linear-gradient(90deg, $clr-primary-400 20%, $clr-secon
   overflow: hidden;
   background-color: $clr-secondary-700;
 
-  &:is(:hover, :focus-within) {
-    width: 25rem;
-
-    .navbar-item-title {
-      visibility: visible;
-      opacity: 1;
-    }
-    
-    .nav-item-background {
-      border-radius: 0 !important;
-    }
-  }
-
   ul {
     list-style: none;
     display: flex;
@@ -94,6 +81,20 @@ $navbar-active-gradient: linear-gradient(90deg, $clr-primary-400 20%, $clr-secon
       }
     }
   }
+  
+  &:is(:hover, :focus-within) {
+    width: 25rem;
+
+    .navbar-item-title {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    .nav-item-background {
+      border-radius: 0 !important;
+    }
+  }
+
 }
 
 @media screen and (width <= 500px) {

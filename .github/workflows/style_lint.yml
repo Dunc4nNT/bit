@@ -15,14 +15,10 @@ jobs:
     strategy:
       fail-fast: false
 
-    defaults:
-      run:
-        working-directory: "./website"
-
     name: Style Lint
     steps:
       - name: Run stylelint
         uses: actions-hub/stylelint@master
         env:
-          PATTERN: "bit/static/scss/*"
-          CONFIG_PATH: "./.stylelintrc"
+          PATTERN: "website/bit/static/scss/*"
+          CONFIG_PATH: "website/.stylelintrc"
