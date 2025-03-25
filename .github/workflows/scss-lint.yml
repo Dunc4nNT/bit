@@ -29,5 +29,5 @@ jobs:
       - name: Run stylelint
         uses: actions-hub/stylelint@master
         env:
-          PATTERN: "*.scss"
+          PATTERN: "./website/**/*.scss"
           CONFIG_PATH: "website/.stylelintrc"
