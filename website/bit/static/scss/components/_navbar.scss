@@ -154,14 +154,12 @@ $navbar-active-gradient: linear-gradient(90deg, $clr-primary-400 20%, $clr-secon
 
     img {
       padding-left: 1rem;
-      horiz-align: center;
       height: 2.5rem;
     }
 
     .navbar-item-title {
       display: block;
       width: 7.5rem;
-      horiz-align: center;
       visibility: hidden;
       opacity: 0;
       transition: visibility 1000ms, opacity 1000ms ease-in-out;
