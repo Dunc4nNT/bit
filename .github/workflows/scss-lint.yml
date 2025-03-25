@@ -40,7 +40,5 @@ jobs:
           cache: 'npm'
 
       - name: Run stylelint
-        uses: actions-hub/stylelint@master
-        env:
-          PATTERN: "./scss/**/*.scss"
-          CONFIG_PATH: ".stylelintrc"
+        run: |
+          stylelint "./scss/**/*.scss" --config .stylelintrc
