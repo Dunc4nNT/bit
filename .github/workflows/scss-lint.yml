@@ -39,6 +39,9 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      - name: Install Packages
+        run: npm ci
+
       - name: Run stylelint
         run: |
           stylelint "./scss/**/*.scss" --config .stylelintrc
