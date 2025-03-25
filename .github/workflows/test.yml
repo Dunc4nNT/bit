@@ -25,7 +25,7 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Setup uv and Install
-        uses: './.github/workflows/setup-uv-monorepo'
+        uses: './.github/workflows/setup-uv-monorepo.yml'
         with:
           version: '0.6.9'
           python-version: ${{ matrix.python-version }}
@@ -53,7 +53,7 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Setup uv and Install
-        uses: './.github/workflows/setup-uv-monorepo'
+        uses: './.github/workflows/setup-uv-monorepo.yml'
         with:
           version: '0.6.9'
           python-version: ${{ matrix.python-version }}
