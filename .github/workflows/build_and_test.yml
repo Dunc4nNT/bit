@@ -21,6 +21,14 @@ jobs:
           fetch-depth: 0
           sparse-checkout: |
             website
+          sparse-checkout-cone-mode: false
+
+      - name: "Make Subfolder Root."
+        run: |
+          ls -lAh
+          mv website/* .
+          rm -rf website
+          ls -lAh
 
       - name: Setup uv
         uses: astral-sh/setup-uv@v5
@@ -67,8 +75,14 @@ jobs:
           fetch-depth: 0
           sparse-checkout: |
             tools/wgd_manager
+          sparse-checkout-cone-mode: false
 
-      - run: 'ls -a'
+      - name: "Make Subfolder Root."
+        run: |
+          ls -lAh
+          mv tools/wgd_manager/* .
+          rm -rf tools
+          ls -lAh
 
       - name: Setup uv
         uses: astral-sh/setup-uv@v5
