@@ -29,6 +29,7 @@ jobs:
       - name: "Make Subdirectory Root."
         run: |
           ls -lAh
+          shopt -s dotglob
           mv website/bit/static/* .
           rm -rf website
           ls -lAh

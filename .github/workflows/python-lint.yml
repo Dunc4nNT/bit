@@ -27,6 +27,7 @@ jobs:
       - name: "Make Subdirectory Root."
         run: |
           ls -lAh
+          shopt -s dotglob
           mv website/* .
           rm -rf website
           ls -lAh
@@ -79,6 +80,7 @@ jobs:
       - name: "Make Subdirectory Root."
         run: |
           ls -lAh
+          shopt -s dotglob
           mv tools/wgd_manager/* .
           rm -rf tools
           ls -lAh
