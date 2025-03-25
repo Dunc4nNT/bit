@@ -71,8 +71,8 @@
   background-color: $clr-secondary-600;
   border-radius: 1rem;
   cursor:pointer;
-}
 
-.submit_button:hover {
-  background-color: $clr-secondary-700;
+  &:hover {
+    background-color: $clr-secondary-700;
+  }
 }

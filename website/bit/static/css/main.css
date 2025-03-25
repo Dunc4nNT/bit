@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: arial, sans-serif;
   color: hsl(80, 22%, 45%);
   background-color: hsl(55, 52%, 95%);
   line-height: 1.5;
@@ -139,16 +139,6 @@ h6 {
   overflow: hidden;
   background-color: hsl(80, 22%, 35%);
 }
-.nav:is(:hover, :focus-within) {
-  width: 25rem;
-}
-.nav:is(:hover, :focus-within) .navbar-item-title {
-  visibility: visible;
-  opacity: 1;
-}
-.nav:is(:hover, :focus-within) .nav-item-background {
-  border-radius: 0 0 0 0 !important;
-}
 .nav ul {
   list-style: none;
   display: flex;
@@ -204,8 +194,18 @@ h6 {
   color: hsl(55, 52%, 65%);
   background: linear-gradient(90deg, hsl(80, 22%, 25%) 20%, hsl(80, 22%, 35%));
 }
+.nav:is(:hover, :focus-within) {
+  width: 25rem;
+}
+.nav:is(:hover, :focus-within) .navbar-item-title {
+  visibility: visible;
+  opacity: 1;
+}
+.nav:is(:hover, :focus-within) .nav-item-background {
+  border-radius: 0 !important;
+}
 
-@media screen and (max-width: 500px) {
+@media screen and (width <= 500px) {
   .nav {
     position: fixed;
     height: 6rem;
@@ -215,25 +215,14 @@ h6 {
     overflow: hidden;
     background-color: hsl(80, 22%, 35%);
   }
-  .nav:is(:hover, :focus-within) {
-    height: 7rem;
-    width: 100vh;
-  }
-  .nav:is(:hover, :focus-within) .navbar-item-title {
-    visibility: visible;
-    opacity: 1;
-  }
-  .nav:is(:hover, :focus-within) .nav-item-background {
-    border-radius: 0 0 0 0 !important;
-  }
   .nav ul {
     list-style: none;
     display: flex;
     flex-flow: row;
-    gap: 0rem;
+    gap: 0;
   }
   .nav ul:first-child {
-    padding-top: 0rem;
+    padding-top: 0;
   }
   .nav li {
     display: flex;
@@ -254,13 +243,11 @@ h6 {
   }
   .nav img {
     padding-left: 1rem;
-    horiz-align: center;
     height: 2.5rem;
   }
   .nav .navbar-item-title {
     display: block;
     width: 7.5rem;
-    horiz-align: center;
     visibility: hidden;
     opacity: 0;
     transition: visibility 1000ms, opacity 1000ms ease-in-out;
@@ -284,6 +271,17 @@ h6 {
     color: hsl(55, 52%, 65%);
     background: linear-gradient(90deg, hsl(80, 22%, 25%) 20%, hsl(80, 22%, 35%));
   }
+  .nav:is(:hover, :focus-within) {
+    height: 7rem;
+    width: 100vh;
+  }
+  .nav:is(:hover, :focus-within) .navbar-item-title {
+    visibility: visible;
+    opacity: 1;
+  }
+  .nav:is(:hover, :focus-within) .nav-item-background {
+    border-radius: 0 !important;
+  }
 }
 .logo {
   width: 3rem;
@@ -304,7 +302,7 @@ h6 {
 }
 .file_upload_box p {
   background-color: hsl(80, 22%, 45%);
-  color: hsl(0, 0%, 100%); /* text color*/
+  color: hsl(0, 0%, 100%); /* text color */
   padding-left: 2rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -365,7 +363,6 @@ h6 {
   border-radius: 1rem;
   cursor: pointer;
 }
-
 .submit_button:hover {
   background-color: hsl(80, 22%, 35%);
 }
