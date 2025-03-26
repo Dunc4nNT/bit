@@ -1,3 +1,10 @@
+"""
+Python file for the tool page
+Here the website user can upload files, use wgd, and view the output.
+
+authors: <names>
+date last modified: 26-3-2025
+"""
 from flask import Blueprint, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import os
@@ -5,9 +12,8 @@ from bit.WgdManager import WgdManager
 
 blueprint: Blueprint = Blueprint("tools", __name__, url_prefix="/tools")
 
-# TODO dynamisch maken uiteindelijk ofso
-path_to_tool = "/homes/sstaats/jaar_1/kwartaal_3/bin_toolbox/website/bit/tools/wgd/"
-upload_dir = "/homes/sstaats/jaar_1/kwartaal_3/bin_toolbox/website/bit/website/bit/upload/"
+# TODO instelbaar maken voor de gebruiker uiteindelijk ofso
+from bit.dirpaths import *
 
 
 def get_filepaths_from_dir(directory):
@@ -70,7 +76,7 @@ def index() -> str:
                 return render_template("tools/tools_INVALID.html", **kwargs)
 
             # save file in upload folder
-            file.save(upload_dir + kwargs["filename"])
+            file.save(uploads_dir + kwargs["filename"])
 
         # when files are uploaded, go to the results page
         return redirect(url_for("tools.results"))
@@ -88,9 +94,9 @@ def results() -> str:
     str
         The tools results page template.
     """
-    # Page where user can select tools and files
+    # page where user can select tools and files
     if request.method == "GET":
-        filepaths = get_filepaths_from_dir(upload_dir)
+        filepaths = get_filepaths_from_dir(uploads_dir)
         files = []
         for filepath in filepaths:
             file = {
@@ -100,12 +106,12 @@ def results() -> str:
             files.append(file)
         return render_template("tools/tools_POST.html", files=files)
 
-    # When the submit button is pressed
+    # when the submit button is pressed
     elif request.method == "POST":
         # get the selected files
         selected_files = request.form.getlist("uploaded_file")
         # create the class that can run wgd
-        wgd = WgdManager(path_to_tool)
+        wgd = WgdManager(path_to_tool, outdir, tmpdir)
         # run the dmd sub tool for each selected file
         for file in selected_files:
             result = wgd.run_dmd(file)
