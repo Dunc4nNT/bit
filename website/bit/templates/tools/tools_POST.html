@@ -2,12 +2,16 @@
 
 {% block content %}
   <h2>Files uploaded</h2>
-  <ul>
-    {% for file in files %}
-      <li> {{ file }}</li>
-    {% endfor %}
-  </ul>
-  <a href="{{ url_for("tools.index") }}">
+  <form action="" method="POST" name="file_selection">
+    <ul>
+      {% for file in files %}
+        <li><label for="{{ file["filepath"] }}"> {{ file["filename"] }}</label>
+          <input type="checkbox" value={{ file["filepath"] }} name="uploaded_file"></li>
+      {% endfor %}
+    </ul>
+    <button type="submit">Submit</button>
+  </form>
+  <a href="{{ url_for("tools.results") }}">
     <u><i>Click to try again</i></u>
   </a>
 {% endblock content %}

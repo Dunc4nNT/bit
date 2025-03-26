@@ -1,0 +1,13 @@
+{% extends "tools/index.html" %}
+
+{% block content %}
+  <h2>Files selected</h2>
+  <ul>
+    {% for file in files %}
+      <li>{{ file }}</li>
+    {% endfor %}
+  </ul>
+  <p>
+  {{ result }}
+  </p>
+{% endblock content %}
