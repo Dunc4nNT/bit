@@ -392,13 +392,13 @@ h6 {
 .container {
   display: block;
   position: relative;
-  width: 4rem;
+  width: 25rem;
   height: 1.5rem;
   padding-left: 1.8rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.1rem;
   cursor: pointer;
   font-size: 1rem;
-  background-color: hsl(55, 52%, 85%);
+  background-color: hsl(55, 52%, 75%);
   color: hsl(80, 22%, 35%);
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -413,6 +413,10 @@ h6 {
   cursor: pointer;
   height: 0;
   width: 0;
+}
+
+.container:hover {
+  background-color: hsl(80, 22%, 65%);
 }
 
 /* Create a custom checkbox */
@@ -458,6 +462,13 @@ h6 {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.container-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .flow > *:where(:not(:first-child)) {

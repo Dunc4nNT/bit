@@ -80,13 +80,13 @@
 .container {
   display: block;
   position: relative;
-  width: 4rem;
+  width: 25rem;
   height: 1.5rem;
   padding-left: 1.8rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.1rem;
   cursor: pointer;
   font-size: 1rem;
-  background-color: $clr-primary-200;
+  background-color: $clr-primary-300;
   color: $clr-secondary-700;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -101,6 +101,9 @@
   cursor: pointer;
   height: 0;
   width: 0;
+}
+.container:hover{
+  background-color: $clr-secondary-400;
 }
 
 /* Create a custom checkbox */
@@ -147,4 +150,11 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+.container-wrapper {
+  margin-top:1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 
