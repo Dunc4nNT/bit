@@ -9,10 +9,6 @@ date last modified: 27-3-2025
 import subprocess
 import os
 
-# TODO instelbaar maken voor de gebruiker uiteindelijk ofso
-# import wordt hier alleen gebruikt in de main om te testen, dus kan uiteindelijk sws helemaal weg
-from dirpaths import *
-
 class WgdManager:
     def __init__(self, path_to_tool, outdir, tmpdir):
         """
@@ -133,35 +129,3 @@ class WgdManager:
         result = self.run_command(command)
 
         return result
-
-
-if __name__ == "__main__":
-
-    # create instance of wgd class
-    wgd = WgdManager(path_to_tool, outdir, tmpdir)
-
-    # test the __str__ method
-    print(str(wgd))
-
-    # paths to files used
-    fasta_file =  uploads_dir + "egu1000.fasta"
-    tsv_file = outdir + "egu1000.fasta.tsv"
-    ks_file =  outdir + "egu1000.fasta.tsv.ks.tsv"
-
-    # run the dmd command
-    wgd_result = wgd.run_dmd(fasta_file)
-    # show the result of the command in the terminal
-    print(wgd_result.stdout)
-    print(wgd_result.stderr)
-
-    # run the ksd command
-    ksd_result = wgd.run_ksd(tsv_file, fasta_file)
-    # show the result of the command in the terminal
-    print(ksd_result.stdout)
-    print(ksd_result.stderr)
-
-    # run the viz command
-    viz_result = wgd.run_viz(ks_file)
-    # show the result of the command in the terminal
-    print(viz_result.stdout)
-    print(viz_result.stderr)
