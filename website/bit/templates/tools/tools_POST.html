@@ -38,6 +38,15 @@
       Submit
     </label>
   </form>
+  <form action="" method="POST" name="file_selection">
+    <ul>
+      {% for file in files %}
+        <li><label for="{{ file["filepath"] }}"> {{ file["filename"] }}</label>
+          <input type="checkbox" value={{ file["filepath"] }} name="uploaded_file"></li>
+      {% endfor %}
+    </ul>
+    <button type="submit">Submit</button>
+  </form>
     <a href="{{ url_for("tools.index") }}">
       <u><i>Click here to try again</i></u>
     </a>
