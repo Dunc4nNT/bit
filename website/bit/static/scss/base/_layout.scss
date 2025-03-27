@@ -24,3 +24,16 @@ figure > img {
 figure > figcaption {
   font-style: italic;
 }
+a {
+  color:$clr-secondary-900;
+}
+.error-message {
+  color: red;
+  font-size: 1rem;
+  animation: flicker 0.8s infinite; // Adjust the overall duration
+}
+
+@keyframes flicker {
+  0%, 80% { opacity: 1; } // Text is visible for 80% of the time
+  95%, 100% { opacity: 0; } // Text flickers for 5% of the time
+}
