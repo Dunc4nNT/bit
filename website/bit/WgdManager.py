@@ -3,7 +3,7 @@ This python file contains a Class that can run some wgd sub tools
 The sub tools it can run are: dmd, ksd and viz
 
 authors: <names>
-date last modified: 26-3-2025
+date last modified: 27-3-2025
 """
 
 import subprocess
@@ -28,6 +28,20 @@ class WgdManager:
         self.run_wgd = ["uv", "run", "wgd"]
         self.outdir = ["--outdir", outdir]
         self.tmpdir = ["--tmpdir", tmpdir]
+
+
+    def __str__(self):
+        """
+        This function is called when the class is converted to a string
+
+        :return: all the directories the tool uses
+        """
+        return f"""
+        paths to directories used by the tool:
+        directory for the tool: {self.path_to_tool}
+        directory for output: {self.outdir[1]}
+        directory for temporary files: {self.tmpdir[1]}
+        """
 
 
     def run_command(self, command):
@@ -125,6 +139,9 @@ if __name__ == "__main__":
 
     # create instance of wgd class
     wgd = WgdManager(path_to_tool, outdir, tmpdir)
+
+    # test the __str__ method
+    print(str(wgd))
 
     # paths to files used
     fasta_file =  uploads_dir + "egu1000.fasta"
