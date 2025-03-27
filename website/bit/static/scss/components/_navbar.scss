@@ -14,19 +14,6 @@ $navbar-active-gradient: linear-gradient(90deg, $clr-primary-400 20%, $clr-secon
   overflow: hidden;
   background-color: $clr-secondary-700;
 
-  &:is(:hover, :focus-within) {
-    width: 25rem;
-
-    .navbar-item-title {
-      visibility: visible;
-      opacity: 1;
-    }
-    
-    .nav-item-background {
-      border-radius: 0 0 0 0 !important;
-    }
-  }
-
   ul {
     list-style: none;
     display: flex;
@@ -94,9 +81,23 @@ $navbar-active-gradient: linear-gradient(90deg, $clr-primary-400 20%, $clr-secon
       }
     }
   }
+  
+  &:is(:hover, :focus-within) {
+    width: 25rem;
+
+    .navbar-item-title {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    .nav-item-background {
+      border-radius: 0 !important;
+    }
+  }
+
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (width <= 500px) {
   .nav {
     position: fixed;
     height: 6rem;
@@ -106,28 +107,14 @@ $navbar-active-gradient: linear-gradient(90deg, $clr-primary-400 20%, $clr-secon
     overflow: hidden;
     background-color: $clr-secondary-700;
 
-    &:is(:hover, :focus-within) {
-      height: 7rem;
-      width: 100vh;
-
-      .navbar-item-title {
-        visibility: visible;
-        opacity: 1;
-      }
-
-      .nav-item-background {
-        border-radius: 0 0 0 0 !important;
-      }
-    }
-
     ul {
       list-style: none;
       display: flex;
       flex-flow: row;
-      gap: 0rem;
+      gap: 0;
 
       &:first-child {
-        padding-top: 0rem;
+        padding-top: 0;
       }
     }
 
@@ -154,14 +141,12 @@ $navbar-active-gradient: linear-gradient(90deg, $clr-primary-400 20%, $clr-secon
 
     img {
       padding-left: 1rem;
-      horiz-align: center;
       height: 2.5rem;
     }
 
     .navbar-item-title {
       display: block;
       width: 7.5rem;
-      horiz-align: center;
       visibility: hidden;
       opacity: 0;
       transition: visibility 1000ms, opacity 1000ms ease-in-out;
@@ -188,6 +173,20 @@ $navbar-active-gradient: linear-gradient(90deg, $clr-primary-400 20%, $clr-secon
           color: $navbar-hover-color;
           background: $navbar-hover-gradient;
         }
+      }
+    }
+
+    &:is(:hover, :focus-within) {
+      height: 7rem;
+      width: 100vh;
+  
+      .navbar-item-title {
+        visibility: visible;
+        opacity: 1;
+      }
+  
+      .nav-item-background {
+        border-radius: 0 !important;
       }
     }
   }

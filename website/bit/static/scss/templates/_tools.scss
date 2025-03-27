@@ -9,7 +9,7 @@
 
   p {
     background-color: $clr-secondary-600;
-    color: $clr-white; /* text color*/
+    color: $clr-white; /* text color */
     padding-left: 2rem;
     padding-top: .5rem;
     padding-bottom: .5rem;
@@ -71,8 +71,90 @@
   background-color: $clr-secondary-600;
   border-radius: 1rem;
   cursor:pointer;
+
+  &:hover {
+    background-color: $clr-secondary-700;
+  }
+}
+/* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  width: 25rem;
+  height: 1.5rem;
+  padding-left: 1.8rem;
+  margin-bottom: 0.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: $clr-primary-300;
+  color: $clr-secondary-700;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.submit_button:hover {
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.container:hover{
+  background-color: $clr-secondary-400;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1.5rem;
+  width: 1.5rem;
+  background-color: $clr-secondary-400;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: $clr-secondary-400;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
   background-color: $clr-secondary-700;
 }
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.container-wrapper {
+  margin-top:1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+

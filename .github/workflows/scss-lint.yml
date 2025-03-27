@@ -1,0 +1,48 @@
+name: Lint (SCSS)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'website/bit/static/scss/**'
+  pull_request:
+      types: [ opened, reopened, synchronize ]
+      paths:
+        - 'website/bit/static/scss/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false    
+
+    name: Style Lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            website/bit/static
+          sparse-checkout-cone-mode: false
+
+      - name: "Make Subdirectory Root."
+        run: |
+          ls -lAh
+          shopt -s dotglob
+          mv website/bit/static/* .
+          rm -rf website
+          ls -lAh
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Packages
+        run: npm ci
+
+      - name: Run stylelint
+        run: |
+          npx stylelint "./scss/**/*.scss" --config .stylelintrc
