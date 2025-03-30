@@ -1,10 +1,12 @@
 """
 Python file for the tool page
+
 Here the website user can upload files, use wgd, and view the output.
 
-authors: <names>
-date last modified: 26-3-2025
+authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
+date last modified: 30-3-2025
 """
+
 from flask import Blueprint, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
@@ -17,9 +19,9 @@ blueprint: Blueprint = Blueprint("tools", __name__, url_prefix="/tools")
 from bit.dirpaths import *
 
 
-def get_filepaths_from_dir(directory):
+def get_filepaths_from_dir(directory: str) -> list[str]:
     """
-    get the filepaths from all files in a directory
+    Get the filepaths from all files in a directory.
 
     :param directory: directory as string
     :return: filepath of each file as a list of strings
@@ -159,7 +161,7 @@ def results() -> str:
 
     # when the submit button is pressed
     elif request.method == "POST":
-        # get the selected files
+        # get the selected files and tools
         selected_files = request.form.getlist("uploaded_files")
         selected_tools = request.form.getlist("selected_tools")
         # create the class that can run wgd
