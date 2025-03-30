@@ -62,7 +62,7 @@ max_file_size = 500 * 1024 * 1024
 # max_file_size = 98_816
 
 # list of used wgd sub tools
-tool_list = ["dmd", "ksd", "viz", "syn"]
+tools_list = ["dmd", "ksd", "viz", "syn"]
 
 @blueprint.route("/", methods=["GET", "POST"])
 def index() -> str:
@@ -110,8 +110,11 @@ def index() -> str:
             if not valid_file(file.stream):
                 return render_template("tools/tools_INVALID.html", **kwargs)
 
-            # save file in upload folder
-            file.save(uploads_dir + kwargs["filename"])
+            # try to save file in upload folder
+            try:
+                file.save(uploads_dir + kwargs["filename"])
+            except FileNotFoundError:
+                return render_template("tools/tools_INVALID_PATH.html", dir=uploads_dir)
 
         # when files are uploaded, go to the results page
         return redirect(url_for("tools.results"))
@@ -131,8 +134,15 @@ def results() -> str:
     """
     # page where user can select tools and files
     if request.method == "GET":
-        # get all uploaded files
-        filepaths = get_filepaths_from_dir(uploads_dir)
+
+        # try to get all uploaded files
+        try:
+            filepaths = get_filepaths_from_dir(uploads_dir)
+
+        # if the file path is invalid, return to error page
+        except FileNotFoundError:
+            return render_template("tools/tools_INVALID_PATH.html", dir=uploads_dir)
+
         # create empty list and loop over each file
         files = []
         for filepath in filepaths:
@@ -145,7 +155,7 @@ def results() -> str:
             if file["filename"] != ".gitignore":
                 files.append(file)
         return render_template("tools/tools_POST.html",
-                               files=files, tools=tool_list)
+                               files=files, tools=tools_list)
 
     # when the submit button is pressed
     elif request.method == "POST":

@@ -37,9 +37,18 @@ def test_tools_post(client):
     assert 300 <= response.status_code < 400
 
 
-def test_tools_result_get(client):
-    pass
+def test_tools_results_get(client):
+    """
+    test tools default results page
+    """
+    response = client.get("/tools/results")
+    print(response.text)
+    assert response.status_code == 200
 
 
-def test_tools_result_post(client):
-    pass
+def test_tools_results_post(client):
+    """
+    test tools results page after selecting files and tools
+    """
+    response = client.post("/tools/results")
+    assert response.status_code == 200
