@@ -55,11 +55,14 @@ def valid_file(file):
         return True, data_list, header_list
 
 
+# list of the allowed file types to upload
 allowed_extensions = ["fasta"]
 # sets max upload size to 500mb
 max_file_size = 500 * 1024 * 1024
 # max_file_size = 98_816
 
+# list of used wgd sub tools
+tool_list = ["dmd", "ksd", "viz", "syn"]
 
 @blueprint.route("/", methods=["GET", "POST"])
 def index() -> str:
@@ -72,9 +75,6 @@ def index() -> str:
     str
         The tools landing page template.
     """
-    # list of the allowed file types to upload
-    allowed_extensions = ["fasta"]
-
     # default tool page, to upload files
     if request.method == "GET":
         return render_template("tools/tools_GET.html", allowed_extensions=allowed_extensions)
@@ -131,27 +131,36 @@ def results() -> str:
     """
     # page where user can select tools and files
     if request.method == "GET":
+        # get all uploaded files
         filepaths = get_filepaths_from_dir(uploads_dir)
+        # create empty list and loop over each file
         files = []
         for filepath in filepaths:
+            # save the path and name for each file in a dict
             file = {
                 "filepath": filepath,
                 "filename": filepath.split("/")[-1],
             }
-            files.append(file)
-        return render_template("tools/tools_POST.html", files=files)
+            # append the dict to a list (except the .gitignore)
+            if file["filename"] != ".gitignore":
+                files.append(file)
+        return render_template("tools/tools_POST.html",
+                               files=files, tools=tool_list)
 
     # when the submit button is pressed
     elif request.method == "POST":
         # get the selected files
-        selected_files = request.form.getlist("uploaded_file")
+        selected_files = request.form.getlist("uploaded_files")
+        selected_tools = request.form.getlist("selected_tools")
         # create the class that can run wgd
         wgd = WgdManager(path_to_tool, outdir, tmpdir)
         # run the dmd sub tool for each selected file
+        result = ""
         for file in selected_files:
             result = wgd.run_dmd(file)
 
-        return render_template("tools/tools_RESULTS.html", files=selected_files, result=result)
+        return render_template("tools/tools_RESULTS.html",
+                               files=selected_files, tools=selected_tools, result=result)
   
 
 @blueprint.errorhandler(RequestEntityTooLarge)
