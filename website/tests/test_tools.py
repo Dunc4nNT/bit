@@ -1,6 +1,8 @@
 import pytest
 from bit.app import create_app
 
+# TODO instelbaar maken voor de gebruiker uiteindelijk ofso
+from bit.dirpaths import *
 
 @pytest.fixture
 def app():
@@ -34,16 +36,16 @@ def test_tools_post(client):
     test if clients gets redirected after pressing submit
     """
     response = client.post("/tools/")
-    assert 300 <= response.status_code < 400
+    assert response.status_code == 302
 
 
 def test_tools_results_get(client):
     """
     test tools default results page
     """
-    response = client.get("/tools/results")
-    print(response.text)
-    assert response.status_code == 200
+    response = client.get("/tools/results", uploads_dir)
+    # redirect due to unkown upload folder path
+    assert response.status_code == 409
 
 
 def test_tools_results_post(client):

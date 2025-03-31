@@ -7,9 +7,9 @@ authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
 date last modified: 30-3-2025
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, abort
 from werkzeug.utils import secure_filename
-from werkzeug.exceptions import RequestEntityTooLarge
+from werkzeug.exceptions import RequestEntityTooLarge, UnsupportedMediaType
 import os
 from bit.WgdManager import WgdManager
 
@@ -63,8 +63,6 @@ allowed_extensions = ["fasta"]
 max_file_size = 500 * 1024 * 1024
 # max_file_size = 98_816
 
-# list of used wgd sub tools
-tools_list = ["dmd", "ksd", "viz", "syn"]
 
 @blueprint.route("/", methods=["GET", "POST"])
 def index() -> str:
@@ -88,7 +86,7 @@ def index() -> str:
         # validate files
         for file in files:
             # properties for each file
-            kwargs = {
+            current_file = {
                 "file": file,
                 "filename": secure_filename(file.filename),  # SECURE filename
                 "file_extension": file.filename.split(".")[-1],
@@ -96,27 +94,26 @@ def index() -> str:
             }
 
             # if no files given, return to default tool page
-            if kwargs["filename"] == "":
-                #return render_template("tools/tools_GET.html", allowed_extensions=allowed_extensions)
-                return redirect(url_for("tools.index"))
+            if current_file["filename"] == "":
+                return redirect(url_for("tools.index")), 302
 
             # if a file with an incorrect extension was given, return to tools_INVALID.html
-            if kwargs["file_extension"] not in allowed_extensions:
-                return render_template("tools/tools_INVALID.html", **kwargs)
+            if current_file["file_extension"] not in allowed_extensions:
+                return render_template("tools/tools_INVALID.html", **current_file), 415
               
             # if a file exceeds the size limit, return to tools_FILE_TOO_LARGE.html
-            if kwargs["file_size"] > max_file_size:
-                return render_template("tools/tools_FILE_TOO_LARGE.html", **kwargs)
+            if current_file["file_size"] > max_file_size:
+                return render_template("tools/tools_FILE_TOO_LARGE.html", **current_file), 413
 
             # if not valid return to tools_INVALID.html
             if not valid_file(file.stream):
-                return render_template("tools/tools_INVALID.html", **kwargs)
+                return render_template("tools/tools_INVALID.html", **current_file), 415
 
             # try to save file in upload folder
             try:
-                file.save(uploads_dir + kwargs["filename"])
+                file.save(uploads_dir + current_file["filename"])
             except FileNotFoundError:
-                return render_template("tools/tools_INVALID_PATH.html", dir=uploads_dir)
+                return render_template("tools/tools_INVALID_PATH.html", dir=uploads_dir), 409
 
         # when files are uploaded, go to the results page
         return redirect(url_for("tools.results"))
@@ -134,6 +131,10 @@ def results() -> str:
     str
         The tools results page template.
     """
+
+    # list of used wgd sub tools
+    tools_list = ["dmd", "ksd", "viz", "syn"]
+
     # page where user can select tools and files
     if request.method == "GET":
 
@@ -143,7 +144,7 @@ def results() -> str:
 
         # if the file path is invalid, return to error page
         except FileNotFoundError:
-            return render_template("tools/tools_INVALID_PATH.html", dir=uploads_dir)
+            return render_template("tools/tools_INVALID_PATH.html", dir=uploads_dir), 409
 
         # create empty list and loop over each file
         files = []
@@ -156,6 +157,7 @@ def results() -> str:
             # append the dict to a list (except the .gitignore)
             if file["filename"] != ".gitignore":
                 files.append(file)
+
         return render_template("tools/tools_POST.html",
                                files=files, tools=tools_list)
 
@@ -173,7 +175,7 @@ def results() -> str:
 
         return render_template("tools/tools_RESULTS.html",
                                files=selected_files, tools=selected_tools, result=result)
-  
+
 
 @blueprint.errorhandler(RequestEntityTooLarge)
 def request_entity_too_large(error):
