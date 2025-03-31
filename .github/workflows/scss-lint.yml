@@ -13,11 +13,8 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: './bit/static'
     strategy:
-      fail-fast: false
+      fail-fast: false    
 
     name: Style Lint
     steps:
@@ -29,12 +26,19 @@ jobs:
             bit/static
           sparse-checkout-cone-mode: false
 
+      - name: "Make Subdirectory Root."
+        run: |
+          ls -lAh
+          shopt -s dotglob
+          mv bit/static/* .
+          rm -rf bit
+          ls -lAh
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: 'bit/static/package-lock.lock'
 
       - name: Install Packages
         run: npm ci
