@@ -4,12 +4,12 @@ Python file for the tool page
 Here the website user can upload files, use wgd, and view the output.
 
 authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
-date last modified: 30-3-2025
+date last modified: 31-3-2025
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for, abort
+from flask import Blueprint, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
-from werkzeug.exceptions import RequestEntityTooLarge, UnsupportedMediaType
+from werkzeug.exceptions import RequestEntityTooLarge
 import os
 from bit.WgdManager import WgdManager
 
@@ -116,7 +116,7 @@ def index() -> str:
                 return render_template("tools/tools_INVALID_PATH.html", dir=uploads_dir), 409
 
         # when files are uploaded, go to the results page
-        return redirect(url_for("tools.results"))
+        return redirect(url_for("tools.results")), 302
 
 
 @blueprint.route("/results", methods=["GET", "POST"])
