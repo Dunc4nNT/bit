@@ -4,17 +4,20 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'website/bit/static/scss/**'
+      - 'bit/static/scss/**'
   pull_request:
       types: [ opened, reopened, synchronize ]
       paths:
-        - 'website/bit/static/scss/**'
+        - 'bit/static/scss/**'
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './bit/static'
     strategy:
-      fail-fast: false    
+      fail-fast: false
 
     name: Style Lint
     steps:
@@ -23,22 +26,15 @@ jobs:
         with:
           fetch-depth: 0
           sparse-checkout: |
-            website/bit/static
+            bit/static
           sparse-checkout-cone-mode: false
-
-      - name: "Make Subdirectory Root."
-        run: |
-          ls -lAh
-          shopt -s dotglob
-          mv website/bit/static/* .
-          rm -rf website
-          ls -lAh
 
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
+          cache-dependency-path: 'bit/static/package-lock.lock'
 
       - name: Install Packages
         run: npm ci
