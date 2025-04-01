@@ -8,7 +8,7 @@ from http import HTTPMethod
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Literal
 
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, redirect, render_template, request, url_for
 from werkzeug import Response
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
@@ -73,11 +73,6 @@ def validate_file(file: IO[bytes]) -> bool:
     #     return True, data_list, header_list
 
 
-allowed_extensions = ["fasta"]
-# sets max upload size to 500mb
-max_file_size = 500 * 1024 * 1024
-
-
 @blueprint.route("/", methods=["GET", "POST"])
 def index() -> str | Response:
     """Tools landing page.
@@ -90,8 +85,6 @@ def index() -> str | Response:
         The tools landing page template.
     """
     # list of the allowed file types to upload
-    allowed_extensions: list[str] = ["fasta"]
-
     match request.method:
         # if submit button is pressed for the file upload
         case HTTPMethod.POST:
@@ -110,15 +103,9 @@ def index() -> str | Response:
 
                 # if a file with an incorrect extension was given, return to tools_INVALID.html
                 file_extension: str = file_name.split(".")[-1]
-                if file_extension not in allowed_extensions:
-                    return render_template(
-                        "tools/tools_INVALID.html",
-                        filename=file_name,
-                        file_extension=file_extension,
-                    )
 
                 # if a file exceeds the size limit, return to tools_FILE_TOO_LARGE.html
-                if file.content_length > max_file_size:
+                if file.content_length > current_app.config["MAX_CONTENT_LENGTH"]:
                     return render_template(
                         "tools/tools_FILE_TOO_LARGE.html",
                         filename=file_name,
@@ -140,7 +127,7 @@ def index() -> str | Response:
             return redirect(url_for("tools.results"))
         # default tool page, to upload files
         case _:
-            return render_template("tools/tools_GET.html", allowed_extensions=allowed_extensions)
+            return render_template("tools/tools_GET.html")
 
 
 @blueprint.route("/results", methods=["GET", "POST"])

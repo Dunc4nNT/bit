@@ -3,14 +3,6 @@
 {% block content %}
   <h2>Upload files</h2>
   <p>
-    Allowed file extensions:
-  </p>
-    <ul>
-      {% for extension in allowed_extensions %}
-        <li>.{{ extension }}</li>
-      {% endfor %}
-    </ul>
-  <p>
     To upload multiple files, hold down the CTRL key while selecting.
   </p>
   <form class="file_upload_box" action="" method="POST" enctype="multipart/form-data">
