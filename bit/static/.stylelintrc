@@ -1,0 +1,11 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "scss/dollar-variable-empty-line-before": [
+      "always",
+      {
+        "ignore": [ "after-comment", "inside-single-line-block", "after-dollar-variable" ]
+      }
+    ]
+  }
+}

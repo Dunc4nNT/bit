@@ -1,0 +1,39 @@
+@use "../abstracts/" as *;
+
+body {
+  font-family: $font-family;
+  color: $clr-secondary-600;
+  background-color: $clr-primary-100;
+  line-height: 1.5;
+  font-size: $font-size-400;
+  font-weight: $font-weight-default;
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-left: 8.5rem;
+}
+
+figure > img {
+  max-width: 1000px;
+  max-height: 1000px;
+}
+
+figure > figcaption {
+  font-style: italic;
+}
+a {
+  color:$clr-secondary-900;
+}
+.error-message {
+  color: red;
+  font-size: 1rem;
+  animation: flicker 0.8s infinite; // Adjust the overall duration
+}
+
+@keyframes flicker {
+  0%, 80% { opacity: 1; } // Text is visible for 80% of the time
+  95%, 100% { opacity: 0; } // Text flickers for 5% of the time
+}

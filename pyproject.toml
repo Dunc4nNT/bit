@@ -1,0 +1,125 @@
+[project]
+name = "website"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.0",
+    "pytest>=8.3.5",
+    "python-dotenv>=1.0.1",
+]
+
+[dependency-groups]
+dev = ["ruff>=0.9.9"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 99
+preview = true
+
+[tool.ruff.lint]
+select = [
+    "A",
+    "ANN",
+    "ASYNC",
+    "B",
+    "BLE",
+    "C4",
+    "COM",
+    "D",
+    "DOC",
+    "DTZ",
+    "E",
+    "EM",
+    "ERA",
+    "F",
+    "FA",
+    "FBT",
+    "FURB",
+    "G",
+    "I",
+    "INP",
+    "ISC",
+    "LOG",
+    "N",
+    "NPY",
+    "PD",
+    "PERF",
+    "PGH",
+    "PIE",
+    "PLE",
+    "PLE",
+    "PLR",
+    "PLW",
+    "PT",
+    "PTH",
+    "PYI",
+    "RET",
+    "RSE",
+    "RUF",
+    "S",
+    "SIM",
+    "SLOT",
+    "T20",
+    "TC",
+    "TID",
+    "TRY",
+    "UP",
+    "YTT",
+]
+ignore = [
+    "D100",
+    "D104",
+
+    # ruff conflicting lint rules
+    # source: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+    "COM812",
+    "COM819",
+    "D206",
+    "D300",
+    "E111",
+    "E114",
+    "E117",
+    "ISC001",
+    "ISC002",
+]
+unfixable = ["E501", "ERA"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D", "DOC", "S101"]
+
+[tool.ruff.format]
+line-ending = "lf"
+docstring-code-format = true
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = false
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+
+[tool.pyright]
+include = ["app", "tests"]
+
+pythonVersion = "3.13"
+pythonPlatform = "All"
+typeCheckingMode = "strict"
+strictListInference = true
+strictDictionaryInference = true
+strictSetInference = true
+deprecateTypingAliases = true
+reportPropertyTypeMismatch = "error"
+reportImportCycles = "error"
+reportUnusedImport = "error"
+reportUnusedClass = "warning"
+reportUnusedFunction = "warning"
+reportUnusedVariable = "warning"
+reportDuplicateImport = "error"
+reportConstantRedefinition = "error"
+reportUninitializedInstanceVariable = "error"
+reportUnnecessaryTypeIgnoreComment = "warning"
+reportMatchNotExhaustive = "warning"
+reportImplicitOverride = "warning"
+reportShadowedImports = "error"
