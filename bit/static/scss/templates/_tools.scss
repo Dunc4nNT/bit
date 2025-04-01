@@ -24,13 +24,13 @@
   }
 }
 
-#file_uploads {
+.file_uploads {
   position: absolute;
   top: 4rem;
   left: 2rem;
 }
 
-#file_uploads::file-selector-button {
+.file_uploads::file-selector-button {
   display: none;
 }
 

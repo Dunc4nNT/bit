@@ -3,17 +3,17 @@
 Here the website user can upload files, use wgd, and view the output.
 """
 
-import os
 from http import HTTPMethod
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Literal
 
-from flask import Blueprint, current_app, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 from werkzeug import Response
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 
 from bit.dirpaths import outdir, tmpdir, uploads_dir
+from bit.forms import FileUploadForm
 from bit.wgd_manager import WgdManager
 
 if TYPE_CHECKING:
@@ -84,50 +84,51 @@ def index() -> str | Response:
     str | Response
         The tools landing page template.
     """
-    # list of the allowed file types to upload
-    match request.method:
-        # if submit button is pressed for the file upload
-        case HTTPMethod.POST:
-            files: list[FileStorage] = request.files.getlist("files")
+    form = FileUploadForm(request.form)
 
-            if len(files) == 0:
+    # list of the allowed file types to upload
+    if request.method == HTTPMethod.POST and form.validate():
+        # if submit button is pressed for the file upload
+        files: list[FileStorage] = request.files.getlist("files")
+
+        if len(files) == 0:
+            return redirect(url_for("tools.index"))
+
+        # validate files
+        for file in files:
+            # if no files given, return to default tool page
+            if not file.filename:
                 return redirect(url_for("tools.index"))
 
-            # validate files
-            for file in files:
-                # if no files given, return to default tool page
-                if not file.filename:
-                    return redirect(url_for("tools.index"))
+            file_name: str = secure_filename(file.filename)
 
-                file_name: str = secure_filename(file.filename)
+            # if a file with an incorrect extension was given, return to tools_INVALID.html
+            file_extension: str = file_name.split(".")[-1]
 
-                # if a file with an incorrect extension was given, return to tools_INVALID.html
-                file_extension: str = file_name.split(".")[-1]
+            # if a file exceeds the size limit, return to tools_FILE_TOO_LARGE.html
+            if file.content_length > current_app.config["MAX_CONTENT_LENGTH"]:
+                return render_template(
+                    "tools/tools_FILE_TOO_LARGE.html",
+                    filename=file_name,
+                    file_extension=file_extension,
+                )
 
-                # if a file exceeds the size limit, return to tools_FILE_TOO_LARGE.html
-                if file.content_length > current_app.config["MAX_CONTENT_LENGTH"]:
-                    return render_template(
-                        "tools/tools_FILE_TOO_LARGE.html",
-                        filename=file_name,
-                        file_extension=file_extension,
-                    )
+            # if not valid return to tools_INVALID.html
+            if not validate_file(file.stream):
+                return render_template(
+                    "tools/tools_INVALID.html",
+                    filename=file_name,
+                    file_extension=file_extension,
+                )
 
-                # if not valid return to tools_INVALID.html
-                if not validate_file(file.stream):
-                    return render_template(
-                        "tools/tools_INVALID.html",
-                        filename=file_name,
-                        file_extension=file_extension,
-                    )
+            # save file in upload folder
+            file.save(uploads_dir + file_name)
 
-                # save file in upload folder
-                file.save(uploads_dir + file_name)
+        # when files are uploaded, go to the results page
+        return redirect(url_for("tools.results"))
 
-            # when files are uploaded, go to the results page
-            return redirect(url_for("tools.results"))
-        # default tool page, to upload files
-        case _:
-            return render_template("tools/tools_GET.html")
+    # default tool page, to upload files
+    return render_template("tools/index.html", form=form)
 
 
 @blueprint.route("/results", methods=["GET", "POST"])
