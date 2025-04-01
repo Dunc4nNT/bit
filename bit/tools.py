@@ -37,13 +37,9 @@ def get_filepaths_from_dir(directory: str) -> list[str]:
     list[str]
         filepath of each file.
     """
-    filepaths_list: list[str] = []
     # for each file in the directory
-    for file in Path(directory).iterdir():
-        # get the file_name
-        file_name = os.fsdecode(file)
-        # append it to a list
-        filepaths_list.append(directory + file_name)
+    # append it to a list
+    filepaths_list: list[str] = [directory + file.name for file in Path(directory).iterdir()]
 
     return filepaths_list
 
