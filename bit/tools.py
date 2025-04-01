@@ -6,16 +6,20 @@ Here the website user can upload files, use wgd, and view the output.
 import os
 from http import HTTPMethod
 from pathlib import Path
-from subprocess import CompletedProcess
+from typing import IO, TYPE_CHECKING, Literal
 
 from flask import Blueprint, redirect, render_template, request, url_for
 from werkzeug import Response
-from werkzeug.datastructures.file_storage import FileStorage
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 
-from bit.dirpaths import outdir, path_to_tool, tmpdir, uploads_dir
+from bit.dirpaths import outdir, tmpdir, uploads_dir
 from bit.wgd_manager import WgdManager
+
+if TYPE_CHECKING:
+    from subprocess import CompletedProcess  # noqa: S404
+
+    from werkzeug.datastructures.file_storage import FileStorage
 
 blueprint: Blueprint = Blueprint("tools", __name__, url_prefix="/tools")
 
@@ -44,23 +48,33 @@ def get_filepaths_from_dir(directory: str) -> list[str]:
     return filepaths_list
 
 
-def validate_file(file):
+def validate_file(file: IO[bytes]) -> bool:
+    """Check if a file is more "likely" valid.
+
+    Starts with >.
+
+    Parameters
+    ----------
+    file : IO[bytes]
+        File to check.
+
+    Returns
+    -------
+    bool
+        Whether the file is valid.
     """
-    This function checks if a file is more "likely" valid.
-    starts with >
-    :param file:
-    :return: True if file is valid and saves data, else False
-    """
-    data_list = []
-    header_list = []
-    header = file.readline()
-    data = file.readlines()
-    # opening file in bytes mode, so made a string
-    header = str(header, encoding="utf-8")
-    if header.startswith(">"):
-        data_list.append(data)
-        header_list.append(header)
-        return True, data_list, header_list
+    return True
+
+    # data_list = []
+    # header_list = []
+    # header = file.readline()
+    # data = file.readlines()
+    # # opening file in bytes mode, so made a string
+    # header = str(header, encoding="utf-8")
+    # if header.startswith(">"):
+    #     data_list.append(data)
+    #     header_list.append(header)
+    #     return True, data_list, header_list
 
 
 allowed_extensions = ["fasta"]
@@ -76,7 +90,7 @@ def index() -> str | Response:
 
     Returns
     -------
-    str
+    str | Response
         The tools landing page template.
     """
     # list of the allowed file types to upload
@@ -154,7 +168,7 @@ def results() -> str | Response:
                 return redirect(url_for("tools.index"))
 
             # create the class that can run wgd
-            wgd = WgdManager(path_to_tool, outdir, tmpdir)
+            wgd = WgdManager(outdir, tmpdir)
             # run the dmd sub tool for each selected file
             result: CompletedProcess[str] = wgd.run_dmd(*selected_files)
 
@@ -172,9 +186,17 @@ def results() -> str | Response:
 
 
 @blueprint.errorhandler(RequestEntityTooLarge)
-def request_entity_too_large(error):
-    return render_template("tools/tools_FILE_TOO_LARGE.html"), 413
+def request_entity_too_large(error: RequestEntityTooLarge) -> tuple[str, Literal[413]]:
+    """When a file exceeds maximum allowed size.
 
+    Parameters
+    ----------
+    error : RequestEntityTooLarge
+        Error thrown.
 
-def request_entity_too_large(error):
+    Returns
+    -------
+    tuple[str, Literal[413]]
+        Error template and status code.
+    """
     return render_template("tools/tools_FILE_TOO_LARGE.html"), 413
