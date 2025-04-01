@@ -1,42 +1,50 @@
-"""
-Python file for the tool page
-Here the website user can upload files, use wgd, and view the output.
+"""Python file for the tool page.
 
-authors: <names>
-date last modified: 26-3-2025
+Here the website user can upload files, use wgd, and view the output.
 """
-from flask import Blueprint, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
-from werkzeug.exceptions import RequestEntityTooLarge
+
 import os
-from bit.WgdManager import WgdManager
+from http import HTTPMethod
+from pathlib import Path
+from subprocess import CompletedProcess
+
+from flask import Blueprint, redirect, render_template, request, url_for
+from werkzeug import Response
+from werkzeug.datastructures.file_storage import FileStorage
+from werkzeug.exceptions import RequestEntityTooLarge
+from werkzeug.utils import secure_filename
+
+from bit.dirpaths import outdir, path_to_tool, tmpdir, uploads_dir
+from bit.wgd_manager import WgdManager
 
 blueprint: Blueprint = Blueprint("tools", __name__, url_prefix="/tools")
 
-# TODO instelbaar maken voor de gebruiker uiteindelijk ofso
-from bit.dirpaths import *
 
+def get_filepaths_from_dir(directory: str) -> list[str]:
+    """Get the filepaths from all files in a directory.
 
-def get_filepaths_from_dir(directory):
+    Parameters
+    ----------
+    directory : str
+        directory
+
+    Returns
+    -------
+    list[str]
+        filepath of each file.
     """
-    get the filepaths from all files in a directory
-
-    :param directory: directory as string
-    :return: filepath of each file as a list of strings
-    """
-    # list to return
-    filepaths_list = []
+    filepaths_list: list[str] = []
     # for each file in the directory
-    for file in os.listdir(directory):
+    for file in Path(directory).iterdir():
         # get the file_name
         file_name = os.fsdecode(file)
         # append it to a list
         filepaths_list.append(directory + file_name)
 
     return filepaths_list
- 
 
-def valid_file(file):
+
+def validate_file(file):
     """
     This function checks if a file is more "likely" valid.
     starts with >
@@ -58,11 +66,10 @@ def valid_file(file):
 allowed_extensions = ["fasta"]
 # sets max upload size to 500mb
 max_file_size = 500 * 1024 * 1024
-# max_file_size = 98_816
 
 
 @blueprint.route("/", methods=["GET", "POST"])
-def index() -> str:
+def index() -> str | Response:
     """Tools landing page.
 
     On this page the user can upload files
@@ -73,52 +80,61 @@ def index() -> str:
         The tools landing page template.
     """
     # list of the allowed file types to upload
-    allowed_extensions = ["fasta"]
+    allowed_extensions: list[str] = ["fasta"]
 
-    # default tool page, to upload files
-    if request.method == "GET":
-        return render_template("tools/tools_GET.html", allowed_extensions=allowed_extensions)
+    match request.method:
+        # if submit button is pressed for the file upload
+        case HTTPMethod.POST:
+            files: list[FileStorage] = request.files.getlist("files")
 
-    # if submit button is pressed for the file upload
-    elif request.method == "POST":
-        files = request.files.getlist("files")
-
-        # validate files
-        for file in files:
-            # properties for each file
-            kwargs = {
-                "file": file,
-                "filename": secure_filename(file.filename),  # SECURE filename
-                "file_extension": file.filename.split(".")[-1],
-                "file_size": file.content_length,
-            }
-
-            # if no files given, return to default tool page
-            if kwargs["filename"] == "":
-                #return render_template("tools/tools_GET.html", allowed_extensions=allowed_extensions)
+            if len(files) == 0:
                 return redirect(url_for("tools.index"))
 
-            # if a file with an incorrect extension was given, return to tools_INVALID.html
-            if kwargs["file_extension"] not in allowed_extensions:
-                return render_template("tools/tools_INVALID.html", **kwargs)
-              
-            # if a file exceeds the size limit, return to tools_FILE_TOO_LARGE.html
-            if kwargs["file_size"] > max_file_size:
-                return render_template("tools/tools_FILE_TOO_LARGE.html", **kwargs)
+            # validate files
+            for file in files:
+                # if no files given, return to default tool page
+                if not file.filename:
+                    return redirect(url_for("tools.index"))
 
-            # if not valid return to tools_INVALID.html
-            if not valid_file(file.stream):
-                return render_template("tools/tools_INVALID.html", **kwargs)
+                file_name: str = secure_filename(file.filename)
 
-            # save file in upload folder
-            file.save(uploads_dir + kwargs["filename"])
+                # if a file with an incorrect extension was given, return to tools_INVALID.html
+                file_extension: str = file_name.split(".")[-1]
+                if file_extension not in allowed_extensions:
+                    return render_template(
+                        "tools/tools_INVALID.html",
+                        filename=file_name,
+                        file_extension=file_extension,
+                    )
 
-        # when files are uploaded, go to the results page
-        return redirect(url_for("tools.results"))
+                # if a file exceeds the size limit, return to tools_FILE_TOO_LARGE.html
+                if file.content_length > max_file_size:
+                    return render_template(
+                        "tools/tools_FILE_TOO_LARGE.html",
+                        filename=file_name,
+                        file_extension=file_extension,
+                    )
+
+                # if not valid return to tools_INVALID.html
+                if not validate_file(file.stream):
+                    return render_template(
+                        "tools/tools_INVALID.html",
+                        filename=file_name,
+                        file_extension=file_extension,
+                    )
+
+                # save file in upload folder
+                file.save(uploads_dir + file_name)
+
+            # when files are uploaded, go to the results page
+            return redirect(url_for("tools.results"))
+        # default tool page, to upload files
+        case _:
+            return render_template("tools/tools_GET.html", allowed_extensions=allowed_extensions)
 
 
 @blueprint.route("/results", methods=["GET", "POST"])
-def results() -> str:
+def results() -> str | Response:
     """Tools results page.
 
     On this page the user can select the tools to run,
@@ -130,30 +146,35 @@ def results() -> str:
         The tools results page template.
     """
     # page where user can select tools and files
-    if request.method == "GET":
-        filepaths = get_filepaths_from_dir(uploads_dir)
-        files = []
-        for filepath in filepaths:
-            file = {
-                "filepath": filepath,
-                "filename": filepath.split("/")[-1],
-            }
-            files.append(file)
-        return render_template("tools/tools_POST.html", files=files)
+    match request.method:
+        case HTTPMethod.POST:
+            # get the selected files
+            selected_files: list[str] = request.form.getlist("uploaded_file")
+            if len(selected_files) == 0:
+                return redirect(url_for("tools.index"))
 
-    # when the submit button is pressed
-    elif request.method == "POST":
-        # get the selected files
-        selected_files = request.form.getlist("uploaded_file")
-        # create the class that can run wgd
-        wgd = WgdManager(path_to_tool, outdir, tmpdir)
-        # run the dmd sub tool for each selected file
-        for file in selected_files:
-            result = wgd.run_dmd(file)
+            # create the class that can run wgd
+            wgd = WgdManager(path_to_tool, outdir, tmpdir)
+            # run the dmd sub tool for each selected file
+            result: CompletedProcess[str] = wgd.run_dmd(*selected_files)
 
-        return render_template("tools/tools_RESULTS.html", files=selected_files, result=result)
-  
+            return render_template("tools/tools_RESULTS.html", files=selected_files, result=result)
+        case _:
+            filepaths: list[str] = get_filepaths_from_dir(uploads_dir)
+            files: list[dict[str, str]] = []
+            for filepath in filepaths:
+                file: dict[str, str] = {
+                    "filepath": filepath,
+                    "filename": filepath.split("/")[-1],
+                }
+                files.append(file)
+            return render_template("tools/tools_POST.html", files=files)
+
 
 @blueprint.errorhandler(RequestEntityTooLarge)
 def request_entity_too_large(error):
-    return render_template('tools/tools_FILE_TOO_LARGE.html'), 413
+    return render_template("tools/tools_FILE_TOO_LARGE.html"), 413
+
+
+def request_entity_too_large(error):
+    return render_template("tools/tools_FILE_TOO_LARGE.html"), 413

@@ -1,30 +1,22 @@
-"""
-This python file contains a Class that can run some wgd sub tools
+"""Class that can run some wgd sub tools.
+
 The sub tools it can run are: dmd, ksd and viz
-
-authors: <names>
-date last modified: 27-3-2025
 """
 
-import subprocess
-import os
+import subprocess  # noqa: S404
+
 
 class WgdManager:
-    def __init__(self, path_to_tool, outdir, tmpdir):
-        """
-        This class runs the wgd sub tools.
-        The sub tools it can run are: dmd, ksd and viz
+    """Runs the wgd sub tools.
 
-        :param path_to_tool: path to the directory where the wgd tool is, as string
-        :param outdir: path to the directory for the tool output, as string
-        :param tmpdir: temporary directory for temporary files the tool uses, as string
-        """
+    The sub tools it can run are: dmd, ksd and viz
+    """
+
+    def __init__(self, outdir: str, tmpdir: str) -> None:
         # store the path to the tool
-        self.path_to_tool = path_to_tool
-        self.run_wgd = ["uv", "run", "wgd"]
+        self.run_wgd = ["conda", "run", "-n", "wgd", "wgd"]
         self.outdir = ["--outdir", outdir]
         self.tmpdir = ["--tmpdir", tmpdir]
-
 
     def __str__(self):
         """
@@ -34,40 +26,28 @@ class WgdManager:
         """
         return f"""
         paths to directories used by the tool:
-        directory for the tool: {self.path_to_tool}
         directory for output: {self.outdir[1]}
         directory for temporary files: {self.tmpdir[1]}
         """
 
+    def run_command(self, command: list[str]) -> subprocess.CompletedProcess[str]:
+        """Run the wgd tool.
 
-    def run_command(self, command):
+        Parameters
+        ----------
+        command : list[str]
+            Terminal command to run
+
+        Returns
+        -------
+        subprocess.CompletedProcess[str]
+            Result of subprocess.run().
         """
-        This function moves the current working directory to the wgd tool directory
-        Then runs a terminal command with subprocess.run()
+        return subprocess.run(command, capture_output=True, text=True, check=False)  # noqa: S603
 
-        :param command: terminal command to run, as a list of strings
-
-        :return: result of subprocess.run()
+    def run_dmd(self, *args: str) -> subprocess.CompletedProcess[str]:
         """
-        # store the current working directory
-        cwd = os.getcwd()
-        # if the current directory is not the wgd tool directory
-        if cwd != self.path_to_tool:
-            # go to directory where the tool is
-            os.chdir(self.path_to_tool)
-        
-        # run the command and store the result
-        result = subprocess.run(command, capture_output=True, text=True)
-
-        # go back to the old working directory
-        os.chdir(cwd)
-
-        return result
-
-
-    def run_dmd(self, fasta_file):
-        """
-        Runs the wgd sub tool dmd
+        Run the wgd sub tool dmd.
 
         :param fasta_file: path to fasta file with coding DNA sequences
 
@@ -77,15 +57,13 @@ class WgdManager:
 
         :return: result of subprocess.run()
         """
-
         # command ran through subprocess to use dmd
-        command = self.run_wgd + ["dmd", fasta_file] + self.outdir + self.tmpdir
+        command: list[str] = [*self.run_wgd, "dmd", *args, *self.outdir, *self.tmpdir]
 
         # run the command and store the result
-        result = self.run_command(command)
+        result: subprocess.CompletedProcess[str] = self.run_command(command)
 
         return result
-
 
     def run_ksd(self, tsv_file, fasta_file):
         """
@@ -100,7 +78,6 @@ class WgdManager:
 
         :return: result of subprocess.run()
         """
-
         # command ran through subprocess to use ksd
         command = self.run_wgd + ["ksd", tsv_file, fasta_file] + self.outdir + self.tmpdir
 
@@ -108,7 +85,6 @@ class WgdManager:
         result = self.run_command(command)
 
         return result
-
 
     def run_viz(self, ks_file):
         """
@@ -121,7 +97,6 @@ class WgdManager:
 
         :return: result of subprocess.run()
         """
-
         # command ran through subprocess to use viz
         command = self.run_wgd + ["viz", "-d", ks_file] + self.outdir
 
