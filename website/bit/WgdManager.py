@@ -4,7 +4,7 @@ Class that can run some wgd sub tools
 The sub tools it can run are: dmd, ksd and viz
 
 authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
-date last modified: 30-3-2025
+date last modified: 1-4-2025
 """
 
 import subprocess
@@ -23,7 +23,7 @@ class WgdManager:
         """
         # store the path to the tool
         self.path_to_tool = path_to_tool
-        self.run_wgd = ["uv", "run", "wgd"]
+        self.run_wgd = ["conda", "run", "-n", "wgd","wgd"]
         self.outdir = ["--outdir", outdir]
         self.tmpdir = ["--tmpdir", tmpdir]
 

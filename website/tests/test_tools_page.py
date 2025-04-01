@@ -2,7 +2,7 @@
 Pytests for the tool page.
 
 authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
-date last modified: 31-3-2025
+date last modified: 1-4-2025
 """
 
 # Pytest
@@ -54,9 +54,8 @@ def test_tools_post_valid(client: FlaskClient, data: dict) -> None:
     submit with valid file uploads
     """
     redirect_code = 302
-    invalid_path_code = 409
     response = client.post("/tools/", data=data)
-    assert response.status_code == redirect_code or response.status_code == invalid_path_code
+    assert response.status_code == redirect_code
 
 
 @pytest.mark.parametrize("data",
@@ -76,11 +75,11 @@ def test_tools_results_get(client: FlaskClient) -> None:
     """
     test tools default results page
     """
-    invalid_path_code = 409
+    ok_status_code = 200
     response = client.get("/tools/results")
-    # redirect due to unkown upload folder path
-    assert response.status_code == invalid_path_code
-    assert "<h2>File not found</h2>" in response.text
+    assert response.status_code == ok_status_code
+    assert "<h2>Files uploaded</h2>" in response.text
+
 
 
 def test_tools_results_post(client: FlaskClient) -> None:

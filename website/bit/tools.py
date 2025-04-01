@@ -4,13 +4,21 @@ Python file for the tool page
 Here the website user can upload files, use wgd, and view the output.
 
 authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
-date last modified: 31-3-2025
+date last modified: 1-4-2025
 """
 
+# Flask
 from flask import Blueprint, render_template, request, redirect, url_for
+
+# Werkzeug
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
+from werkzeug.datastructures import FileStorage
+
+# Os
 import os
+
+# Wgd Class
 from bit.WgdManager import WgdManager
 
 blueprint: Blueprint = Blueprint("tools", __name__, url_prefix="/tools")
@@ -38,13 +46,14 @@ def get_filepaths_from_dir(directory: str) -> list[str]:
     return filepaths_list
  
 
-def valid_file(file):
+def valid_file(file: FileStorage) -> (bool, list, list):
     """
-    This function checks if a file is more "likely" valid.
+    check if a file is more "likely" valid.
     starts with >
     :param file:
     :return: True if file is valid and saves data, else False
     """
+    file = file.stream
     data_list = []
     header_list = []
     header = file.readline()
@@ -105,8 +114,9 @@ def index() -> str:
             if current_file["file_size"] > max_file_size:
                 return render_template("tools/tools_FILE_TOO_LARGE.html", **current_file), 413
 
+            # TODO this function causes uploaded files to be empty
             # if not valid return to tools_INVALID.html
-            if not valid_file(file.stream):
+            if not valid_file(file):
                 return render_template("tools/tools_INVALID.html", **current_file), 415
 
             # try to save file in upload folder
@@ -169,9 +179,24 @@ def results() -> str:
         # create the class that can run wgd
         wgd = WgdManager(path_to_tool, outdir, tmpdir)
         # run the dmd sub tool for each selected file
+
+        # TODO moet check of wel een file is geupload
         result = ""
-        for file in selected_files:
-            result = wgd.run_dmd(file)
+        for fasta_file in selected_files:
+            result = wgd.run_dmd(fasta_file)
+
+            # TODO dit werkt niet echt bepaald
+            # if "dmd" in selected_tools:
+            #     result = wgd.run_dmd(fasta_file)
+            # if "ksd" in selected_tools:
+            #     result = wgd.run_ksd(fasta_file + ".tsv", fasta_file)
+            #
+            # if "viz" in selected_tools:
+            #     result = wgd.run_viz(fasta_file + ".tsv.ks.tsv")
+
+            # TODO bestaat nog niet
+            # if "syn" in selected_tools:
+            #     result = wgd.run_syn(file)
 
         return render_template("tools/tools_RESULTS.html",
                                files=selected_files, tools=selected_tools, result=result)
