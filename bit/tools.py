@@ -17,7 +17,7 @@ from bit.dirpaths import outdir, tmpdir, uploads_dir
 from bit.wgd_manager import WgdManager
 
 if TYPE_CHECKING:
-    from subprocess import CompletedProcess  # noqa: S404
+    from subprocess import CompletedProcess
 
     from werkzeug.datastructures.file_storage import FileStorage
 

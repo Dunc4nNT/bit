@@ -3,7 +3,9 @@
 The sub tools it can run are: dmd, ksd and viz
 """
 
-import subprocess  # noqa: S404
+import subprocess
+from subprocess import CompletedProcess
+from typing import override
 
 
 class WgdManager:
@@ -18,19 +20,15 @@ class WgdManager:
         self.outdir = ["--outdir", outdir]
         self.tmpdir = ["--tmpdir", tmpdir]
 
-    def __str__(self):
-        """
-        This function is called when the class is converted to a string
-
-        :return: all the directories the tool uses
-        """
+    @override
+    def __str__(self) -> str:
         return f"""
         paths to directories used by the tool:
         directory for output: {self.outdir[1]}
         directory for temporary files: {self.tmpdir[1]}
         """
 
-    def run_command(self, command: list[str]) -> subprocess.CompletedProcess[str]:
+    def run_command(self, command: list[str]) -> CompletedProcess[str]:
         """Run the wgd tool.
 
         Parameters
@@ -40,67 +38,95 @@ class WgdManager:
 
         Returns
         -------
-        subprocess.CompletedProcess[str]
+        CompletedProcess[str]
             Result of subprocess.run().
         """
-        return subprocess.run(command, capture_output=True, text=True, check=False)  # noqa: S603
+        return subprocess.run(command, capture_output=True, text=True, check=True)
 
-    def run_dmd(self, *args: str) -> subprocess.CompletedProcess[str]:
-        """
-        Run the wgd sub tool dmd.
-
-        :param fasta_file: path to fasta file with coding DNA sequences
+    def run_dmd(self, *sequences: str) -> CompletedProcess[str]:
+        """Run the wgd sub tool dmd.
 
         Outputs a paralogous/orthologous gene family as a .tsv file
         in the wgd_dmd directory
         This file can be used by the sub tool ksd
 
-        :return: result of subprocess.run()
+        Parameters
+        ----------
+        *sequences : str
+            Path to files containing a genome's DNA coding sequences.
+            Gene IDs must be unique, e.g. like you get from RefSeq Select.
+
+        Returns
+        -------
+        CompletedProcess[str]
+            Result of subprocess.run().
         """
         # command ran through subprocess to use dmd
-        command: list[str] = [*self.run_wgd, "dmd", *args, *self.outdir, *self.tmpdir]
+        command: list[str] = [*self.run_wgd, "dmd", *sequences, *self.outdir, *self.tmpdir]
 
         # run the command and store the result
-        result: subprocess.CompletedProcess[str] = self.run_command(command)
+        result: CompletedProcess[str] = self.run_command(command)
 
         return result
 
-    def run_ksd(self, tsv_file, fasta_file):
-        """
-        Runs the wgd sub tool ksd
-        ksd is used to construct Ks distributions (Ks being synonymous substitutions).
+    def run_ksd(self, families: str, *sequences: str) -> CompletedProcess[str]:
+        """Run the wgd sub tool ksd.
 
-        :param tsv_file: path to .tsv file containing a paralogous/orthologous gene family (output of dmd)
-        :param fasta_file: patho to fasta file with coding DNA sequences
+        ksd is used to construct Ks distributions (Ks being synonymous substitutions).
 
         Outputs a .tsv.ks.tsv file in the wgd_ksd directory
         This file can be visualized by the sub tool viz
 
-        :return: result of subprocess.run()
+        Parameters
+        ----------
+        families : str
+            Path to a families file, constructed by wgd dmd.
+        *sequences : str
+            Path to files containing a genome's DNA coding sequences.
+            These genomes should match the genomes in the families file.
+            Gene IDs must be unique, e.g. like you get from RefSeq Select.
+
+        Returns
+        -------
+        CompletedProcess[str]
+            Result of subprocess.run().
         """
         # command ran through subprocess to use ksd
-        command = self.run_wgd + ["ksd", tsv_file, fasta_file] + self.outdir + self.tmpdir
+        command: list[str] = [
+            *self.run_wgd,
+            "ksd",
+            families,
+            *sequences,
+            *self.outdir,
+            *self.tmpdir,
+        ]
 
         # run the command and store the result
-        result = self.run_command(command)
+        result: CompletedProcess[str] = self.run_command(command)
 
         return result
 
-    def run_viz(self, ks_file):
-        """
-        Runs the wgd sub tool viz
-        Used to visualize Ks distributions (output of the sub tool ksd)
+    def run_viz(self, data: str) -> CompletedProcess[str]:
+        """Run the wgd sub tool viz.
 
-        :param ks_file: path to the ks file (.ks.tsv)
+        Used to visualize Ks distributions (output of the sub tool ksd)
 
         Outputs multiple .pdf and .svg files in the wgd_viz directory
 
-        :return: result of subprocess.run()
+        Parameters
+        ----------
+        data : str
+            Path to a data file, for example the one constructed by wgd ksd.
+
+        Returns
+        -------
+        CompletedProcess[str]
+            Result of subprocess.run().
         """
         # command ran through subprocess to use viz
-        command = self.run_wgd + ["viz", "-d", ks_file] + self.outdir
+        command: list[str] = [*self.run_wgd, "viz", "-d", data, *self.outdir]
 
         # run the command and store the result
-        result = self.run_command(command)
+        result: CompletedProcess[str] = self.run_command(command)
 
         return result
