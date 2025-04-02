@@ -196,6 +196,9 @@ def dmd() -> str | Response:
         output_files: list[str] = get_filepaths_from_dir(outdir)
         files: list[dict[str, str]] = []
         for filepath in output_files:
+            if not filepath.endswith(".tsv"):
+                continue
+
             file: dict[str, str] = {
                 "filepath": filepath,
                 "filename": filepath.split("/")[-1],
@@ -243,6 +246,9 @@ def ksd() -> str | Response:
         output_files: list[str] = get_filepaths_from_dir(outdir)
         files: list[dict[str, str]] = []
         for filepath in output_files:
+            if not filepath.endswith(".ks.tsv"):
+                continue
+
             file: dict[str, str] = {
                 "filepath": filepath,
                 "filename": filepath.split("/")[-1],
@@ -289,8 +295,11 @@ def viz() -> str | Response:
         output_files: list[str] = get_filepaths_from_dir(outdir)
         files: list[dict[str, str]] = []
         for filepath in output_files:
+            if not filepath.endswith(".svg"):
+                continue
+
             file: dict[str, str] = {
-                "filepath": filepath,
+                "filepath": "/".join(filepath.split("/")[2:]),
                 "filename": filepath.split("/")[-1],
             }
             files.append(file)
