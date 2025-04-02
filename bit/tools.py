@@ -7,7 +7,7 @@ from http import HTTPMethod
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Literal
 
-from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, redirect, render_template, request, url_for
 from werkzeug import Response
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
