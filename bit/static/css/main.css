@@ -333,13 +333,13 @@ h6 {
   height: 2rem;
 }
 
-.file_uploads {
+label[for=files] {
   position: absolute;
   top: 4rem;
   left: 2rem;
 }
 
-.file_uploads::file-selector-button {
+label[for=files]::file-selector-button {
   display: none;
 }
 

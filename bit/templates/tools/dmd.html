@@ -1,17 +1,41 @@
 {% extends "tools/base.html" %}
 
+{% from "_macros/_form_helpers.html" import render_field %}
+
 {% block content %}
   <h1>Configure dmd</h1>
-  <form class="file_upload_box" action="{{ url_for('tools.dmd') }}" method="POST" enctype="multipart/form-data">
-    <p>
-      Tool <img src="../../static/images/tools/files.png" alt="file image">
-    </p>
-
+  <form action="{{ url_for('tools.dmd') }}" method="POST" enctype="multipart/form-data">
     <dl>
       <dd>{{ form.csrf_token }}</dd>
 
-      <dt>{{ form.sequences.label() }}</dt>
-      <dd>{{ form.sequences() }}</dd>
+      {{ render_field(form.sequences) }}
+      {{ render_field(form.cscore) }}
+      {{ render_field(form.prot) }}
+      {{ render_field(form.inflation) }}
+      {{ render_field(form.eval) }}
+      {{ render_field(form.to_stop) }}
+      {{ render_field(form.cds) }}
+      {{ render_field(form.focus) }}
+      {{ render_field(form.anchorpoints) }}
+      {{ render_field(form.segments) }}
+      {{ render_field(form.listelements) }}
+      {{ render_field(form.genetable) }}
+      {{ render_field(form.collinearcoalescence) }}
+      {{ render_field(form.keepfasta) }}
+      {{ render_field(form.keepduplicates) }}
+      {{ render_field(form.globalmrbh) }}
+      {{ render_field(form.orthoinfer) }}
+      {{ render_field(form.onlyortho) }}
+      {{ render_field(form.getnsog) }}
+      {{ render_field(form.msogcut) }}
+      {{ render_field(form.geneassign) }}
+      {{ render_field(form.seq2assign) }}
+      {{ render_field(form.fam2assign) }}
+      {{ render_field(form.testsog) }}
+      {{ render_field(form.bins) }}
+      {{ render_field(form.normalizedpercent) }}
+      {{ render_field(form.nonormalization) }}
+      {{ render_field(form.ogformat) }}
 
       <dd>{{ form.submit() }}</dd>
     </dl>

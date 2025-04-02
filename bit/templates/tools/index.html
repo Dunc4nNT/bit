@@ -1,5 +1,7 @@
 {% extends "tools/base.html" %}
 
+{% from "_macros/_form_helpers.html" import render_field %}
+
 {% block content %}
   <h1>Upload files</h1>
   <p>
@@ -13,8 +15,7 @@
     <dl>
       <dd>{{ form.csrf_token }}</dd>
 
-      <dt>{{ form.files.label(class="file_uploads") }}</dt>
-      <dd>{{ form.files(class="file_upload_button")|safe }}</dd>
+      {{ render_field(form.files, class="file_upload_button") }}
 
       <dd>{{ form.submit(class="submit_button") }}</dd>
     </dl>

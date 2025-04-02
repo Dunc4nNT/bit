@@ -1,17 +1,14 @@
 {% extends "tools/base.html" %}
 
+{% from "_macros/_form_helpers.html" import render_field %}
+
 {% block content %}
   <h1>Configure viz</h1>
-  <form class="file_upload_box" action="{{ url_for('tools.viz') }}" method="POST" enctype="multipart/form-data">
-    <p>
-      Tool <img src="../../static/images/tools/files.png" alt="file image">
-    </p>
-
+  <form action="{{ url_for('tools.viz') }}" method="POST" enctype="multipart/form-data">
     <dl>
       <dd>{{ form.csrf_token }}</dd>
 
-      <dt>{{ form.data_file.label() }}</dt>
-      <dd>{{ form.data_file() }}</dd>
+      {{ render_field(form.data_file) }}
 
       <dd>{{ form.submit() }}</dd>
     </dl>

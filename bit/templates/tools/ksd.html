@@ -1,19 +1,15 @@
 {% extends "tools/base.html" %}
 
+{% from "_macros/_form_helpers.html" import render_field %}
+
 {% block content %}
   <h1>Configure ksd</h1>
-  <form class="file_upload_box" action="{{ url_for('tools.ksd') }}" method="POST" enctype="multipart/form-data">
-    <p>
-      Tool <img src="../../static/images/tools/files.png" alt="file image">
-    </p>
-
+  <form action="{{ url_for('tools.ksd') }}" method="POST" enctype="multipart/form-data">
     <dl>
       <dd>{{ form.csrf_token }}</dd>
 
-      <dt>{{ form.families.label() }}</dt>
-      <dd>{{ form.families() }}</dd>
-      <dt>{{ form.sequences.label() }}</dt>
-      <dd>{{ form.sequences() }}</dd>
+      {{ render_field(form.families) }}
+      {{ render_field(form.sequences) }}
 
       <dd>{{ form.submit() }}</dd>
     </dl>

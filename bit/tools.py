@@ -182,6 +182,15 @@ def dmd() -> str | Response:
         files.append(file)
 
     form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
+    form.anchorpoints.choices = [
+        (None, ""),
+        *[(file["filepath"], file["filename"]) for file in files],
+    ]
+    form.segments.choices = form.anchorpoints.choices
+    form.listelements.choices = form.anchorpoints.choices
+    form.genetable.choices = form.anchorpoints.choices
+    form.seq2assign.choices = form.sequences.choices
+    form.fam2assign.choices = form.anchorpoints.choices
 
     if request.method == HTTPMethod.POST and form.validate():
         selected_files: list[str] | None = form.sequences.data
@@ -191,7 +200,17 @@ def dmd() -> str | Response:
         # create the class that can run wgd
         wgd = WgdManager(outdir, tmpdir)
         # run the dmd sub tool for each selected file
-        result: CompletedProcess[str] = wgd.run_dmd(*selected_files)
+        result: CompletedProcess[str] = wgd.run_dmd(
+            *selected_files,
+            **{
+                key: value
+                for key, value in form.data.items()
+                if value is not None
+                and key not in {"sequences", "submit"}
+                and value != "None"
+                and value
+            },
+        )
 
         output_files: list[str] = get_filepaths_from_dir(outdir)
         files: list[dict[str, str]] = []
