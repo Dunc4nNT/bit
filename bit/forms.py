@@ -34,6 +34,7 @@ class DmdOptionsForm(Form):
     """Options for the dmd subtool."""
 
     sequences = SelectMultipleField("Genome cds Files", validators=[InputRequired()])
+
     cscore = FloatField("C-score", validators=[Optional(), NumberRange(0, 1)])
     prot = BooleanField("Is protein sequence", validators=[Optional()])
     inflation = FloatField("MCL Inflation Factor", validators=[Optional()])
@@ -78,6 +79,33 @@ class KsdOptionsForm(Form):
 
     families = SelectField("Families File", validators=[InputRequired()])
     sequences = SelectMultipleField("Genome cds Files", validators=[InputRequired()])
+
+    to_stop = BooleanField("Translate Through STOP Codons")
+    cds = BooleanField("Only Translate Complete cds")
+    pairwise = BooleanField("Initiate Pairwise Ks Estimation")
+    strip_gaps = BooleanField("Drop Gaps in Multiple Sequence Alignment")
+    aln_options = StringField("Alignment Options (comma separated)", validators=[Optional()])
+    tree_options = StringField("Tree Inference Options (comma separated)", validators=[Optional()])
+    node_average = BooleanField("Initiate Node-Average De-Redundancy")
+    speciestree = SelectField("Speciestree File", validators=[Optional()])
+    reweight = BooleanField("Recalculate Weight per Species Pair")
+    onlyrootout = BooleanField("Only Use Outgroup at Root")
+    extraparanomeks = SelectField("Extra Paranome Ks Data File", validators=[Optional()])
+    anchorpoints = SelectField("Anchorpoints File", validators=[Optional()])
+    plotkde = BooleanField("Plot kde Curve of Orthologous Ks Distribution over Histogram")
+    plotapgmm = BooleanField("Perform and Plot Mixture Modeling of Anchor Ks")
+    plotelmm = BooleanField("Perform and Plot ELMM Mixture Modeling of Paranome Ks")
+    adjustortho = BooleanField("Adjust Histogram Height to Match Height of Paralogous Ks")
+    adjustfactor = FloatField("Adjustment Factor of Orthologous Ks", validators=[Optional()])
+    okalpha = FloatField("Opacity of Orthologous Ks Distribution", validators=[Optional()])
+    kstree = BooleanField("Infer Ks Tree")
+    onlyconcatkstree = BooleanField("Only Infer Ks Tree Under Concatenated Alignment")
+    classic = BooleanField("Draw Full Orthologous Ks Distribution")
+    toparrow = BooleanField(
+        "Adjust the Arrow at the Top of the Plot, Instead of Being Coordinated as the KDE"
+    )
+    bootstrap = IntegerField("Number of Bootstrap Replicates", validators=[Optional()])
+
     submit = SubmitField("Submit")
 
 

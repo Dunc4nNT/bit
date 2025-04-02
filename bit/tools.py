@@ -172,7 +172,7 @@ def dmd() -> str | Response:
     """
     form = DmdOptionsForm(request.form)
 
-    filepaths: list[str] = get_filepaths_from_dir(uploads_dir)
+    filepaths: list[str] = get_filepaths_from_dir(uploads_dir) + get_filepaths_from_dir(outdir)
     files: list[dict[str, str]] = []
     for filepath in filepaths:
         file: dict[str, str] = {
@@ -251,6 +251,13 @@ def ksd() -> str | Response:
 
     form.families.choices = [(file["filepath"], file["filename"]) for file in files]
     form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
+
+    form.speciestree.choices = [
+        (None, ""),
+        *[(file["filepath"], file["filename"]) for file in files],
+    ]
+    form.extraparanomeks.choices = form.speciestree.choices
+    form.anchorpoints.choices = form.speciestree.choices
 
     if request.method == HTTPMethod.POST and form.validate():
         selected_files: list[str] | None = form.sequences.data
