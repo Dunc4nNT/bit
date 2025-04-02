@@ -46,7 +46,7 @@ def get_test_files(dir_path: str) -> list[dict]:
 
 
 @pytest.mark.parametrize("data",
-    get_test_files("test_files/valid/")
+    get_test_files("tests/test_files/valid/")
 )
 def test_tools_post_valid(client: FlaskClient, data: dict) -> None:
     """
@@ -59,7 +59,7 @@ def test_tools_post_valid(client: FlaskClient, data: dict) -> None:
 
 
 @pytest.mark.parametrize("data",
-    get_test_files("test_files/invalid/")
+    get_test_files("tests/test_files/invalid/")
 )
 def test_tools_post_invalid(client: FlaskClient, data: dict) -> None:
     """
@@ -83,7 +83,7 @@ def test_tools_results_get(client: FlaskClient) -> None:
 
 @pytest.mark.parametrize("data", [
     {},
-    {"uploaded_files": "tests/test_files/wgd/input/egu1000.fasta",
+    {"uploaded_files": "test_files/wgd/input/egu1000.fasta",
      "selected_tools": "dmd"}
 ])
 def test_tools_results_post(client: FlaskClient, data: dict) -> None:

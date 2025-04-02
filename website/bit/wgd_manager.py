@@ -143,12 +143,29 @@ class WgdManager:
             result of subprocess.run()
         """
         # command ran through subprocess to use viz
-        command = self.run_wgd + "viz " + "-d " + ks_file + " " + self.outdir
+        command = self.run_wgd + "viz " + "--datafile " + ks_file + " " + self.outdir
 
         # run the command and store the result
         result = self.run_command(command)
 
         return result
 
-    def run_syn(self, tsv_file, gff_file, ks_file=None):
+    def run_syn(self, tsv_file: str, gff_file: str, ks_file: str=None):
+        """
+        Run the wgd sub tool syn
+
+        Used for profiling the evolution of psedochromosomes.
+
+        Parameters
+        ----------
+        tsv_file: str
+            path to file to run the tool on
+
+        gff_file: str
+        ks_file
+
+        Returns
+        -------
+
+        """
         pass
