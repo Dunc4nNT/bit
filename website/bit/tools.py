@@ -19,7 +19,7 @@ from werkzeug.datastructures import FileStorage
 import os
 
 # Wgd Class
-from bit.WgdManager import WgdManager
+from bit.wgd_manager import WgdManager
 
 blueprint: Blueprint = Blueprint("tools", __name__, url_prefix="/tools")
 
@@ -177,7 +177,7 @@ def results() -> str:
         selected_files = request.form.getlist("uploaded_files")
         selected_tools = request.form.getlist("selected_tools")
         # create the class that can run wgd
-        wgd = WgdManager(path_to_tool, outdir, tmpdir)
+        wgd = WgdManager(outdir, tmpdir)
         # run the dmd sub tool for each selected file
 
         # TODO moet check of wel een file is geupload

@@ -17,7 +17,16 @@ from bit.tools import get_filepaths_from_dir
 
 def test_tools_get(client: FlaskClient) -> None:
     """
-    test tools home page
+    Test the tools home page.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
     """
     ok_status_code = 200
     response = client.get("/tools/")
@@ -32,8 +41,15 @@ def get_test_files(dir_path: str) -> list[dict]:
     It is formatted as a list of dictionaries.
     This way it can be put in the pytest.mark.parametrize directly.
 
-    :param dir_path: directory path
-    :return:
+    Parameters
+    ----------
+    dir_path: str
+        Directory path to get all files from
+
+    Returns
+    -------
+    list[dict]
+        all test files in the directory
     """
     files = get_filepaths_from_dir(dir_path)
     return_list = []
@@ -50,8 +66,20 @@ def get_test_files(dir_path: str) -> list[dict]:
 )
 def test_tools_post_valid(client: FlaskClient, data: dict) -> None:
     """
-    test if clients gets redirected after pressing
-    submit with valid file uploads
+    Test if clients gets redirected after pressing
+    submit with valid file uploads.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    data: dict
+        Valid file used for testing post request
+
+    Returns
+    -------
+    None
     """
     redirect_code = 302
     response = client.post("/tools/", data=data)
@@ -63,7 +91,19 @@ def test_tools_post_valid(client: FlaskClient, data: dict) -> None:
 )
 def test_tools_post_invalid(client: FlaskClient, data: dict) -> None:
     """
-    test if invalid file uploads get redirected with an error code
+    Test if invalid file uploads get redirected with an error code.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    data: dict
+        Invalid file used for testing post request
+
+    Returns
+    -------
+    None
     """
     invalid_file_code = 415
     response = client.post("/tools/", data=data, follow_redirects=False)
@@ -73,7 +113,16 @@ def test_tools_post_invalid(client: FlaskClient, data: dict) -> None:
 
 def test_tools_results_get(client: FlaskClient) -> None:
     """
-    test tools default results page
+    Test tools default results page
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
     """
     ok_status_code = 200
     response = client.get("/tools/results")
@@ -83,15 +132,25 @@ def test_tools_results_get(client: FlaskClient) -> None:
 
 @pytest.mark.parametrize("data", [
     {},
-    {"uploaded_files": "test_files/wgd/input/egu1000.fasta",
-     "selected_tools": "dmd"}
+    {"uploaded_files": "test_files/wgd/input/egu1000.fasta"}
 ])
 def test_tools_results_post(client: FlaskClient, data: dict) -> None:
     """
-    test tools results page after selecting files and tools
+    Test tools results page after selecting files and tools.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        Client used for testing
+
+    data: dict
+        File used for testing post request
+
+    Returns
+    -------
+    None
     """
-    # TODO nog niet alle tools doen het,
-    #  en er is nog geen redirect als er geen file of tool is geselecteerd
+    # TODO no redirect when selecting no files
     ok_status_code = 200
     redirect_code = 302
     response = client.post("/tools/results")

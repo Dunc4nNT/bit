@@ -11,7 +11,16 @@ from flask.testing import FlaskClient
 
 def test_home_page(client: FlaskClient) -> None:
     """
-    test home page
+    Test the home page.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
     """
     ok_status_code = 200
     response = client.get("/")
@@ -21,7 +30,16 @@ def test_home_page(client: FlaskClient) -> None:
 
 def test_background_reading_page(client: FlaskClient) -> None:
     """
-    test background reading page
+    Test the background reading page.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
     """
     ok_status_code = 200
     response = client.get("/background_reading")
@@ -31,7 +49,16 @@ def test_background_reading_page(client: FlaskClient) -> None:
 
 def test_about_page(client: FlaskClient) -> None:
     """
-    test about page
+    Test the about page.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
     """
     ok_status_code = 200
     response = client.get("/about")

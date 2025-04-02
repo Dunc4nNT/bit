@@ -27,9 +27,9 @@ class WgdManager:
             temporary directory for temporary files the tool uses
         """
         # store the path to the tool
-        self.run_wgd = "conda run -n wgd wgd "
-        self.outdir = f"--outdir {outdir} "
-        self.tmpdir = f"--tmpdir {tmpdir} "
+        self.run_wgd = " ".join(["conda", "run", "-n", "wgd", "wgd"])
+        self.outdir = " ".join(["--outdir", outdir])
+        self.tmpdir = " ".join(["--tmpdir", tmpdir])
 
     def __str__(self) -> str:
         """
@@ -85,7 +85,7 @@ class WgdManager:
             result of subprocess.run(command)
         """
         # command ran through subprocess to use dmd
-        command = self.run_wgd + "dmd " + fasta_file + " " + self.outdir + self.tmpdir
+        command = " ".join([self.run_wgd, "dmd", fasta_file, self.outdir, self.tmpdir])
 
         # run the command and store the result
         result = self.run_command(command)
@@ -117,8 +117,8 @@ class WgdManager:
             result of subprocess.run()
         """
         # command ran through subprocess to use ksd
-        command = (self.run_wgd + "ksd " + tsv_file + " "
-                   + fasta_file + " " + self.outdir + self.tmpdir)
+        command = " ".join([self.run_wgd, "ksd", tsv_file,
+                            fasta_file, self.outdir, self.tmpdir])
 
         # run the command and store the result
         result = self.run_command(command)
@@ -143,14 +143,14 @@ class WgdManager:
             result of subprocess.run()
         """
         # command ran through subprocess to use viz
-        command = self.run_wgd + "viz " + "--datafile " + ks_file + " " + self.outdir
+        command = " ".join([self.run_wgd, "viz", "--datafile", ks_file, self.outdir])
 
         # run the command and store the result
         result = self.run_command(command)
 
         return result
 
-    def run_syn(self, tsv_file: str, gff_file: str, ks_file: str=None):
+    def run_syn(self, tsv_file: str, gff_file: str, ks_file: str=None) -> CompletedProcess[str]:
         """
         Run the wgd sub tool syn
 
@@ -159,13 +159,28 @@ class WgdManager:
         Parameters
         ----------
         tsv_file: str
-            path to file to run the tool on
+            path to the tsv_file
+            gene family (output of dmd)
 
         gff_file: str
-        ks_file
+            path to file to run the tool on
+
+        ks_file: str|None
+            optional file
 
         Returns
         -------
-
+        CompletedProcess[str]
+            result of subprocess.run()
         """
-        pass
+        # command ran through subprocess to use syn
+        if ks_file:
+            ks_file = "-ks " + ks_file
+            command = " ".join([self.run_wgd, "syn", tsv_file, gff_file, ks_file, self.outdir])
+        else:
+            command = " ".join([self.run_wgd, "syn", tsv_file, gff_file, self.outdir])
+
+        # run the command and store the result
+        result = self.run_command(command)
+
+        return result

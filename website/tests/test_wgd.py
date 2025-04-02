@@ -79,7 +79,8 @@ def test_wgd_help() -> None:
 
 
 @pytest.mark.parametrize("fasta_file", [
-    "tests/test_files/wgd/input/egu1000.fasta"
+    "tests/test_files/wgd/input/egu1000.fasta",
+    "tests/test_files/wgd/input/ugi1000.fasta"
 ])
 def test_dmd(fasta_file: str) -> None:
     """Test the wgd sub tool dmd.
@@ -93,7 +94,7 @@ def test_dmd(fasta_file: str) -> None:
     -------
     None
     """
-    outdir = "tests/test_files/wgd/outpdir"
+    outdir = "tests/test_files/wgd/outdir"
     tmpdir = "tests/test_files/wgd/tmpdir"
 
     wgd = WgdManager(outdir, tmpdir)
@@ -103,7 +104,8 @@ def test_dmd(fasta_file: str) -> None:
 
 
 @pytest.mark.parametrize("fasta_file", [
-    "tests/test_files/wgd/input/egu1000.fasta"])
+    "tests/test_files/wgd/input/egu1000.fasta"
+])
 @pytest.mark.parametrize("tsv_file", [
     "tests/test_files/wgd/input/egu1000.fasta.tsv"
 ])
@@ -122,7 +124,7 @@ def test_ksd(fasta_file: str, tsv_file: str) -> None:
     -------
     None
     """
-    outdir = "tests/test_files/wgd/outpdir"
+    outdir = "tests/test_files/wgd/outdir"
     tmpdir = "tests/test_files/wgd/tmpdir"
 
     wgd = WgdManager(outdir, tmpdir)
@@ -132,7 +134,7 @@ def test_ksd(fasta_file: str, tsv_file: str) -> None:
 
 
 @pytest.mark.parametrize("ks_file", [
-    "tests/test_files/wgd/input/egu1000.fasta.tsv.ks.tsv"
+    "tests/test_files/wgd/input/ath_test.ks.tsv",
 ])
 def test_viz(ks_file: str) -> None:
     """Test the wgd sub tool viz.
@@ -146,7 +148,7 @@ def test_viz(ks_file: str) -> None:
     -------
     None
     """
-    outdir = "tests/test_files/wgd/outpdir"
+    outdir = "tests/test_files/wgd/outdir"
     tmpdir = "tests/test_files/wgd/tmpdir"
 
     wgd = WgdManager(outdir, tmpdir)
