@@ -1,15 +1,13 @@
 """
-Pytests for the tool page.
+Pytests for website pages.
 
 authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
 date last modified: 1-4-2025
 """
 
-# Pytest
-import pytest
-
 # Flask
 from flask.testing import FlaskClient
+
 
 def test_home_page(client: FlaskClient) -> None:
     """

@@ -81,12 +81,22 @@ def test_tools_results_get(client: FlaskClient) -> None:
     assert "<h2>Files uploaded</h2>" in response.text
 
 
-
-def test_tools_results_post(client: FlaskClient) -> None:
+@pytest.mark.parametrize("data", [
+    {},
+    {"uploaded_files": "tests/test_files/wgd/input/egu1000.fasta",
+     "selected_tools": "dmd"}
+])
+def test_tools_results_post(client: FlaskClient, data: dict) -> None:
     """
     test tools results page after selecting files and tools
     """
+    # TODO nog niet alle tools doen het,
+    #  en er is nog geen redirect als er geen file of tool is geselecteerd
     ok_status_code = 200
+    redirect_code = 302
     response = client.post("/tools/results")
-    assert response.status_code == ok_status_code
-    assert "<h2>Files selected</h2>" in response.text
+    if len(data) == 0:
+        assert response.status_code == redirect_code
+    else:
+        assert response.status_code == ok_status_code
+        assert "<h2>Files selected</h2>" in response.text
