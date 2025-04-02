@@ -4,7 +4,7 @@
   <h1>Results</h1>
   <ul>
     {% for file in output_files %}
-      <img src={{ url_for('static', filename=file['filepath']) }} />
+      <img class="viz-image" src={{ url_for('static', filename=file['filepath']) }} />
     {% endfor %}
   </ul>
   <p>
