@@ -113,4 +113,51 @@ class VizOptionsForm(Form):
     """Options for the viz subtool."""
 
     data_file = SelectField("Data File", validators=[InputRequired()])
+
+    gsmap = SelectField("Gene Name-Species Name Map File", validators=[Optional()])
+    speciestree = SelectField("Speciestree File", validators=[Optional()])
+    plotkde = BooleanField("Plot kde Curve of Orthologous Ks Distribution over Histogram")
+    reweight = BooleanField("Recalculate Weight per Species Pair")
+    onlyrootout = BooleanField("Only Use Outgroup at Root")
+    em_iterations = IntegerField("Maximum EM Iterations", validators=[Optional()])
+    em_initializations = IntegerField("Maximum EM Initialisations", validators=[Optional()])
+    prominence_cutoff = FloatField(
+        "Prominance Cutoff of Acceptable Peaks", validators=[Optional()]
+    )
+    rel_height = FloatField(
+        "Relative Height at Which Peak Width is Measured", validators=[Optional()]
+    )
+    segments = SelectField("Segments File", validators=[Optional()])
+    minlen = IntegerField(
+        "Minimum Length of a Scaffold to be Included in Dotplot", validators=[Optional()]
+    )
+    maxsize = IntegerField("Maximum Family Size to be Included", validators=[Optional()])
+    anchorpoints = SelectField("Anchorpoints File", validators=[Optional()])
+    multiplicon = SelectField("Multiplicons File", validators=[Optional()])
+    genetable = SelectField("Gene Table File", validators=[Optional()])
+    minseglen = IntegerField("Minimum Length of Segments to Include", validators=[Optional()])
+    mingenenum = IntegerField(
+        "Minimum Amount of Genes for a Segment to be Considered", validators=[Optional()]
+    )
+    keepredun = BooleanField("Keep Redundant Multiplicons")
+    extraparanomeks = SelectField("Extra Paranome Ks Data File", validators=[Optional()])
+    plotapgmm = BooleanField("Perform and Plot Mixture Modeling of Anchor Ks")
+    plotelmm = BooleanField("Perform and Plot ELMM Mixture Modeling of Paranome Ks")
+    plotsyn = BooleanField("Initiate Synteny Plotting")
+    dotsize = FloatField("Dot Size", validators=[Optional()])
+    apalpha = FloatField("Opacity of Anchor Dots", validators=[Optional()])
+    hoalpha = FloatField("Opacity of Homolog Dots", validators=[Optional()])
+    showrealtick = BooleanField("Show Real Tick in Genes or Bases")
+    ticklabelsize = FloatField("Label Size of Tick", validators=[Optional()])
+    adjustortho = BooleanField("Adjust Histogram Height to Match Height of Paralogous Ks")
+    adjustfactor = FloatField("Adjustment Factor of Orthologous Ks", validators=[Optional()])
+    okalpha = FloatField("Opacity of Orthologous Ks Distribution", validators=[Optional()])
+    classic = BooleanField("Draw Full Orthologous Ks Distribution")
+    toparrow = BooleanField(
+        "Adjust the Arrow at the Top of the Plot, Instead of Being Coordinated as the KDE"
+    )
+    nodeaveraged = BooleanField("Use Node-Averaged De-Redundancy")
+    bootstrap = IntegerField("Number of Bootstrap Replicates", validators=[Optional()])
+    gistrb = BooleanField("Use gist_rainbow as Colourmap")
+
     submit = SubmitField("Submit")

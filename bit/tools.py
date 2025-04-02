@@ -267,7 +267,18 @@ def ksd() -> str | Response:
         # create the class that can run wgd
         wgd = WgdManager(outdir, tmpdir)
         # run the dmd sub tool for each selected file
-        result: CompletedProcess[str] = wgd.run_ksd(form.families.data, *selected_files)
+        result: CompletedProcess[str] = wgd.run_ksd(
+            form.families.data,
+            *selected_files,
+            **{
+                key: value
+                for key, value in form.data.items()
+                if value is not None
+                and key not in {"families", "sequences", "submit"}
+                and value != "None"
+                and value
+            },
+        )
 
         output_files: list[str] = get_filepaths_from_dir(outdir)
         files: list[dict[str, str]] = []
@@ -308,13 +319,34 @@ def viz() -> str | Response:
 
     form.data_file.choices = [(file["filepath"], file["filename"]) for file in files]
 
+    form.gsmap.choices = [
+        (None, ""),
+        *[(file["filepath"], file["filename"]) for file in files],
+    ]
+    form.speciestree.choices = form.gsmap.choices
+    form.segments.choices = form.gsmap.choices
+    form.anchorpoints.choices = form.gsmap.choices
+    form.multiplicon.choices = form.gsmap.choices
+    form.genetable.choices = form.gsmap.choices
+    form.extraparanomeks.choices = form.gsmap.choices
+
     if request.method == HTTPMethod.POST and form.validate():
         # create the class that can run wgd
         wgd = WgdManager(outdir, tmpdir)
         # run the dmd sub tool for each selected file
         result: CompletedProcess[str] | None = None
         try:
-            result = wgd.run_viz(form.data_file.data)
+            result = wgd.run_viz(
+                form.data_file.data,
+                **{
+                    key: value
+                    for key, value in form.data.items()
+                    if value is not None
+                    and key not in {"data_file", "submit"}
+                    and value != "None"
+                    and value
+                },
+            )
         except CalledProcessError:
             pass
 

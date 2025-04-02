@@ -109,7 +109,7 @@ class Ksd(TypedDict, total=False):
 class Viz(TypedDict, total=False):
     """Accepted kwargs for wgd viz."""
 
-    datafile: str
+    data_file: str
     outdir: str
     spair: list[str]
     focus2all: str
