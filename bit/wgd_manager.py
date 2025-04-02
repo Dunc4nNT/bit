@@ -124,7 +124,7 @@ class WgdManager:
             Result of subprocess.run().
         """
         # command ran through subprocess to use viz
-        command: list[str] = [*self.run_wgd, "viz", "-d", data, *self.outdir]
+        command: list[str] = [*self.run_wgd, "viz", "-d", data, *self.outdir, *self.tmpdir]
 
         # run the command and store the result
         result: CompletedProcess[str] = self.run_command(command)

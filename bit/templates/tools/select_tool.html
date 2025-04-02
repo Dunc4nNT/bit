@@ -1,0 +1,19 @@
+{% extends "tools/base.html" %}
+
+{% block content %}
+  <h1>Select tool</h1>
+  <form class="file_upload_box" action="{{ url_for('tools.select_tool') }}" method="POST" enctype="multipart/form-data">
+    <p>
+      Tool <img src="../../static/images/tools/files.png" alt="file image">
+    </p>
+
+    <dl>
+      <dd>{{ form.csrf_token }}</dd>
+
+      <dt>{{ form.tool.label() }}</dt>
+      <dd>{{ form.tool() }}</dd>
+
+      <dd>{{ form.submit() }}</dd>
+    </dl>
+  </form>
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends "tools/base.html" %}
+
+{% block content %}
+  <h1>Results</h1>
+  <ul>
+    {% for file in output_files %}
+      <li>{{ file["filename"] }}</li>
+    {% endfor %}
+  </ul>
+  <p>
+  {{ result }}
+  </p>
+{% endblock content %}

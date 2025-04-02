@@ -73,8 +73,9 @@ select = [
 ignore = [
     "D100",
     "D104",
-    "S404", # We'll be using "safely" subprocess throughout.
-    "S603", # Same thing, "safely" using subprocess.
+    "S404",   # We'll be using "safely" subprocess throughout.
+    "S603",   # Same thing, "safely" using subprocess.
+    "SIM105",
 
     # ruff conflicting lint rules
     # source: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules

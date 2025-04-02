@@ -1,7 +1,7 @@
 {% extends "tools/base.html" %}
 
 {% block content %}
-  <h2>Upload files</h2>
+  <h1>Upload files</h1>
   <p>
     To upload multiple files, hold down the CTRL key while selecting.
   </p>
@@ -14,10 +14,9 @@
       <dd>{{ form.csrf_token }}</dd>
 
       <dt>{{ form.files.label(class="file_uploads") }}</dt>
-      <dd>{{ form.files(class="file_upload_button") }}</dd>
+      <dd>{{ form.files(class="file_upload_button")|safe }}</dd>
 
       <dd>{{ form.submit(class="submit_button") }}</dd>
     </dl>
-
   </form>
 {% endblock content %}

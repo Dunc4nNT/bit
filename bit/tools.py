@@ -5,6 +5,7 @@ Here the website user can upload files, use wgd, and view the output.
 
 from http import HTTPMethod
 from pathlib import Path
+from subprocess import CalledProcessError
 from typing import IO, TYPE_CHECKING, Literal
 
 from flask import Blueprint, current_app, redirect, render_template, request, url_for
@@ -13,7 +14,13 @@ from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 
 from bit.dirpaths import outdir, tmpdir, uploads_dir
-from bit.forms import FileUploadForm
+from bit.forms import (
+    DmdOptionsForm,
+    FileUploadForm,
+    KsdOptionsForm,
+    SelectToolForm,
+    VizOptionsForm,
+)
 from bit.wgd_manager import WgdManager
 
 if TYPE_CHECKING:
@@ -125,48 +132,172 @@ def index() -> str | Response:
             file.save(uploads_dir + file_name)
 
         # when files are uploaded, go to the results page
-        return redirect(url_for("tools.results"))
+        return redirect(url_for("tools.select_tool"))
 
     # default tool page, to upload files
     return render_template("tools/index.html", form=form)
 
 
-@blueprint.route("/results", methods=["GET", "POST"])
-def results() -> str | Response:
-    """Tools results page.
-
-    On this page the user can select the tools to run,
-    and the files to run the tools on.
+@blueprint.route("/select_tool", methods=["GET", "POST"])
+def select_tool() -> str | Response:
+    """Select which subtool to use.
 
     Returns
     -------
-    str
-        The tools results page template.
+    str | Response
+        The select tool page or the result from selecting one.
     """
-    # page where user can select tools and files
-    match request.method:
-        case HTTPMethod.POST:
-            # get the selected files
-            selected_files: list[str] = request.form.getlist("uploaded_file")
-            if len(selected_files) == 0:
-                return redirect(url_for("tools.index"))
+    form = SelectToolForm(request.form)
 
-            # create the class that can run wgd
-            wgd = WgdManager(outdir, tmpdir)
-            # run the dmd sub tool for each selected file
-            result: CompletedProcess[str] = wgd.run_dmd(*selected_files)
+    if request.method == HTTPMethod.POST and form.validate():
+        redirects: dict[str, str] = {
+            "dmd": "tools.dmd",
+            "ksd": "tools.ksd",
+            "viz": "tools.viz",
+        }
 
-            return render_template("tools/tools_RESULTS.html", files=selected_files, result=result)
-        case _:
-            filepaths: list[str] = get_filepaths_from_dir(uploads_dir)
-            files: list[dict[str, str]] = []
-            for filepath in filepaths:
-                file: dict[str, str] = {
-                    "filepath": filepath,
-                    "filename": filepath.split("/")[-1],
-                }
-                files.append(file)
-            return render_template("tools/tools_POST.html", files=files)
+        return redirect(url_for(redirects[form.tool.data]))
+
+    return render_template("tools/select_tool.html", form=form)
+
+
+@blueprint.route("/dmd", methods=["GET", "POST"])
+def dmd() -> str | Response:
+    """Run the dmd subtool.
+
+    Returns
+    -------
+    str | Response
+        Page to configure dmd, or see results from a run.
+    """
+    form = DmdOptionsForm(request.form)
+
+    filepaths: list[str] = get_filepaths_from_dir(uploads_dir)
+    files: list[dict[str, str]] = []
+    for filepath in filepaths:
+        file: dict[str, str] = {
+            "filepath": filepath,
+            "filename": filepath.split("/")[-1],
+        }
+        files.append(file)
+
+    form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
+
+    if request.method == HTTPMethod.POST and form.validate():
+        selected_files: list[str] | None = form.sequences.data
+        if not selected_files or len(selected_files) == 0:
+            return redirect(url_for("tools.dmd"))
+
+        # create the class that can run wgd
+        wgd = WgdManager(outdir, tmpdir)
+        # run the dmd sub tool for each selected file
+        result: CompletedProcess[str] = wgd.run_dmd(*selected_files)
+
+        output_files: list[str] = get_filepaths_from_dir(outdir)
+        files: list[dict[str, str]] = []
+        for filepath in output_files:
+            file: dict[str, str] = {
+                "filepath": filepath,
+                "filename": filepath.split("/")[-1],
+            }
+            files.append(file)
+
+        return render_template("tools/dmd_results.html", output_files=files, result=result)
+
+    return render_template("tools/dmd.html", form=form)
+
+
+@blueprint.route("/ksd", methods=["GET", "POST"])
+def ksd() -> str | Response:
+    """Run the ksd subtool.
+
+    Returns
+    -------
+    str | Response
+        Page to configure ksd, or see results from a run.
+    """
+    form = KsdOptionsForm(request.form)
+
+    filepaths: list[str] = get_filepaths_from_dir(uploads_dir) + get_filepaths_from_dir(outdir)
+    files: list[dict[str, str]] = []
+    for filepath in filepaths:
+        file: dict[str, str] = {
+            "filepath": filepath,
+            "filename": filepath.split("/")[-1],
+        }
+        files.append(file)
+
+    form.families.choices = [(file["filepath"], file["filename"]) for file in files]
+    form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
+
+    if request.method == HTTPMethod.POST and form.validate():
+        selected_files: list[str] | None = form.sequences.data
+        if not selected_files or len(selected_files) == 0:
+            return redirect(url_for("tools.ksd"))
+
+        # create the class that can run wgd
+        wgd = WgdManager(outdir, tmpdir)
+        # run the dmd sub tool for each selected file
+        result: CompletedProcess[str] = wgd.run_ksd(form.families.data, *selected_files)
+
+        output_files: list[str] = get_filepaths_from_dir(outdir)
+        files: list[dict[str, str]] = []
+        for filepath in output_files:
+            file: dict[str, str] = {
+                "filepath": filepath,
+                "filename": filepath.split("/")[-1],
+            }
+            files.append(file)
+
+        return render_template("tools/ksd_results.html", output_files=files, result=result)
+
+    return render_template("tools/ksd.html", form=form)
+
+
+@blueprint.route("/viz", methods=["GET", "POST"])
+def viz() -> str | Response:
+    """Run the viz subtool.
+
+    Returns
+    -------
+    str | Response
+        Page to configure viz, or see results from a run.
+    """
+    form = VizOptionsForm(request.form)
+
+    filepaths: list[str] = get_filepaths_from_dir(uploads_dir) + get_filepaths_from_dir(outdir)
+    files: list[dict[str, str]] = []
+    for filepath in filepaths:
+        file: dict[str, str] = {
+            "filepath": filepath,
+            "filename": filepath.split("/")[-1],
+        }
+        files.append(file)
+
+    form.data_file.choices = [(file["filepath"], file["filename"]) for file in files]
+
+    if request.method == HTTPMethod.POST and form.validate():
+        # create the class that can run wgd
+        wgd = WgdManager(outdir, tmpdir)
+        # run the dmd sub tool for each selected file
+        result: CompletedProcess[str] | None = None
+        try:
+            result = wgd.run_viz(form.data_file.data)
+        except CalledProcessError:
+            pass
+
+        output_files: list[str] = get_filepaths_from_dir(outdir)
+        files: list[dict[str, str]] = []
+        for filepath in output_files:
+            file: dict[str, str] = {
+                "filepath": filepath,
+                "filename": filepath.split("/")[-1],
+            }
+            files.append(file)
+
+        return render_template("tools/viz_results.html", output_files=files, result=result)
+
+    return render_template("tools/viz.html", form=form)
 
 
 @blueprint.errorhandler(RequestEntityTooLarge)
