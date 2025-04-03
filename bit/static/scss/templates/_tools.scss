@@ -1,6 +1,6 @@
 @use "../abstracts/" as *;
 
-.file_upload_box {
+.file-upload-box {
   position: relative;
   width: 25rem;
   height: auto;
@@ -36,7 +36,7 @@ label[for="files"]::file-selector-button {
   display: none;
 }
 
-.file_upload_button {
+.file-upload-button {
   display: block;
   position: absolute;
   bottom: 4rem;
@@ -52,16 +52,16 @@ label[for="files"]::file-selector-button {
   cursor: pointer;
 }
 
-.file_upload_button:hover {
+.file-upload-button:hover {
   border-color: $clr-secondary-700;
   color: $clr-secondary-700; /* text color */
 }
 
-#file_submit {
+#file-submit {
   display: none;
 }
 
-.submit_button {
+.submit-button {
   display: block;
   position: absolute;
   left: 10rem;
@@ -91,9 +91,6 @@ label[for="files"]::file-selector-button {
   font-size: 1rem;
   background-color: $clr-primary-300;
   color: $clr-secondary-700;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -105,6 +102,7 @@ label[for="files"]::file-selector-button {
   height: 0;
   width: 0;
 }
+
 .container:hover{
   background-color: $clr-secondary-400;
 }
@@ -130,29 +128,28 @@ label[for="files"]::file-selector-button {
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
+.checkmark::after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
-
 /* Style the checkmark/indicator */
-.container .checkmark:after {
+.container .checkmark::after {
   left: 9px;
   top: 5px;
   width: 5px;
   height: 10px;
   border: solid white;
   border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark::after {
+  display: block;
+}
+
 .container-wrapper {
   margin-top:1rem;
   display: flex;
