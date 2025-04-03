@@ -1,4 +1,5 @@
 import pytest
+from dotenv import load_dotenv
 from flask import Flask
 from flask.testing import FlaskClient
 
@@ -11,7 +12,12 @@ def app() -> Flask:
     create app
     :return: app
     """
-    return create_app()
+    load_dotenv()
+
+    app: Flask = create_app()
+    app.testing = True
+
+    return app
 
 
 @pytest.fixture

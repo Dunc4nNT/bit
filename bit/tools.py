@@ -6,10 +6,11 @@ Here the website user can upload files, use wgd, and view the output.
 from http import HTTPMethod
 from pathlib import Path
 from subprocess import CalledProcessError
-from typing import IO, TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal
 
-from flask import Blueprint, current_app, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 from werkzeug import Response
+from werkzeug.datastructures.file_storage import FileStorage
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 
@@ -26,7 +27,6 @@ from bit.wgd_manager import WgdManager
 if TYPE_CHECKING:
     from subprocess import CompletedProcess
 
-    from werkzeug.datastructures.file_storage import FileStorage
 
 blueprint: Blueprint = Blueprint("tools", __name__, url_prefix="/tools")
 
@@ -51,14 +51,14 @@ def get_filepaths_from_dir(directory: str) -> list[str]:
     return filepaths_list
 
 
-def validate_file(file: IO[bytes]) -> bool:
+def is_file_valid(file: FileStorage) -> bool:
     """Check if a file is more "likely" valid.
 
     Starts with >.
 
     Parameters
     ----------
-    file : IO[bytes]
+    file : FileStorage
         File to check.
 
     Returns
@@ -66,18 +66,13 @@ def validate_file(file: IO[bytes]) -> bool:
     bool
         Whether the file is valid.
     """
-    return True
+    data: bytes = file.stream.read()
 
-    # data_list = []
-    # header_list = []
-    # header = file.readline()
-    # data = file.readlines()
-    # # opening file in bytes mode, so made a string
-    # header = str(header, encoding="utf-8")
-    # if header.startswith(">"):
-    #     data_list.append(data)
-    #     header_list.append(header)
-    #     return True, data_list, header_list
+    return data.startswith(b">")
+
+
+class InvalidFileError(Exception):
+    """Uploaded file is invalid."""
 
 
 @blueprint.route("/", methods=["GET", "POST"])
@@ -90,6 +85,13 @@ def index() -> str | Response:
     -------
     str | Response
         The tools landing page template.
+
+    Raises
+    ------
+    RequestEntityTooLarge
+        When the uploaded file is too large.
+    InvalidFileError
+        When the uploaded file invalid.
     """
     form = FileUploadForm(request.form)
 
@@ -105,28 +107,18 @@ def index() -> str | Response:
         for file in files:
             # if no files given, return to default tool page
             if not file.filename:
+                flash("You must upload a file.", category="error")
                 return redirect(url_for("tools.index"))
 
             file_name: str = secure_filename(file.filename)
 
-            # if a file with an incorrect extension was given, return to tools_INVALID.html
-            file_extension: str = file_name.split(".")[-1]
-
             # if a file exceeds the size limit, return to tools_FILE_TOO_LARGE.html
             if file.content_length > current_app.config["MAX_CONTENT_LENGTH"]:
-                return render_template(
-                    "tools/tools_FILE_TOO_LARGE.html",
-                    filename=file_name,
-                    file_extension=file_extension,
-                )
+                raise RequestEntityTooLarge
 
             # if not valid return to tools_INVALID.html
-            if not validate_file(file.stream):
-                return render_template(
-                    "tools/tools_INVALID.html",
-                    filename=file_name,
-                    file_extension=file_extension,
-                )
+            if not is_file_valid(file):
+                raise InvalidFileError
 
             # save file in upload folder
             file.save(uploads_dir + file_name)
@@ -381,4 +373,25 @@ def request_entity_too_large(error: RequestEntityTooLarge) -> tuple[str, Literal
     tuple[str, Literal[413]]
         Error template and status code.
     """
-    return render_template("tools/tools_FILE_TOO_LARGE.html"), 413
+    flash("File is too large.", category="error")
+
+    return render_template("errors/file_too_large.html"), 413
+
+
+@blueprint.errorhandler(InvalidFileError)
+def invalid_file_error(error: InvalidFileError) -> tuple[str, Literal[415]]:
+    """When an uploaded file is invalid.
+
+    Parameters
+    ----------
+    error : InvalidFileError
+        Error thrown.
+
+    Returns
+    -------
+    tuple[str, Literal[415]]
+        Error template and status code.
+    """
+    flash("file is invalid.", category="error")
+
+    return render_template("errors/invalid_file.html"), 415
