@@ -1,5 +1,4 @@
 import pytest
-from dotenv import load_dotenv
 from flask import Flask
 from flask.testing import FlaskClient
 
@@ -12,10 +11,10 @@ def app() -> Flask:
     create app
     :return: app
     """
-    load_dotenv()
 
     app: Flask = create_app()
     app.testing = True
+    app.secret_key = "TESTING_KEY"  # noqa: S105
 
     return app
 
