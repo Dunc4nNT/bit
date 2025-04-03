@@ -162,9 +162,9 @@ class WgdManager:
 
     def __init__(self, outdir: str, tmpdir: str) -> None:
         # store the path to the tool
-        self.run_wgd = ["conda", "run", "-n", "wgd", "wgd"]
-        self.outdir = ["--outdir", outdir]
-        self.tmpdir = ["--tmpdir", tmpdir]
+        self.run_wgd: list[str] = ["conda", "run", "-n", "wgd", "wgd"]
+        self.outdir: list[str] = ["--outdir", outdir]
+        self.tmpdir: list[str] = ["--tmpdir", tmpdir]
 
     @override
     def __str__(self) -> str:
@@ -174,20 +174,24 @@ class WgdManager:
         directory for temporary files: {self.tmpdir[1]}
         """
 
-    def run_command(self, command: list[str]) -> CompletedProcess[str]:
+    def run_command(self, subtool: str, arguments: list[str]) -> CompletedProcess[str]:
         """Run the wgd tool.
 
         Parameters
         ----------
-        command : list[str]
-            Terminal command to run
+        subtool : str
+            Name of the subtool to run.
+        arguments : list[str]
+            Subtool arguments to add.
 
         Returns
         -------
         CompletedProcess[str]
             Result of subprocess.run().
         """
-        return subprocess.run(command, capture_output=True, text=True, check=True)
+        return subprocess.run(
+            [*self.run_wgd, subtool, *arguments], capture_output=True, text=True, check=True
+        )
 
     def run_dmd(self, *sequences: str, **kwargs: Unpack[Dmd]) -> CompletedProcess[str]:
         """Run the wgd sub tool dmd.
@@ -211,8 +215,6 @@ class WgdManager:
         """
         # command ran through subprocess to use dmd
         command: list[str] = [
-            *self.run_wgd,
-            "dmd",
             *sequences,
             *self.outdir,
             *self.tmpdir,
@@ -220,7 +222,7 @@ class WgdManager:
         ]
 
         # run the command and store the result
-        result: CompletedProcess[str] = self.run_command(command)
+        result: CompletedProcess[str] = self.run_command("dmd", command)
 
         return result
 
@@ -248,8 +250,6 @@ class WgdManager:
         """
         # command ran through subprocess to use ksd
         command: list[str] = [
-            *self.run_wgd,
-            "ksd",
             families,
             *sequences,
             *self.outdir,
@@ -258,7 +258,7 @@ class WgdManager:
         ]
 
         # run the command and store the result
-        result: CompletedProcess[str] = self.run_command(command)
+        result: CompletedProcess[str] = self.run_command("ksd", command)
 
         return result
 
@@ -281,8 +281,6 @@ class WgdManager:
         """
         # command ran through subprocess to use viz
         command: list[str] = [
-            *self.run_wgd,
-            "viz",
             "-d",
             data,
             *self.outdir,
@@ -290,6 +288,6 @@ class WgdManager:
         ]
 
         # run the command and store the result
-        result: CompletedProcess[str] = self.run_command(command)
+        result: CompletedProcess[str] = self.run_command("viz", command)
 
         return result

@@ -67,6 +67,7 @@ def is_file_valid(file: FileStorage) -> bool:
         Whether the file is valid.
     """
     data: bytes = file.stream.read()
+    file.stream.seek(0)
 
     return data.startswith(b">")
 
