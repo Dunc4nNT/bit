@@ -314,7 +314,9 @@ h6 {
 .file_upload_box {
   position: relative;
   width: 25rem;
-  height: 20rem;
+  height: auto;
+  min-height: 20rem;
+  padding-bottom: 3rem; /* extra space for the submit button */
   background-color: hsl(55, 52%, 85%);
   border-radius: 1rem;
 }
