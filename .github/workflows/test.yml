@@ -33,6 +33,7 @@ jobs:
 
       - name: Create required folders
         run: |
+          mkdir bit/wgd_files
           mkdir bit/wgd_files/outdir
           mkdir bit/wgd_files/tmpdir
           mkdir bit/wgd_files/uploads
