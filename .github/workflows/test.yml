@@ -33,10 +33,11 @@ jobs:
 
       - name: Create required folders
         run: |
-          mkdir bit/wgd_files
-          mkdir bit/wgd_files/outdir
-          mkdir bit/wgd_files/tmpdir
-          mkdir bit/wgd_files/uploads
+          mkdir bit/static
+          mkdir bit/static/wgd_files
+          mkdir bit/static/wgd_files/outdir
+          mkdir bit/static/wgd_files/tmpdir
+          mkdir bit/static/wgd_files/uploads
 
       - name: Run pytest
         run: uv run pytest
