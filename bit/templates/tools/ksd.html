@@ -1,0 +1,41 @@
+{% extends "tools/base.html" %}
+
+{% from "_macros/_form_helpers.html" import render_field %}
+
+{% block content %}
+  <h1>Configure ksd</h1>
+  <form action="{{ url_for('tools.ksd') }}" method="POST" enctype="multipart/form-data">
+    <dl>
+      <dd>{{ form.csrf_token }}</dd>
+
+      {{ render_field(form.families) }}
+      {{ render_field(form.sequences) }}
+
+      {{ render_field(form.to_stop) }}
+      {{ render_field(form.cds) }}
+      {{ render_field(form.pairwise) }}
+      {{ render_field(form.strip_gaps) }}
+      {{ render_field(form.aln_options) }}
+      {{ render_field(form.tree_options) }}
+      {{ render_field(form.node_average) }}
+      {{ render_field(form.speciestree) }}
+      {{ render_field(form.reweight) }}
+      {{ render_field(form.onlyrootout) }}
+      {{ render_field(form.extraparanomeks) }}
+      {{ render_field(form.anchorpoints) }}
+      {{ render_field(form.plotkde) }}
+      {{ render_field(form.plotapgmm) }}
+      {{ render_field(form.plotelmm) }}
+      {{ render_field(form.adjustortho) }}
+      {{ render_field(form.adjustfactor) }}
+      {{ render_field(form.okalpha) }}
+      {{ render_field(form.kstree) }}
+      {{ render_field(form.onlyconcatkstree) }}
+      {{ render_field(form.classic) }}
+      {{ render_field(form.toparrow) }}
+      {{ render_field(form.bootstrap) }}
+
+      <dd>{{ form.submit() }}</dd>
+    </dl>
+  </form>
+{% endblock content %}

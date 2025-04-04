@@ -13,99 +13,89 @@ seven sub-tools: *dmd, focus, ksd, mix, peak, syn and viz.* Because every sub-to
 to be a project itself. For this reason we focused on the sub-tool dmd. This tool can help with drawing 
 conclusions from the sequences, such as determing orthological groups, and phylogeny.
 
-## Prerequisites
-
-- Python 3.7
-- Python 3.13
-- uv
-- dart-sass
-
 ## Installation
 
 Installation instructions for the tool and website can be found below.
 
-To start, clone the repository including its submodule.
+**Note: These instructions are for linux (specifically, debian).**
 
 ```sh
-$ git clone --recurse-submodules -j8 git@github.com:Dunc4nNT/bit.git
-```
-
-As we'll be using [uv](https://docs.astral.sh/uv/) as package manager for our python projects, please install this first.
-
-```sh
-$ curl -LsSf https://astral.sh/uv/install.sh | sh
+$ git clone git@github.com:Dunc4nNT/bit.git
 ```
 
 ### Tool
 
 To install the commandline wgd tool, please follow the instructions below.
 
-#### Python
-
-To use the wgd tool, python 3.7 is required, newer versions won't work.
-Please follow the instructions below to install python 3.7.
+As we'll be using the bioconda package, we need conda (v25.1) with the bioconda channel added:
 
 ```sh
-$ mkdir python
-$ cd python
-$ wget https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tgz
-$ tar xvzf Python-3.7.17.tgz
-$ cd Python-3.7.17
-$ ./configure --enable-optimizations --prefix=/home/<username>/python
-$ make altinstall
-$ export PATH=$HOME/python/bin:$PATH
+# replace the URL in wget with the version and OS you want from: https://repo.anaconda.com/miniconda/
+$ mkdir -p ~/miniconda3
+$ wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.1.1-2-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+$ bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+$ rm ~/miniconda3/miniconda.sh
+$ source ~/miniconda3/bin/activate
+$ conda init --all
+
+# add the bioconda channels
+$ conda config --add channels bioconda
+$ conda config --add channels conda-forge
+$ conda config --set channel_priority strict
 ```
 
-#### wgd
+To install wgd, create a conda environment for it with the provided `wgd_environment.yml` which includes all the required packages:
 
-1. `cd tools/wgd` Go inside the tool's directory.
-2. `python3.7 -m venv .venv` Create a virtual environment.
-3. `source .venv/bin/activate` Activate the virtual environment.
-4. `pip3 install setuptools`
-5. `pip3 install -r requirements.txt` Install the necessary packages.
-6. `pip3 install -e .` Install the tool.
-7. `wgd -h` The tool should be installed and print its manual here.
+```sh
+$ conda env create -f wgd_environment.yml
+```
 
 ### Website
 
-1. `cd website` Go inside the website's directory.
-2. `uv sync` Creates a virtual environment, and installs all the packages.
-3. `cp .env.example .env` Creates a `.env` file for a few configuration options.
+As we'll be using [uv](https://docs.astral.sh/uv/) (v0.6) as package manager for our project, please install this first.
+
+```sh
+$ curl -LsSf https://astral.sh/uv/install.sh | sh # latest
+
+$ curl -LsSf https://astral.sh/uv/0.6.12/install.sh | sh # v0.6.12 (tested with this)
+```
+
+1. `uv sync` Creates a virtual environment, and installs all the packages.
+2. `cp .env.example .env` Creates a `.env` file for a few configuration options.
+3. Update the `SECRET_KEY` in the `.env` to be a random string.
+
+#### Running flask
+
+```sh
+$ uv run flask run
+```
 
 #### Sass
 
 **This is only required for development of the website, the compiled stylesheet is in the repo.**
 
-Follow the instructions on the [sass website](https://sass-lang.com/install/) to install sass, or follow the instructions below.
+First, we need nodejs (v23):
 
 ```sh
-$ mkdir sass
-$ cd sass
-$ wget https://github.com/sass/dart-sass/releases/download/1.85.1/dart-sass-1.85.1-linux-x64.tar.gz
-$ tar xvzf dart-sass-1.85.1-linux-x64.tar.gz
-$ export PATH=$HOME/sass/dart-sass:$PATH
+$ curl -o- https://fnm.vercel.app/install | bash
+$ fnm install 23
+```
+
+Installing sass (and stylelint):
+
+```sh
+$ cd bit/static # from the project go to the static directory.
+$ npm install # download all the packages.
 ```
 
 Running the sass compiler:
 
 ```sh
-$ cd /path/to/repo/website/static
-$ sass scss/main.scss css/main.css # compiles once.
+$ cd bit/static
+$ npx sass scss/main.scss css/main.css # compiles once.
 
-$ sass --watch scss/main.scss css/main.css # compiles on save.
+$ npx sass --watch scss/main.scss css/main.css # compiles on save.
 ```
-
-#### Running flask
-
-```sh
-$ cd /path/to/repo/website
-$ uv run flask run
-```
-
-### Wgd Manager
-
-1. `cd tools/wgd_manager` Go inside the wgd manager's directory.
-2. `uv sync` Creates a virtual environment, and installs all the packages.
 
 ## Configuration
 
