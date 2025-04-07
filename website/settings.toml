@@ -1,0 +1,5 @@
+[base_dir]
+wgd_files_dir = "bit/wgd_files/"
+uploads_dir = "bit/wgd_files/uploads/"
+outdir = "bit/wgd_files/outdir/"
+tmpdir = "bit/wgd_files/tmpdir/"
