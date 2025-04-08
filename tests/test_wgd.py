@@ -5,7 +5,7 @@ Tests if all the requirements are installed,
 and if the used wgd sub tools work (don't give errors).
 
 Authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
-Date last modified: 1-4-2025
+Date last modified: 8-4-2025
 """
 
 import subprocess

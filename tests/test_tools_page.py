@@ -1,8 +1,8 @@
 """
-Pytests for the tool page.
+Pytests for the tools page.
 
-authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
-date last modified: 1-4-2025
+Authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
+Date last modified: 8-4-2025
 """
 
 from http import HTTPStatus
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from werkzeug.test import TestResponse
 
 
-def test_tools_get(client: FlaskClient) -> None:
+def test_tools_index(client: FlaskClient) -> None:
     """
     Test the tools home page.
 
@@ -49,11 +49,12 @@ def get_test_files(dir_path: str) -> list[Path]:
     list[dict]
         all test files in the directory
     """
-    return [file for file in Path("tests", dir_path).iterdir() if file.is_file()]
+    # Path.iterdir() returns object with all of the directory contents
+    return [file for file in Path(dir_path).iterdir() if file.is_file()]
 
 
-@pytest.mark.parametrize("data_file", get_test_files("test_files/file_upload/valid/"))
-def test_tools_post_valid(client: FlaskClient, data_file: Path) -> None:
+@pytest.mark.parametrize("data_file", get_test_files("tests/test_files/file_upload/valid/"))
+def test_tools_valid_file_upload(client: FlaskClient, data_file: Path) -> None:
     """
     Test valid file uploads.
 
@@ -77,8 +78,8 @@ def test_tools_post_valid(client: FlaskClient, data_file: Path) -> None:
     assert response.status_code == HTTPStatus.OK
 
 
-@pytest.mark.parametrize("data_file", get_test_files("test_files/file_upload/invalid/"))
-def test_tools_post_invalid(client: FlaskClient, data_file: Path) -> None:
+@pytest.mark.parametrize("data_file", get_test_files("tests/test_files/file_upload/invalid/"))
+def test_tools_invalid_file_upload(client: FlaskClient, data_file: Path) -> None:
     """
     Test invalid file uploads.
 
