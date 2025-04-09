@@ -10,4 +10,8 @@
       <li>{{ file["filename"] }}</li>
     {% endfor %}
   </ul>
+  <p> > Go back to the tools home page</p>
+  <form action="{{ url_for('tools.index') }}">
+    <input type="submit" value="Tools home" class="previous-files-button">
+  </form>
 {% endblock content %}
