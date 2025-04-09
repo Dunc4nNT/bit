@@ -1,4 +1,5 @@
 import tomllib
+from os import environ
 
 from flask import Flask
 
@@ -20,10 +21,10 @@ def create_app() -> Flask:
         The bit Flask application.
     """
     app: Flask = Flask(__name__)
+    app.config["SECRET_KEY"] = environ.get("SECRET_KEY")
     app.config.from_file("../settings.toml", load=tomllib.load, text=False)
     # sets max upload size to 500mb
-    app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024
-    # app.config['MAX_CONTENT_LENGTH'] = 98_816
+    app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024
     register_blueprints(app)
 
     return app

@@ -1,0 +1,13 @@
+{% extends "tools/base.html" %}
+
+{% block content %}
+  <h1>Results</h1>
+  <p>
+    The following files have been created by dmd:
+  </p>
+  <ul>
+    {% for file in output_files %}
+      <li>{{ file["filename"] }}</li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

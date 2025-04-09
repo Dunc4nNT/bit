@@ -30,6 +30,12 @@ jobs:
 
       - name: Install Project and Dependencies
         run: uv sync --all-extras --dev
-
+ 
+      - name: Create required folders
+        run: |
+          mkdir bit/static/wgd_files/outdir -p
+          mkdir bit/static/wgd_files/tmpdir -p
+          mkdir bit/static/wgd_files/uploads -p
+   
       - name: Run pytest
         run: uv run pytest

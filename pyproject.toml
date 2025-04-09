@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "flask>=3.1.0",
+    "flask-wtf>=1.2.2",
     "pytest>=8.3.5",
     "python-dotenv>=1.0.1",
 ]
@@ -17,6 +18,7 @@ dev = ["ruff>=0.9.9"]
 target-version = "py313"
 line-length = 99
 preview = true
+extend-exclude = ["typings"]
 
 [tool.ruff.lint]
 select = [
@@ -71,6 +73,9 @@ select = [
 ignore = [
     "D100",
     "D104",
+    "S404",   # We'll be using "safely" subprocess throughout.
+    "S603",   # Same thing, "safely" using subprocess.
+    "SIM105",
 
     # ruff conflicting lint rules
     # source: https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
@@ -101,7 +106,7 @@ convention = "numpy"
 
 
 [tool.pyright]
-include = ["app", "tests"]
+include = ["bit", "tests"]
 
 pythonVersion = "3.13"
 pythonPlatform = "All"

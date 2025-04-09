@@ -1,159 +1,409 @@
-"""
-Python file for the tool page
-Here the website user can upload files, use wgd, and view the output.
+"""Python file for the tool page.
 
-authors: <names>
-date last modified: 26-3-2025
+Here the website user can upload files, use wgd, and view the output.
 """
-from flask import Blueprint, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
+
+from http import HTTPMethod
+from pathlib import Path
+from subprocess import CalledProcessError
+from typing import TYPE_CHECKING, Literal
+
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
+from werkzeug import Response
+from werkzeug.datastructures.file_storage import FileStorage
 from werkzeug.exceptions import RequestEntityTooLarge
-import os
-from bit.WgdManager import WgdManager
+from werkzeug.utils import secure_filename
+
+from bit.dirpaths import outdir, tmpdir, uploads_dir
+from bit.forms import (
+    DmdOptionsForm,
+    FileUploadForm,
+    KsdOptionsForm,
+    SelectToolForm,
+    VizOptionsForm,
+)
+from bit.wgd_manager import WgdManager
+
+if TYPE_CHECKING:
+    from subprocess import CompletedProcess
+
 
 blueprint: Blueprint = Blueprint("tools", __name__, url_prefix="/tools")
 
-# TODO instelbaar maken voor de gebruiker uiteindelijk ofso
-from bit.dirpaths import *
 
+def get_filepaths_from_dir(directory: str) -> list[str]:
+    """Get the filepaths from all files in a directory.
 
-def get_filepaths_from_dir(directory):
+    Parameters
+    ----------
+    directory : str
+        directory
+
+    Returns
+    -------
+    list[str]
+        filepath of each file.
     """
-    get the filepaths from all files in a directory
-
-    :param directory: directory as string
-    :return: filepath of each file as a list of strings
-    """
-    # list to return
-    filepaths_list = []
     # for each file in the directory
-    for file in os.listdir(directory):
-        # get the file_name
-        file_name = os.fsdecode(file)
-        # append it to a list
-        filepaths_list.append(directory + file_name)
+    # append it to a list
+    filepaths_list: list[str] = [directory + file.name for file in Path(directory).iterdir()]
 
     return filepaths_list
- 
 
-def valid_file(file):
+
+def is_file_valid(file: FileStorage) -> bool:
+    """Check if a file is more "likely" valid.
+
+    Starts with >.
+
+    Parameters
+    ----------
+    file : FileStorage
+        File to check.
+
+    Returns
+    -------
+    bool
+        Whether the file is valid.
     """
-    This function checks if a file is more "likely" valid.
-    starts with >
-    :param file:
-    :return: True if file is valid and saves data, else False
-    """
-    data_list = []
-    header_list = []
-    header = file.readline()
-    data = file.readlines()
-    # opening file in bytes mode, so made a string
-    header = str(header, encoding="utf-8")
-    if header.startswith(">"):
-        data_list.append(data)
-        header_list.append(header)
-        return True, data_list, header_list
+    data: bytes = file.stream.read()
+    file.stream.seek(0)
+
+    return data.startswith(b">")
 
 
-allowed_extensions = ["fasta"]
-# sets max upload size to 500mb
-max_file_size = 500 * 1024 * 1024
-# max_file_size = 98_816
+class InvalidFileError(Exception):
+    """Uploaded file is invalid."""
 
 
 @blueprint.route("/", methods=["GET", "POST"])
-def index() -> str:
+def index() -> str | Response:
     """Tools landing page.
 
     On this page the user can upload files
 
     Returns
     -------
-    str
+    str | Response
         The tools landing page template.
+
+    Raises
+    ------
+    RequestEntityTooLarge
+        When the uploaded file is too large.
+    InvalidFileError
+        When the uploaded file invalid.
     """
+    form = FileUploadForm(request.form)
+
+    # get the already uploaded files
+    filepaths: list[str] = get_filepaths_from_dir(uploads_dir)
+    uploaded_files: list[dict[str, str]] = []
+    for filepath in filepaths:
+        uploaded_file: dict[str, str] = {
+            "filepath": filepath,
+            "filename": filepath.split("/")[-1],
+        }
+        uploaded_files.append(uploaded_file)
+
     # list of the allowed file types to upload
-    allowed_extensions = ["fasta"]
+    if request.method == HTTPMethod.POST and form.validate():
+        # if submit button is pressed for the file upload
+        files: list[FileStorage] = request.files.getlist("files")
 
-    # default tool page, to upload files
-    if request.method == "GET":
-        return render_template("tools/tools_GET.html", allowed_extensions=allowed_extensions)
-
-    # if submit button is pressed for the file upload
-    elif request.method == "POST":
-        files = request.files.getlist("files")
+        if len(files) == 0:
+            return redirect(url_for("tools.index"))
 
         # validate files
         for file in files:
-            # properties for each file
-            kwargs = {
-                "file": file,
-                "filename": secure_filename(file.filename),  # SECURE filename
-                "file_extension": file.filename.split(".")[-1],
-                "file_size": file.content_length,
-            }
-
             # if no files given, return to default tool page
-            if kwargs["filename"] == "":
-                #return render_template("tools/tools_GET.html", allowed_extensions=allowed_extensions)
+            if not file.filename:
+                flash("You must upload a file.", category="error")
                 return redirect(url_for("tools.index"))
 
-            # if a file with an incorrect extension was given, return to tools_INVALID.html
-            if kwargs["file_extension"] not in allowed_extensions:
-                return render_template("tools/tools_INVALID.html", **kwargs)
-              
+            file_name: str = secure_filename(file.filename)
+
             # if a file exceeds the size limit, return to tools_FILE_TOO_LARGE.html
-            if kwargs["file_size"] > max_file_size:
-                return render_template("tools/tools_FILE_TOO_LARGE.html", **kwargs)
+            if file.content_length > current_app.config["MAX_CONTENT_LENGTH"]:
+                raise RequestEntityTooLarge
 
             # if not valid return to tools_INVALID.html
-            if not valid_file(file.stream):
-                return render_template("tools/tools_INVALID.html", **kwargs)
+            if not is_file_valid(file):
+                raise InvalidFileError
 
             # save file in upload folder
-            file.save(uploads_dir + kwargs["filename"])
+            file.save(uploads_dir + file_name)
 
         # when files are uploaded, go to the results page
-        return redirect(url_for("tools.results"))
+        return redirect(url_for("tools.select_tool"))
+
+    # default tool page, to upload files
+    return render_template("tools/index.html", form=form, uploaded_files=uploaded_files)
 
 
-@blueprint.route("/results", methods=["GET", "POST"])
-def results() -> str:
-    """Tools results page.
-
-    On this page the user can select the tools to run,
-    and the files to run the tools on.
+@blueprint.route("/select_tool", methods=["GET", "POST"])
+def select_tool() -> str | Response:
+    """Select which subtool to use.
 
     Returns
     -------
-    str
-        The tools results page template.
+    str | Response
+        The select tool page or the result from selecting one.
     """
-    # page where user can select tools and files
-    if request.method == "GET":
-        filepaths = get_filepaths_from_dir(uploads_dir)
-        files = []
-        for filepath in filepaths:
-            file = {
+    form = SelectToolForm(request.form)
+
+    if request.method == HTTPMethod.POST and form.validate():
+        redirects: dict[str, str] = {
+            "dmd": "tools.dmd",
+            "ksd": "tools.ksd",
+            "viz": "tools.viz",
+        }
+
+        return redirect(url_for(redirects[form.tool.data]))
+
+    return render_template("tools/select_tool.html", form=form)
+
+
+@blueprint.route("/dmd", methods=["GET", "POST"])
+def dmd() -> str | Response:
+    """Run the dmd subtool.
+
+    Returns
+    -------
+    str | Response
+        Page to configure dmd, or see results from a run.
+    """
+    form = DmdOptionsForm(request.form)
+
+    filepaths: list[str] = get_filepaths_from_dir(uploads_dir) + get_filepaths_from_dir(outdir)
+    files: list[dict[str, str]] = []
+    for filepath in filepaths:
+        file: dict[str, str] = {
+            "filepath": filepath,
+            "filename": filepath.split("/")[-1],
+        }
+        files.append(file)
+
+    form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
+    form.anchorpoints.choices = [
+        (None, ""),
+        *[(file["filepath"], file["filename"]) for file in files],
+    ]
+    form.segments.choices = form.anchorpoints.choices
+    form.listelements.choices = form.anchorpoints.choices
+    form.genetable.choices = form.anchorpoints.choices
+    form.seq2assign.choices = form.sequences.choices
+    form.fam2assign.choices = form.anchorpoints.choices
+
+    if request.method == HTTPMethod.POST and form.validate():
+        selected_files: list[str] | None = form.sequences.data
+        if not selected_files or len(selected_files) == 0:
+            return redirect(url_for("tools.dmd"))
+
+        # create the class that can run wgd
+        wgd = WgdManager(outdir, tmpdir)
+        # run the dmd sub tool for each selected file
+        result: CompletedProcess[str] = wgd.run_dmd(
+            *selected_files,
+            **{
+                key: value
+                for key, value in form.data.items()
+                if value is not None
+                and key not in {"sequences", "submit"}
+                and value != "None"
+                and value
+            },
+        )
+
+        output_files: list[str] = get_filepaths_from_dir(outdir)
+        files: list[dict[str, str]] = []
+        for filepath in output_files:
+            if not filepath.endswith(".tsv"):
+                continue
+
+            file: dict[str, str] = {
                 "filepath": filepath,
                 "filename": filepath.split("/")[-1],
             }
             files.append(file)
-        return render_template("tools/tools_POST.html", files=files)
 
-    # when the submit button is pressed
-    elif request.method == "POST":
-        # get the selected files
-        selected_files = request.form.getlist("uploaded_file")
+        return render_template("tools/dmd_results.html", output_files=files, result=result)
+
+    return render_template("tools/dmd.html", form=form)
+
+
+@blueprint.route("/ksd", methods=["GET", "POST"])
+def ksd() -> str | Response:
+    """Run the ksd subtool.
+
+    Returns
+    -------
+    str | Response
+        Page to configure ksd, or see results from a run.
+    """
+    form = KsdOptionsForm(request.form)
+
+    filepaths: list[str] = get_filepaths_from_dir(uploads_dir) + get_filepaths_from_dir(outdir)
+    files: list[dict[str, str]] = []
+    for filepath in filepaths:
+        file: dict[str, str] = {
+            "filepath": filepath,
+            "filename": filepath.split("/")[-1],
+        }
+        files.append(file)
+
+    form.families.choices = [(file["filepath"], file["filename"]) for file in files]
+    form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
+
+    form.speciestree.choices = [
+        (None, ""),
+        *[(file["filepath"], file["filename"]) for file in files],
+    ]
+    form.extraparanomeks.choices = form.speciestree.choices
+    form.anchorpoints.choices = form.speciestree.choices
+
+    if request.method == HTTPMethod.POST and form.validate():
+        selected_files: list[str] | None = form.sequences.data
+        if not selected_files or len(selected_files) == 0:
+            return redirect(url_for("tools.ksd"))
+
         # create the class that can run wgd
-        wgd = WgdManager(path_to_tool, outdir, tmpdir)
+        wgd = WgdManager(outdir, tmpdir)
         # run the dmd sub tool for each selected file
-        for file in selected_files:
-            result = wgd.run_dmd(file)
+        result: CompletedProcess[str] = wgd.run_ksd(
+            form.families.data,
+            *selected_files,
+            **{
+                key: value
+                for key, value in form.data.items()
+                if value is not None
+                and key not in {"families", "sequences", "submit"}
+                and value != "None"
+                and value
+            },
+        )
 
-        return render_template("tools/tools_RESULTS.html", files=selected_files, result=result)
-  
+        output_files: list[str] = get_filepaths_from_dir(outdir)
+        files: list[dict[str, str]] = []
+        for filepath in output_files:
+            if not filepath.endswith(".ks.tsv"):
+                continue
+
+            file: dict[str, str] = {
+                "filepath": filepath,
+                "filename": filepath.split("/")[-1],
+            }
+            files.append(file)
+
+        return render_template("tools/ksd_results.html", output_files=files, result=result)
+
+    return render_template("tools/ksd.html", form=form)
+
+
+@blueprint.route("/viz", methods=["GET", "POST"])
+def viz() -> str | Response:
+    """Run the viz subtool.
+
+    Returns
+    -------
+    str | Response
+        Page to configure viz, or see results from a run.
+    """
+    form = VizOptionsForm(request.form)
+
+    filepaths: list[str] = get_filepaths_from_dir(uploads_dir) + get_filepaths_from_dir(outdir)
+    files: list[dict[str, str]] = []
+    for filepath in filepaths:
+        file: dict[str, str] = {
+            "filepath": filepath,
+            "filename": filepath.split("/")[-1],
+        }
+        files.append(file)
+
+    form.data_file.choices = [(file["filepath"], file["filename"]) for file in files]
+
+    form.gsmap.choices = [
+        (None, ""),
+        *[(file["filepath"], file["filename"]) for file in files],
+    ]
+    form.speciestree.choices = form.gsmap.choices
+    form.segments.choices = form.gsmap.choices
+    form.anchorpoints.choices = form.gsmap.choices
+    form.multiplicon.choices = form.gsmap.choices
+    form.genetable.choices = form.gsmap.choices
+    form.extraparanomeks.choices = form.gsmap.choices
+
+    if request.method == HTTPMethod.POST and form.validate():
+        # create the class that can run wgd
+        wgd = WgdManager(outdir, tmpdir)
+        # run the dmd sub tool for each selected file
+        result: CompletedProcess[str] | None = None
+        try:
+            result = wgd.run_viz(
+                form.data_file.data,
+                **{
+                    key: value
+                    for key, value in form.data.items()
+                    if value is not None
+                    and key not in {"data_file", "submit"}
+                    and value != "None"
+                    and value
+                },
+            )
+        except CalledProcessError:
+            pass
+
+        output_files: list[str] = get_filepaths_from_dir(outdir)
+        files: list[dict[str, str]] = []
+        for filepath in output_files:
+            if not filepath.endswith(".svg"):
+                continue
+
+            file: dict[str, str] = {
+                "filepath": "/".join(filepath.split("/")[2:]),
+                "filename": filepath.split("/")[-1],
+            }
+            files.append(file)
+
+        return render_template("tools/viz_results.html", output_files=files, result=result)
+
+    return render_template("tools/viz.html", form=form)
+
 
 @blueprint.errorhandler(RequestEntityTooLarge)
-def request_entity_too_large(error):
-    return render_template('tools/tools_FILE_TOO_LARGE.html'), 413
+def request_entity_too_large(error: RequestEntityTooLarge) -> tuple[str, Literal[413]]:
+    """When a file exceeds maximum allowed size.
+
+    Parameters
+    ----------
+    error : RequestEntityTooLarge
+        Error thrown.
+
+    Returns
+    -------
+    tuple[str, Literal[413]]
+        Error template and status code.
+    """
+    flash("File is too large.", category="error")
+
+    return render_template("errors/file_too_large.html"), 413
+
+
+@blueprint.errorhandler(InvalidFileError)
+def invalid_file_error(error: InvalidFileError) -> tuple[str, Literal[415]]:
+    """When an uploaded file is invalid.
+
+    Parameters
+    ----------
+    error : InvalidFileError
+        Error thrown.
+
+    Returns
+    -------
+    tuple[str, Literal[415]]
+        Error template and status code.
+    """
+    flash("file is invalid.", category="error")
+
+    return render_template("errors/invalid_file.html"), 415
+  

@@ -1,9 +1,11 @@
 @use "../abstracts/" as *;
 
-.file_upload_box {
+.file-upload-box {
   position: relative;
   width: 25rem;
-  height: 20rem;
+  height: auto;
+  min-height: 20rem;
+  padding-bottom: 3rem; /* extra space for the submit button */
   background-color: $clr-primary-200;
   border-radius: 1rem;
 
@@ -24,17 +26,17 @@
   }
 }
 
-#file_uploads {
+label[for="files"] {
   position: absolute;
   top: 4rem;
   left: 2rem;
 }
 
-#file_uploads::file-selector-button {
+label[for="files"]::file-selector-button {
   display: none;
 }
 
-.file_upload_button {
+.file-upload-button {
   display: block;
   position: absolute;
   bottom: 4rem;
@@ -50,16 +52,16 @@
   cursor: pointer;
 }
 
-.file_upload_button:hover {
+.file-upload-button:hover {
   border-color: $clr-secondary-700;
   color: $clr-secondary-700; /* text color */
 }
 
-#file_submit {
+#file-submit {
   display: none;
 }
 
-.submit_button {
+.submit-button {
   display: block;
   position: absolute;
   left: 10rem;
@@ -76,6 +78,76 @@
     background-color: $clr-secondary-700;
   }
 }
+
+.skip-upload-button {
+  position: relative;
+  bottom: .5rem;
+  width: 10rem;
+  height: 2rem;
+  text-align: center;
+  color: $clr-white; /* text color */
+  font-size: 1.2rem; /* text size */
+  text-decoration: none; 
+  background-color: $clr-secondary-600;
+  border-radius: 1rem;
+  cursor:pointer;
+
+  &:hover {
+    background-color: $clr-secondary-700;
+  }
+}
+
+.files-uploaded {
+  float: right;
+}
+
+.files-uploaded-box {
+  position: relative;
+  width: 20rem;
+  height: auto;
+  padding-bottom: 3rem; /* extra space for the submit button */
+  background-color: $clr-primary-200;
+  border-radius: 1rem;
+
+  ul {
+    list-style-type: none;
+    padding-top: 1rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
+
+    li {
+      border-color: $clr-secondary-600;
+      border-radius: 1rem;
+      padding-left: 1rem;
+      padding-bottom: .4rem;
+      border-style: solid;
+      margin-bottom: 1rem;
+    }
+
+    img {
+      height: 1.5rem;
+      padding-top: .6rem;
+      padding-right: .2rem;
+    }
+    }
+
+  p {
+    background-color: $clr-secondary-600;
+    color: $clr-white; /* text color */
+    padding-left: 2rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    border-radius: 1rem 1rem 0 0;
+
+    img {
+      position: absolute;
+      right: 2rem;
+      padding-bottom: .5rem;
+      height: 2rem;
+    }
+  }
+}
+
 /* Customize the label (the container) */
 .container {
   display: block;
@@ -88,9 +160,6 @@
   font-size: 1rem;
   background-color: $clr-primary-300;
   color: $clr-secondary-700;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -102,6 +171,7 @@
   height: 0;
   width: 0;
 }
+
 .container:hover{
   background-color: $clr-secondary-400;
 }
@@ -127,29 +197,28 @@
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
+.checkmark::after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
-
 /* Style the checkmark/indicator */
-.container .checkmark:after {
+.container .checkmark::after {
   left: 9px;
   top: 5px;
   width: 5px;
   height: 10px;
   border: solid white;
   border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark::after {
+  display: block;
+}
+
 .container-wrapper {
   margin-top:1rem;
   display: flex;
@@ -157,4 +226,7 @@
   align-items: flex-start;
 }
 
-
+.viz-image {
+  width: 100%;
+  height: auto;
+}
