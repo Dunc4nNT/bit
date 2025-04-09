@@ -81,7 +81,6 @@ label[for="files"]::file-selector-button {
 
 .skip-upload-button {
   position: relative;
-  left: 0rem;
   bottom: .5rem;
   width: 10rem;
   height: 2rem;
@@ -95,6 +94,57 @@ label[for="files"]::file-selector-button {
 
   &:hover {
     background-color: $clr-secondary-700;
+  }
+}
+
+.files-uploaded {
+  float: right;
+}
+
+.files-uploaded-box {
+  position: relative;
+  width: 20rem;
+  height: auto;
+  padding-bottom: 3rem; /* extra space for the submit button */
+  background-color: $clr-primary-200;
+  border-radius: 1rem;
+
+  ul {
+    list-style-type: none;
+    padding-top: 1rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
+
+    li {
+      border-color: $clr-secondary-600;
+      border-radius: 1rem;
+      padding-left: 1rem;
+      padding-bottom: .4rem;
+      border-style: solid;
+      margin-bottom: 1rem;
+    }
+
+    img {
+      height: 1.5rem;
+      padding-top: .6rem;
+      padding-right: .2rem;
+    }
+    }
+
+  p {
+    background-color: $clr-secondary-600;
+    color: $clr-white; /* text color */
+    padding-left: 2rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    border-radius: 1rem 1rem 0 0;
+
+    img {
+      position: absolute;
+      right: 2rem;
+      padding-bottom: .5rem;
+      height: 2rem;
+    }
   }
 }
 

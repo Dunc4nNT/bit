@@ -3,6 +3,21 @@
 {% from "_macros/_form_helpers.html" import render_field %}
 
 {% block content %}
+  <!-- Show already uploaded files -->
+  <div class="files-uploaded">
+    <h1>Files uploaded</h1>
+    <div class="files-uploaded-box">
+      <p>
+        Files <img src="../../static/images/tools/files.png" alt="file image">
+      </p>
+      <ul>
+        {% for file in uploaded_files %}
+          <li><img src="../../static/images/tools/files_green.png" alt="file image">{{ file["filename"] }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
   <!-- Skip file upload -->
   <h1>Select tool</h1>
   <p>Skip file upload and go to the select tool page.</p>
