@@ -5,19 +5,67 @@
 {% endblock header %}
 
 {% block content %}
-<section>
-  <h2>Welcome to WGD Wizard</h2>
+<div>
+  <h2>Welcome to WGD Wizard</h2><br>
   <p>
-    Quickly date and identify whole genome duplication events in a matter of minutes!
+    Quickly date, identify and visualise whole genome duplication events in a matter of minutes!
   </p>
-</section>
-<section>
+</div>
+<div>
   <p>
-    Get clear graphs of your data based on your preferred configurable settings by submitting Multi-Fasta files.
-    <img src="{{ url_for('static', filename='images/homepage/WGD_dating.png') }}" alt="WGD dating example graph" style="width: 500px; height: auto;"><img src="{{ url_for('static', filename='images/homepage/WGD_KsDistribution.png') }}" alt="WGD Ks Distribution example graph" style="width: 500px; height: auto;"><br>
+    Get clear graphs of your data based on your preferred configurable settings by submitting Multi-Fasta files.<br>
+    <img src="{{ url_for('static', filename='images/homepage/WGD_dating.png') }}" alt="WGD dating example graph" style="width: 500px; height: auto;">
+    <img src="{{ url_for('static', filename='images/homepage/WGD_KsDistribution.png') }}" alt="WGD Ks Distribution example graph" style="width: 500px; height: auto;"><br>
     <i>
-      Images from <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">WGD documents</a> VERANDER DEZE NAAR DE PLAATJES VAN ONZE EIGEN TEST
+      Images from <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">WGD documents</a><br><br>
     </i>
   </p>
-</section>
+</div>
+<div>
+  <h4>
+    Quick guide on how to use wgd tool.
+  </h4>
+  <h4>
+    Step 1:
+  </h4>
+  Upload the .fasta files and press submit. Or if you already have a .fasta file uploaded you can click Select tool.<br>
+  <img src="{{ url_for('static', filename='images/homepage/toolpage.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  <h4>
+    Step 2:
+  </h4>
+  Select the subtool you want to run and press submit. If the file you have chosen has not been run by dmd choose dmd. Otherwise you can choose ksd and skip to step 4.<br>
+  <img src="{{ url_for('static', filename='images/homepage/select_dmd.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  Now select the .fasta file you uploaded, check some aditional options and press submit<br>
+  <img src="{{ url_for('static', filename='images/homepage/config_dmd.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  <h4>
+    Step 3:
+  </h4>
+  Next, go back to the tool page and press Select tool.<br>
+  Here you select ksd and press submit.<br>
+  <img src="{{ url_for('static', filename='images/homepage/select_ksd.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  <h4>
+    Step 4:
+  </h4>
+  In this form in the first and second bar you are asked to select the files.<br>
+  Inside the first one you want to select the .fasta.tsv file and in the second the .fasta file<br>
+  <img src="{{ url_for('static', filename='images/homepage/config_ksd.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  Now it should give you the {filename}.fasta.tsv.ks.tsv on screen. If not try again from step 1.<br>
+  <img src="{{ url_for('static', filename='images/homepage/results_ksd.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  <h4>
+    Step 5:
+  </h4>
+  Now go back to the tool page and press Select tool. Then select viz and press submit.<br>
+  <img src="{{ url_for('static', filename='images/homepage/select_viz.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  <h4>
+    Step 6:
+  </h4>
+  On this form page you select the created {filename}.fasta.tsv.ks.tsv file. Select and/or fill in any additional options and press submit.<br>
+  <img src="{{ url_for('static', filename='images/homepage/config_viz.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  Now you should see your graphs.<br>
+  <img src="{{ url_for('static', filename='images/homepage/results_viz.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  <img src="{{ url_for('static', filename='images/homepage/results_viz2.png')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+  <i>
+    Images taken from our own tests of the website using egu1000.fasta
+  </i>
+</div>
 {% endblock content %}

@@ -2,12 +2,16 @@
 
 {% block content %}
   <h1>Results</h1>
+  <p>
+    The following files have been created by dmd:
+  </p>
   <ul>
     {% for file in output_files %}
       <li>{{ file["filename"] }}</li>
     {% endfor %}
   </ul>
-  <p>
-  {{ result }}
-  </p>
+  <p> > Go back to the tools home page</p>
+  <form action="{{ url_for('tools.index') }}">
+    <input type="submit" value="Tools home" class="previous-files-button">
+  </form>
 {% endblock content %}

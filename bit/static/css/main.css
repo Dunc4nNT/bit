@@ -359,6 +359,7 @@ label[for=files]::file-selector-button {
   border-width: 0.25rem;
   border-radius: 1rem;
   cursor: pointer;
+  content: "";
 }
 
 .file-upload-button:hover {
@@ -385,6 +386,94 @@ label[for=files]::file-selector-button {
 }
 .submit-button:hover {
   background-color: hsl(80, 22%, 35%);
+}
+
+.skip-upload-button {
+  position: relative;
+  bottom: 0.5rem;
+  width: 10rem;
+  height: 2rem;
+  text-align: center;
+  color: hsl(0, 0%, 100%); /* text color */
+  font-size: 1.2rem; /* text size */
+  text-decoration: none;
+  background-color: hsl(80, 22%, 45%);
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.skip-upload-button:hover {
+  background-color: hsl(80, 22%, 35%);
+}
+
+.tools-right {
+  float: right;
+}
+
+.files-uploaded-box {
+  position: relative;
+  width: 20rem;
+  height: auto;
+  padding-bottom: 3rem; /* extra space for the submit button */
+  background-color: hsl(55, 52%, 85%);
+  border-radius: 1rem;
+}
+.files-uploaded-box ul {
+  list-style-type: none;
+  padding-top: 1rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+.files-uploaded-box ul li {
+  border-color: hsl(80, 22%, 45%);
+  border-radius: 1rem;
+  padding-left: 1rem;
+  padding-bottom: 0.4rem;
+  border-style: solid;
+  margin-bottom: 1rem;
+}
+.files-uploaded-box ul img {
+  height: 1.5rem;
+  padding-top: 0.6rem;
+  padding-right: 0.2rem;
+}
+.files-uploaded-box p {
+  background-color: hsl(80, 22%, 45%);
+  color: hsl(0, 0%, 100%); /* text color */
+  padding-left: 2rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1rem 1rem 0 0;
+}
+.files-uploaded-box p img {
+  position: absolute;
+  right: 2rem;
+  padding-bottom: 0.5rem;
+  height: 2rem;
+}
+
+.previous-files-button {
+  position: relative;
+  width: 10rem;
+  height: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: hsl(0, 0%, 100%); /* text color */
+  font-size: 1.2rem; /* text size */
+  text-decoration: none;
+  background-color: hsl(80, 22%, 45%);
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.previous-files-button:hover {
+  background-color: hsl(80, 22%, 35%);
+}
+
+.select-files {
+  position: relative;
+  left: 2.5rem;
+  width: 20rem;
+  height: auto;
+  min-height: 13rem;
 }
 
 /* Customize the label (the container) */

@@ -2,12 +2,16 @@
 
 {% block content %}
   <h1>Results</h1>
+  <p>
+    Visualisations created by viz:
+  </p>
   <ul>
     {% for file in output_files %}
       <img class="viz-image" src={{ url_for('static', filename=file['filepath']) }} />
     {% endfor %}
   </ul>
-  <p>
-  {{ result }}
-  </p>
+  <p> > Go back to the tools home page</p>
+  <form action="{{ url_for('tools.index') }}">
+    <input type="submit" value="Tools home" class="previous-files-button">
+  </form>
 {% endblock content %}

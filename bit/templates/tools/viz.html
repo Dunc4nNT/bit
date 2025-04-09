@@ -6,6 +6,7 @@
   <h1>Configure viz</h1>
   <form action="{{ url_for('tools.viz') }}" method="POST" enctype="multipart/form-data">
     <dl>
+      <dt></dt>
       <dd>{{ form.csrf_token }}</dd>
 
       {{ render_field(form.data_file) }}

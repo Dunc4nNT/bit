@@ -40,78 +40,78 @@
     To use this subtool, a (or multiple) FASTA file containing DNA coding sequences need to be provided.
     These FASTA files can be downloaded from databases, e.g. <a href="https://www.ncbi.nlm.nih.gov/genbank/">GenBank</a>.
     The output of this is a paralogous/orthologous gene family file, provided as <code>.tsv</code>, which will be used in the next subtool.
-    <figure>
-      <img src="{{ url_for('static', filename='images/background_reading/wgd_dmd.svg') }}" alt="dmd workflow.">
-      <figcaption>dmd workflow. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
-    </figure>
   </p>
+  <figure>
+    <img src="{{ url_for('static', filename='images/background_reading/wgd_dmd.svg') }}" alt="dmd workflow.">
+    <figcaption>dmd workflow. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+  </figure>
 
   <h3>ksd</h3>
   <p>
     Ksd is used to construct a K<sub>s</sub> distribution, with K<sub>s</sub> being synonymous substitutions.
     A synonymous substitution is a change in the DNA sequence which codes for the same amino acid.
     This is what the tool uses to analyze WGD events.
-    <figure>
-      <img src="{{ url_for('static', filename='images/background_reading/ksd_distribution.svg') }}" alt="ksd distribution visualised.">
-      <figcaption>ksd distribution visualised. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
-    </figure>
   </p>
+  <figure>
+    <img src="{{ url_for('static', filename='images/background_reading/ksd_distribution.svg') }}" alt="ksd distribution visualised.">
+    <figcaption>ksd distribution visualised. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+  </figure>
 
   <h3>mix</h3>
   <p>
     This is used to mixture module a Ks distribution.
     In the background it uses scikit-learn's mixture moduling.
     A mixture module is a probabilistic model in statistics which shows the presence of subpopulations.<sup><a href="#background-reading-ref-24">24</a></sup>
-    <figure>
-      <img src="{{ url_for('static', filename='images/background_reading/mixture_model.svg') }}" alt="Mixture model.">
-      <figcaption>Mixture model. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
-    </figure>
   </p>
+  <figure>
+    <img src="{{ url_for('static', filename='images/background_reading/mixture_model.svg') }}" alt="Mixture model.">
+    <figcaption>Mixture model. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+  </figure>
 
   <h3>syn</h3>
   <p>
     Syn, short for synteny, is used for synteny inference.
     Synteny refers to (groups of) genes that are present more than once on the same chromosome.
-    <figure>
-      <img src="{{ url_for('static', filename='images/background_reading/synteny.svg') }}" alt="Synteny inference showing the distribution of duplicated segments across chromosomes.">
-      <figcaption>Synteny inference showing the distribution of duplicated segments across chromosomes. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
-    </figure>
   </p>
+  <figure>
+    <img src="{{ url_for('static', filename='images/background_reading/synteny.svg') }}" alt="Synteny inference showing the distribution of duplicated segments across chromosomes.">
+    <figcaption>Synteny inference showing the distribution of duplicated segments across chromosomes. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+  </figure>
 
   <h3>peak</h3>
   <p>
     Peak is used to select anchor pairs in orthogroup construction.
-    <figure>
-      <img src="{{ url_for('static', filename='images/background_reading/peak.svg') }}" alt="peak.">
-      <figcaption>peak. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
-    </figure>
   </p>
+  <figure>
+    <img src="{{ url_for('static', filename='images/background_reading/peak.svg') }}" alt="peak.">
+    <figcaption>peak. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+  </figure>
 
   <h3>focus</h3>
   <p>
     Used for concatenation-/coalescence-based phylogenetic inference, creating functional annotation of gene families, and date WGD events.
-    <figure>
-      <img src="{{ url_for('static', filename='images/background_reading/concatenation_vs_coalescence.png') }}" alt="Methods of concatenation and coalescence.">
-      <figcaption>
-        Methods of concatenation and coalescence.
-        (A) Concatenation method joins all gene sequences of each species into each super-gene sequence.
-        These super-gene sequences are then used in aligning and building phylogeny trees;
-        (B) Coalescence method extracts the same gene sequences from all species and merges them into each single parallel-gene sequence file.
-        Then all parallel-gene sequence files are aligned separately to build trees.
-        Finally, all those trees are computed to get the final tree.
-        <a href="https://www.researchgate.net/figure/Methods-of-concatenation-and-coalescence-A-Concatenation-method-joins-all-gene_fig2_357352303">Source</a>
-      </figcaption>
-    </figure>
   </p>
+  <figure>
+    <img src="{{ url_for('static', filename='images/background_reading/concatenation_vs_coalescence.png') }}" alt="Methods of concatenation and coalescence.">
+    <figcaption>
+      Methods of concatenation and coalescence.
+      (A) Concatenation method joins all gene sequences of each species into each super-gene sequence.
+      These super-gene sequences are then used in aligning and building phylogeny trees;
+      (B) Coalescence method extracts the same gene sequences from all species and merges them into each single parallel-gene sequence file.
+      Then all parallel-gene sequence files are aligned separately to build trees.
+      Finally, all those trees are computed to get the final tree.
+      <a href="https://www.researchgate.net/figure/Methods-of-concatenation-and-coalescence-A-Concatenation-method-joins-all-gene_fig2_357352303">Source</a>
+    </figcaption>
+  </figure>
 
   <h3>viz</h3>
   <p>
     This is the visualisation module of the tool used for K<sub>s</sub> distributions and synteny.
-    <figure>
-      <img src="{{ url_for('static', filename='images/background_reading/viz.svg') }}" alt="K<sub>s</sub> distribution of multiple multiple species.">
-      <figcaption>K<sub>s</sub> distribution of multiple multiple species. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
-    </figure>
   </p>
+  <figure>
+    <img src="{{ url_for('static', filename='images/background_reading/viz.svg') }}" alt="K<sub>s</sub> distribution of multiple multiple species.">
+    <figcaption>K<sub>s</sub> distribution of multiple multiple species. <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">Source</a></figcaption>
+  </figure>
 
   <section aria-labelledby="glossary">
     <h2 id="glossary">Glossary</h2>

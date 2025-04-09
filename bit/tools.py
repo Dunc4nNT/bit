@@ -20,6 +20,7 @@ from bit.forms import (
     FileUploadForm,
     KsdOptionsForm,
     SelectToolForm,
+    SelectVisualisationsForm,
     VizOptionsForm,
 )
 from bit.wgd_manager import WgdManager
@@ -96,6 +97,16 @@ def index() -> str | Response:
     """
     form = FileUploadForm(request.form)
 
+    # get the already uploaded files
+    uploaded_filepaths: list[str] = get_filepaths_from_dir(uploads_dir)
+    uploaded_files: list[dict[str, str]] = []
+    for filepath in uploaded_filepaths:
+        uploaded_file: dict[str, str] = {
+            "filepath": filepath,
+            "filename": filepath.split("/")[-1],
+        }
+        uploaded_files.append(uploaded_file)
+
     # list of the allowed file types to upload
     if request.method == HTTPMethod.POST and form.validate():
         # if submit button is pressed for the file upload
@@ -128,7 +139,7 @@ def index() -> str | Response:
         return redirect(url_for("tools.select_tool"))
 
     # default tool page, to upload files
-    return render_template("tools/index.html", form=form)
+    return render_template("tools/index.html", form=form, uploaded_files=uploaded_files)
 
 
 @blueprint.route("/select_tool", methods=["GET", "POST"])
@@ -176,7 +187,7 @@ def dmd() -> str | Response:
 
     form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
     form.anchorpoints.choices = [
-        (None, ""),
+        (None, "None"),
         *[(file["filepath"], file["filename"]) for file in files],
     ]
     form.segments.choices = form.anchorpoints.choices
@@ -246,7 +257,7 @@ def ksd() -> str | Response:
     form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
 
     form.speciestree.choices = [
-        (None, ""),
+        (None, "None"),
         *[(file["filepath"], file["filename"]) for file in files],
     ]
     form.extraparanomeks.choices = form.speciestree.choices
@@ -313,7 +324,7 @@ def viz() -> str | Response:
     form.data_file.choices = [(file["filepath"], file["filename"]) for file in files]
 
     form.gsmap.choices = [
-        (None, ""),
+        (None, "None"),
         *[(file["filepath"], file["filename"]) for file in files],
     ]
     form.speciestree.choices = form.gsmap.choices
@@ -358,6 +369,52 @@ def viz() -> str | Response:
         return render_template("tools/viz_results.html", output_files=files, result=result)
 
     return render_template("tools/viz.html", form=form)
+
+
+@blueprint.route("/viz/previous", methods=["GET", "POST"])
+def previous_visualisations() -> str | Response:
+    """
+    View previous visualisations made.
+
+    Returns
+    -------
+    str | Response
+        Page to see previous visualisations.
+    """
+    # get the previous visualisations files
+    viz_filepaths: list[str] = get_filepaths_from_dir(outdir)
+    viz_files: list[dict[str, str]] = []
+    for filepath in viz_filepaths:
+        # skip files without a .svg extension
+        if not filepath.endswith(".svg"):
+            continue
+
+        viz_file: dict[str, str] = {"filepath": filepath, "filename": filepath.split("/")[-1]}
+        viz_files.append(viz_file)
+
+    # initialise the form
+    form = SelectVisualisationsForm(request.form)
+    form.files.choices = [(file["filepath"], file["filename"]) for file in viz_files]
+
+    # if files are selected and submitted
+    if request.method == HTTPMethod.POST and form.validate():
+        filepaths: list[str] | None = form.files.data
+        if not filepaths or len(filepaths) == 0:
+            return redirect(url_for("tools.previous_visualisations"))
+
+        # format the form data
+        files: list[dict[str, str]] = []
+        for filepath in filepaths:
+            file: dict[str, str] = {
+                # remove bit/static/ from filepath
+                "filepath": "/".join(filepath.split("/")[2:]),
+            }
+            files.append(file)
+
+        return render_template("tools/viz_results.html", output_files=files)
+
+    # if no files are selected and submitted, default page
+    return render_template("tools/select_previous_visualisations.html", form=form)
 
 
 @blueprint.errorhandler(RequestEntityTooLarge)
