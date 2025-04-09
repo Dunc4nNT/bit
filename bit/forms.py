@@ -33,10 +33,7 @@ class SelectToolForm(Form):
 class SelectVisualisationsForm(Form):
     """Select files to visualise."""
 
-    files = SelectMultipleField(
-        "Files",
-        validators=[InputRequired()]
-    )
+    files = SelectMultipleField("Files", validators=[InputRequired()])
     submit = SubmitField("Submit")
 
 

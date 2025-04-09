@@ -389,10 +389,7 @@ def previous_visualisations() -> str | Response:
         if not filepath.endswith(".svg"):
             continue
 
-        viz_file: dict[str, str] = {
-            "filepath": filepath,
-            "filename": filepath.split("/")[-1]
-        }
+        viz_file: dict[str, str] = {"filepath": filepath, "filename": filepath.split("/")[-1]}
         viz_files.append(viz_file)
 
     # initialise the form
