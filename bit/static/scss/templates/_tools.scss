@@ -79,6 +79,25 @@ label[for="files"]::file-selector-button {
   }
 }
 
+.skip-upload-button {
+  position: relative;
+  left: 0rem;
+  bottom: .5rem;
+  width: 10rem;
+  height: 2rem;
+  text-align: center;
+  color: $clr-white; /* text color */
+  font-size: 1.2rem; /* text size */
+  text-decoration: none; 
+  background-color: $clr-secondary-600;
+  border-radius: 1rem;
+  cursor:pointer;
+
+  &:hover {
+    background-color: $clr-secondary-700;
+  }
+}
+
 /* Customize the label (the container) */
 .container {
   display: block;

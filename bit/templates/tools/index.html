@@ -3,6 +3,14 @@
 {% from "_macros/_form_helpers.html" import render_field %}
 
 {% block content %}
+  <!-- Skip file upload -->
+  <h1>Select tool</h1>
+  <p>Skip file upload and go to the select tool page.</p>
+  <form action="{{ url_for('tools.select_tool') }}">
+    <input type="submit" value="Select tool" class="skip-upload-button">
+  </form>
+
+  <!-- File upload -->
   <h1>Upload files</h1>
   <p>
     To upload multiple files, hold down the CTRL key while selecting.

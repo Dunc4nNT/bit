@@ -387,6 +387,24 @@ label[for=files]::file-selector-button {
   background-color: hsl(80, 22%, 35%);
 }
 
+.skip-upload-button {
+  position: relative;
+  left: 0rem;
+  bottom: 0.5rem;
+  width: 10rem;
+  height: 2rem;
+  text-align: center;
+  color: hsl(0, 0%, 100%); /* text color */
+  font-size: 1.2rem; /* text size */
+  text-decoration: none;
+  background-color: hsl(80, 22%, 45%);
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.skip-upload-button:hover {
+  background-color: hsl(80, 22%, 35%);
+}
+
 /* Customize the label (the container) */
 .container {
   display: block;
