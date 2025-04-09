@@ -1,8 +1,8 @@
 """
-Pytests for the tool page.
+Pytests for the tools page.
 
-authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
-date last modified: 1-4-2025
+Authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
+Date last modified: 8-4-2025
 """
 
 from http import HTTPStatus
@@ -16,9 +16,18 @@ if TYPE_CHECKING:
     from werkzeug.test import TestResponse
 
 
-def test_tools_get(client: FlaskClient) -> None:
+def test_tools_index(client: FlaskClient) -> None:
     """
-    test tools home page
+    Test the tools home page.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
     """
     response: TestResponse = client.get("/tools", follow_redirects=True)
 
@@ -28,36 +37,63 @@ def test_tools_get(client: FlaskClient) -> None:
 
 def get_test_files(dir_path: str) -> list[Path]:
     """
-    Get all test files from a directory, used for pytest
+    Get all test files from a directory, used for pytest.
 
-    It is formatted as a list of dictionaries.
-    This way it can be put in the pytest.mark.parametrize directly.
+    Parameters
+    ----------
+    dir_path: str
+        Directory path to get all files from
 
-    :param dir_path: directory path
-    :return:
+    Returns
+    -------
+    list[dict]
+        all test files in the directory
     """
-    return [file for file in Path("tests", dir_path).iterdir() if file.is_file()]
+    # Path.iterdir() returns object with all of the directory contents
+    return [file for file in Path(dir_path).iterdir() if file.is_file()]
 
 
-@pytest.mark.parametrize("data_file", get_test_files("test_files/valid/"))
-def test_tools_post_valid(client: FlaskClient, data_file: Path) -> None:
+@pytest.mark.parametrize("data_file", get_test_files("tests/test_files/file_upload/valid/"))
+def test_tools_valid_file_upload(client: FlaskClient, data_file: Path) -> None:
     """
-    test if clients gets redirected after pressing
-    submit with valid file uploads
+    Test valid file uploads.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    data: dict
+        Valid file used for testing post request
+
+    Returns
+    -------
+    None
     """
     response: TestResponse = client.post(
         "/tools",
         data={"files": [(data_file.open("rb"), data_file.name)]},
         follow_redirects=True,
     )
-
     assert response.status_code == HTTPStatus.OK
 
 
-@pytest.mark.parametrize("data_file", get_test_files("test_files/invalid/"))
-def test_tools_post_invalid(client: FlaskClient, data_file: Path) -> None:
+@pytest.mark.parametrize("data_file", get_test_files("tests/test_files/file_upload/invalid/"))
+def test_tools_invalid_file_upload(client: FlaskClient, data_file: Path) -> None:
     """
-    test if invalid file uploads get redirected with an error code
+    Test invalid file uploads.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    data: dict
+        Invalid file used for testing post request
+
+    Returns
+    -------
+    None
     """
     response: TestResponse = client.post(
         "/tools", data={"files": [(data_file.open("rb"), data_file.name)]}, follow_redirects=True
@@ -65,3 +101,40 @@ def test_tools_post_invalid(client: FlaskClient, data_file: Path) -> None:
 
     assert response.status_code == HTTPStatus.UNSUPPORTED_MEDIA_TYPE
     assert "<h2>Invalid file</h2>" in response.text
+
+
+def test_tools_select_get(client: FlaskClient) -> None:
+    """
+    Test the tools select tool page.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
+    """
+    response: TestResponse = client.get("/tools/select_tool", follow_redirects=True)
+
+    assert response.status_code == HTTPStatus.OK
+
+
+@pytest.mark.parametrize("data", [{"tool": ""}, {"tool": "dmd"}, {"tool": "ksd"}, {"tool": "viz"}])
+def test_tools_select_post(client: FlaskClient, data: str) -> None:
+    """
+    Test the tools select tool page.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
+    """
+    response: TestResponse = client.post("/tools/select_tool", data=data, follow_redirects=True)
+
+    assert response.status_code == HTTPStatus.OK
