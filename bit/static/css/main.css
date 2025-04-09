@@ -404,7 +404,7 @@ label[for=files]::file-selector-button {
   background-color: hsl(80, 22%, 35%);
 }
 
-.files-uploaded {
+.tools-right {
   float: right;
 }
 
@@ -448,6 +448,31 @@ label[for=files]::file-selector-button {
   right: 2rem;
   padding-bottom: 0.5rem;
   height: 2rem;
+}
+
+.previous-files-button {
+  position: relative;
+  width: 10rem;
+  height: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: hsl(0, 0%, 100%); /* text color */
+  font-size: 1.2rem; /* text size */
+  text-decoration: none;
+  background-color: hsl(80, 22%, 45%);
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.previous-files-button:hover {
+  background-color: hsl(80, 22%, 35%);
+}
+
+.select-files {
+  position: relative;
+  left: 2.5rem;
+  width: 20rem;
+  height: auto;
+  min-height: 13rem;
 }
 
 /* Customize the label (the container) */

@@ -30,6 +30,16 @@ class SelectToolForm(Form):
     submit = SubmitField("Submit")
 
 
+class SelectVisualisationsForm(Form):
+    """Select files to visualise."""
+
+    files = SelectMultipleField(
+        "Files",
+        validators=[InputRequired()]
+    )
+    submit = SubmitField("Submit")
+
+
 class DmdOptionsForm(Form):
     """Options for the dmd subtool."""
 

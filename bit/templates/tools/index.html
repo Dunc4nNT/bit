@@ -3,8 +3,14 @@
 {% from "_macros/_form_helpers.html" import render_field %}
 
 {% block content %}
-  <!-- Show already uploaded files -->
-  <div class="files-uploaded">
+  <div class="tools-right">
+    <!-- Previous visualisations -->
+    <h1>Visualisations</h1>
+    <p>Select and view previously made visualisations</p>
+    <form action="{{ url_for('tools.previous_visualisations') }}">
+      <input type="submit" value="Select files" class="previous-files-button">
+    </form>
+    <!-- Show already uploaded files -->
     <h1>Files uploaded</h1>
     <div class="files-uploaded-box">
       <p>

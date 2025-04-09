@@ -97,7 +97,7 @@ label[for="files"]::file-selector-button {
   }
 }
 
-.files-uploaded {
+.tools-right {
   float: right;
 }
 
@@ -146,6 +146,32 @@ label[for="files"]::file-selector-button {
       height: 2rem;
     }
   }
+}
+
+.previous-files-button {
+  position: relative;
+  width: 10rem;
+  height: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: $clr-white; /* text color */
+  font-size: 1.2rem; /* text size */
+  text-decoration: none; 
+  background-color: $clr-secondary-600;
+  border-radius: 1rem;
+  cursor:pointer;
+
+  &:hover {
+    background-color: $clr-secondary-700;
+  }
+}
+
+.select-files {
+  position: relative;
+  left: 2.5rem;
+  width: 20rem;
+  height: auto;
+  min-height: 13rem;
 }
 
 /* Customize the label (the container) */
