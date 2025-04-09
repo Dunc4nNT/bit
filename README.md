@@ -1,6 +1,6 @@
 # Bio-informatics Toolbox
 
-*2025-02-25 version 0.2.0a*
+*2025-04-10 version 0.6.0a*
 
 The purpose of this website is to simplify the tool [wgd v2](https://github.com/heche-psb/wgd), by 
 making it accesible to users who may not have a background
@@ -99,20 +99,102 @@ $ npx sass --watch scss/main.scss css/main.css # compiles on save.
 
 ## Configuration
 
-*describe config options here, e.g. path to tool*
+To change the directory in which uploaded, temp, and output files go, please edit `bit/dirpaths.py` to whichever path you want. These paths are relative.
+
+```py
+wgd_files_dir = "bit/static/wgd_files/" # directory in which the below mentions folders are found.
+uploads_dir = wgd_files_dir + "uploads/" # directory in which files uploaded to the website get stored.
+outdir = wgd_files_dir + "outdir/" # directory in which output files from wgd get stored.
+tmpdir = wgd_files_dir + "tmpdir/" # directory in which temporary files from wgd get stored.
+```
+
+In `bit/app.py` the maximum upload size can be adjusted.
+
+```py
+app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024 # size in bytes.
+```
 
 ## Usage
 
-*how to run this app*
+Get clear graphs of your data based on your preferred configurable settings by submitting fasta formatted files containing genome coding DNA sequences.
+
+![WGD dating example graph](./bit/static/images/homepage/WGD_dating.png)<br>
+Source: [WGD documentation](https://wgdv2.readthedocs.io/en/latest/recipes.html).
+
+![WGD Ks Distribution example graph](./bit/static/images/homepage/WGD_KsDistribution.png)<br>
+Source: [WGD documentation](https://wgdv2.readthedocs.io/en/latest/recipes.html).
 
 ### Example (num)
 
-*describe an example workflow, add images as well*
+**Step 1:**
+
+Upload the .fasta files and press submit. Or if you already have a .fasta file uploaded you can click Select tool.
+
+![Test example graphs](./bit/static/images/homepage/toolpage.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
+
+**Step 2:**
+
+Select the subtool you want to run and press submit. If the file you have chosen has not been run by dmd choose dmd. Otherwise you can choose ksd and skip to step 4.
+
+![Test example graphs](./bit/static/images/homepage/select_dmd.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
+
+Now select the .fasta file you uploaded, check some aditional options and press submit
+
+![Test example graphs](./bit/static/images/homepage/config_dmd.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
+
+**Step 3:**
+
+Next, go back to the tool page and press Select tool.
+
+Here you select ksd and press submit.
+
+![Test example graphs](./bit/static/images/homepage/select_ksd.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
+
+**Step 4:**
+
+In this form in the first and second bar you are asked to select the files.
+
+Inside the first one you want to select the .fasta.tsv file and in the second the .fasta file.
+
+![Test example graphs](./bit/static/images/homepage/config_ksd.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
+
+Now it should give you the {filename}.fasta.tsv.ks.tsv on screen. If not try again from step 1.
+
+![Test example graphs](./bit/static/images/homepage/results_ksd.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
+
+**Step 5:**
+
+Now go back to the tool page and press Select tool. Then select viz and press submit.
+
+![Test example graphs](./bit/static/images/homepage/select_viz.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
+
+**Step 6:**
+
+On this form page you select the created `<filename>.fasta.tsv.ks.tsv` file. Select and/or fill in any additional options and press submit.
+
+![Test example graphs](./bit/static/images/homepage/config_viz.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
+
+Now you should see your graphs.
+
+![Test example graphs](./bit/static/images/homepage/results_viz.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
+
+![Test example graphs](./bit/static/images/homepage/results_viz2.png)<br>
+*Source: [bit](https://github.com/Dunc4nNT/bit).*
 
 ## Contact
 
-For bug reports please use https://github.com/Dunc4nNT/bit/issues.<br>
-For questions about the app, please use *github discussions link here*.<br>
+For bug reports please use [github issues](https://github.com/Dunc4nNT/bit/issues).
+
+For questions about the app, please use [github discussions](https://github.com/Dunc4nNT/bit/discussions).
 
 ## References
 
@@ -120,10 +202,6 @@ For questions about the app, please use *github discussions link here*.<br>
 a suite of tools to uncover and date ancient polyploidy and 
 whole-genome duplication,” Bioinformatics, vol. 40, no. 5, Apr. 2024, 
 doi: 10.1093/bioinformatics/btae272.
-
-## License
-
-PLACEHOLDER: This project is licensed under *INSERT LICENSE HERE*.
 
 ## Authors
 
