@@ -453,3 +453,4 @@ def invalid_file_error(error: InvalidFileError) -> tuple[str, Literal[415]]:
     flash("file is invalid.", category="error")
 
     return render_template("errors/invalid_file.html"), 415
+  

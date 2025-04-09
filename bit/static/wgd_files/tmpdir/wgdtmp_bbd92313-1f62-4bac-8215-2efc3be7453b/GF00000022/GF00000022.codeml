@@ -1,0 +1,88 @@
+CODONML (in paml version 4.10.7, June 2023)  GF00000022.cdsaln
+Model: One dN/dS ratio, 
+Codon frequency model: F3x4
+ns =   2  ls = 719
+
+Codon usage in sequences
+----------------------------------------------------------------------
+Phe TTT  18  18 | Ser TCT   6   7 | Tyr TAT  12   9 | Cys TGT   5   6
+    TTC  17  21 |     TCC   4   6 |     TAC   9  10 |     TGC   3   2
+Leu TTA   7   9 |     TCA   7   8 | *** TAA   0   0 | *** TGA   0   0
+    TTG  27  26 |     TCG  21  14 |     TAG   0   0 | Trp TGG  13  15
+----------------------------------------------------------------------
+Leu CTT  18  19 | Pro CCT   8   6 | His CAT   8  11 | Arg CGT   3   3
+    CTC   9  11 |     CCC   5   6 |     CAC   7   7 |     CGC   2   1
+    CTA   7   5 |     CCA  11  11 | Gln CAA   9   9 |     CGA   5   8
+    CTG   5   7 |     CCG   4   4 |     CAG   9   7 |     CGG   4   3
+----------------------------------------------------------------------
+Ile ATT  28  34 | Thr ACT  11  17 | Asn AAT  19  22 | Ser AGT  11   6
+    ATC  27  21 |     ACC  11   6 |     AAC  16  11 |     AGC   7   9
+    ATA  17  15 |     ACA   7   6 | Lys AAA  29  35 | Arg AGA  13   8
+Met ATG  20  26 |     ACG   9   6 |     AAG  33  20 |     AGG  11  12
+----------------------------------------------------------------------
+Val GTT  19  22 | Ala GCT  11  14 | Asp GAT  25  28 | Gly GGT  10   9
+    GTC  14  14 |     GCC   3   2 |     GAC  14  11 |     GGC   4   5
+    GTA   5   6 |     GCA   5   5 | Glu GAA  19  24 |     GGA   8   4
+    GTG  19  16 |     GCG   3   5 |     GAG  22  21 |     GGG   6  10
+----------------------------------------------------------------------
+
+Codon position x base (3x4) table for each sequence.
+
+#1: egu1000.fasta_00088
+position  1:    T:0.20723    C:0.15855    A:0.37413    G:0.26008
+position  2:    T:0.35744    C:0.17524    A:0.32128    G:0.14604
+position  3:    T:0.29485    C:0.21140    A:0.20723    G:0.28651
+Average         T:0.28651    C:0.18173    A:0.30088    G:0.23088
+
+#2: egu1000.fasta_00087
+position  1:    T:0.21001    C:0.16412    A:0.35327    G:0.27260
+position  2:    T:0.37552    C:0.17107    A:0.31293    G:0.14047
+position  3:    T:0.32128    C:0.19889    A:0.21280    G:0.26704
+Average         T:0.30227    C:0.17803    A:0.29300    G:0.22670
+
+Sums of codon usage counts
+------------------------------------------------------------------------------
+Phe F TTT      36 | Ser S TCT      13 | Tyr Y TAT      21 | Cys C TGT      11
+      TTC      38 |       TCC      10 |       TAC      19 |       TGC       5
+Leu L TTA      16 |       TCA      15 | *** * TAA       0 | *** * TGA       0
+      TTG      53 |       TCG      35 |       TAG       0 | Trp W TGG      28
+------------------------------------------------------------------------------
+Leu L CTT      37 | Pro P CCT      14 | His H CAT      19 | Arg R CGT       6
+      CTC      20 |       CCC      11 |       CAC      14 |       CGC       3
+      CTA      12 |       CCA      22 | Gln Q CAA      18 |       CGA      13
+      CTG      12 |       CCG       8 |       CAG      16 |       CGG       7
+------------------------------------------------------------------------------
+Ile I ATT      62 | Thr T ACT      28 | Asn N AAT      41 | Ser S AGT      17
+      ATC      48 |       ACC      17 |       AAC      27 |       AGC      16
+      ATA      32 |       ACA      13 | Lys K AAA      64 | Arg R AGA      21
+Met M ATG      46 |       ACG      15 |       AAG      53 |       AGG      23
+------------------------------------------------------------------------------
+Val V GTT      41 | Ala A GCT      25 | Asp D GAT      53 | Gly G GGT      19
+      GTC      28 |       GCC       5 |       GAC      25 |       GGC       9
+      GTA      11 |       GCA      10 | Glu E GAA      43 |       GGA      12
+      GTG      35 |       GCG       8 |       GAG      43 |       GGG      16
+------------------------------------------------------------------------------
+
+
+Codon position x base (3x4) table, overall
+
+position  1:    T:0.20862    C:0.16134    A:0.36370    G:0.26634
+position  2:    T:0.36648    C:0.17316    A:0.31711    G:0.14325
+position  3:    T:0.30807    C:0.20515    A:0.21001    G:0.27677
+Average         T:0.29439    C:0.17988    A:0.29694    G:0.22879
+
+
+Nei & Gojobori 1986. dN/dS (dN, dS)
+(Note: This matrix is not used in later ML. analysis.
+Use runmode = -2 for ML pairwise comparison.)
+
+egu1000.fasta_00088 
+egu1000.fasta_00087  0.1891 (0.1038 0.5488)
+pairwise comparison, codon frequencies: F3x4.
+
+
+2 (egu1000.fasta_00087) ... 1 (egu1000.fasta_00088)
+lnL =-4081.206995
+  0.63336  1.77533  0.19804
+
+t= 0.6334  S=   522.9  N=  1634.1  dN/dS=  0.1980  dN = 0.1065  dS = 0.5379
