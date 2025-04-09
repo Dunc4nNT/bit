@@ -5,13 +5,13 @@
 {% endblock header %}
 
 {% block content %}
-<section>
+<div>
   <h2>Welcome to WGD Wizard</h2><br>
   <p>
     Quickly date, identify and visualise whole genome duplication events in a matter of minutes!
   </p>
-</section>
-<section>
+</div>
+<div>
   <p>
     Get clear graphs of your data based on your preferred configurable settings by submitting Multi-Fasta files.<br>
     <img src="{{ url_for('static', filename='images/homepage/WGD_dating.png') }}" alt="WGD dating example graph" style="width: 500px; height: auto;">
@@ -45,5 +45,5 @@
       Images taken from our own tests of the website using egu1000.fasta
     </i>
   </p>
-</section>
+</div>
 {% endblock content %}

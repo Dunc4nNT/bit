@@ -6,6 +6,7 @@
   <h1>Configure dmd</h1>
   <form action="{{ url_for('tools.dmd') }}" method="POST" enctype="multipart/form-data">
     <dl>
+      <dt></dt>
       <dd>{{ form.csrf_token }}</dd>
 
       {{ render_field(form.sequences) }}
