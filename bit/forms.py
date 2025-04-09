@@ -24,7 +24,7 @@ class SelectToolForm(Form):
 
     tool = SelectField(
         "Tool",
-        choices=[("dmd", "dmd"), ("ksd", "ksd"), ("viz", "viz")],
+        choices=[("", "choose tool"), ("dmd", "dmd"), ("ksd", "ksd"), ("viz", "viz")],
         validators=[InputRequired()],
     )
     submit = SubmitField("Submit")

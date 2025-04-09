@@ -187,7 +187,7 @@ def dmd() -> str | Response:
 
     form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
     form.anchorpoints.choices = [
-        (None, ""),
+        (None, "None"),
         *[(file["filepath"], file["filename"]) for file in files],
     ]
     form.segments.choices = form.anchorpoints.choices
@@ -257,7 +257,7 @@ def ksd() -> str | Response:
     form.sequences.choices = [(file["filepath"], file["filename"]) for file in files]
 
     form.speciestree.choices = [
-        (None, ""),
+        (None, "None"),
         *[(file["filepath"], file["filename"]) for file in files],
     ]
     form.extraparanomeks.choices = form.speciestree.choices
@@ -324,7 +324,7 @@ def viz() -> str | Response:
     form.data_file.choices = [(file["filepath"], file["filename"]) for file in files]
 
     form.gsmap.choices = [
-        (None, ""),
+        (None, "None"),
         *[(file["filepath"], file["filename"]) for file in files],
     ]
     form.speciestree.choices = form.gsmap.choices
