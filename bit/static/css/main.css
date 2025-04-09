@@ -359,6 +359,7 @@ label[for=files]::file-selector-button {
   border-width: 0.25rem;
   border-radius: 1rem;
   cursor: pointer;
+  content: "";
 }
 
 .file-upload-button:hover {
