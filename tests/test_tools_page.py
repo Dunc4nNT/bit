@@ -101,3 +101,40 @@ def test_tools_invalid_file_upload(client: FlaskClient, data_file: Path) -> None
 
     assert response.status_code == HTTPStatus.UNSUPPORTED_MEDIA_TYPE
     assert "<h2>Invalid file</h2>" in response.text
+
+
+def test_tools_select_get(client: FlaskClient) -> None:
+    """
+    Test the tools select tool page.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
+    """
+    response: TestResponse = client.get("/tools/select_tool", follow_redirects=True)
+
+    assert response.status_code == HTTPStatus.OK
+
+
+@pytest.mark.parametrize("data", [{"tool": ""}, {"tool": "dmd"}, {"tool": "ksd"}, {"tool": "viz"}])
+def test_tools_select_post(client: FlaskClient, data: str) -> None:
+    """
+    Test the tools select tool page.
+
+    Parameters
+    ----------
+    client: FlaskClient
+        client used for testing
+
+    Returns
+    -------
+    None
+    """
+    response: TestResponse = client.post("/tools/select_tool", data=data, follow_redirects=True)
+
+    assert response.status_code == HTTPStatus.OK
