@@ -2,12 +2,12 @@
 
 {% block content %}
   <h1>Results</h1>
+  <p>
+    The following files have been created by ksd:
+  </p>
   <ul>
     {% for file in output_files %}
       <li>{{ file["filename"] }}</li>
     {% endfor %}
   </ul>
-  <p>
-  {{ result }}
-  </p>
 {% endblock content %}

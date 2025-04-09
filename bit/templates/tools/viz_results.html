@@ -2,12 +2,12 @@
 
 {% block content %}
   <h1>Results</h1>
+  <p>
+    Visualisations created by viz:
+  </p>
   <ul>
     {% for file in output_files %}
       <img class="viz-image" src={{ url_for('static', filename=file['filepath']) }} />
     {% endfor %}
   </ul>
-  <p>
-  {{ result }}
-  </p>
 {% endblock content %}
