@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'website/bit/static/scss/**'
+      - 'bit/static/scss/**'
   pull_request:
       types: [ opened, reopened, synchronize ]
       paths:
-        - 'website/bit/static/scss/**'
+        - 'bit/static/scss/**'
 
 jobs:
   lint:
@@ -23,15 +23,15 @@ jobs:
         with:
           fetch-depth: 0
           sparse-checkout: |
-            website/bit/static
+            bit/static
           sparse-checkout-cone-mode: false
 
       - name: "Make Subdirectory Root."
         run: |
           ls -lAh
           shopt -s dotglob
-          mv website/bit/static/* .
-          rm -rf website
+          mv bit/static/* .
+          rm -rf bit
           ls -lAh
 
       - name: Setup node

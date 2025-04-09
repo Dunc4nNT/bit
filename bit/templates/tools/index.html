@@ -1,0 +1,23 @@
+{% extends "tools/base.html" %}
+
+{% from "_macros/_form_helpers.html" import render_field %}
+
+{% block content %}
+  <h1>Upload files</h1>
+  <p>
+    To upload multiple files, hold down the CTRL key while selecting.
+  </p>
+  <form class="file-upload-box" action="{{ url_for('tools.index') }}" method="POST" enctype="multipart/form-data">
+    <p>
+      Files <img src="../../static/images/tools/files.png" alt="file image">
+    </p>
+
+    <dl>
+      <dd>{{ form.csrf_token }}</dd>
+
+      {{ render_field(form.files, class="file-upload-button") }}
+
+      <dd>{{ form.submit(class="submit-button") }}</dd>
+    </dl>
+  </form>
+{% endblock content %}
