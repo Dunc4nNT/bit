@@ -96,6 +96,16 @@ def index() -> str | Response:
     """
     form = FileUploadForm(request.form)
 
+    # get the already uploaded files
+    filepaths: list[str] = get_filepaths_from_dir(uploads_dir)
+    uploaded_files: list[dict[str, str]] = []
+    for filepath in filepaths:
+        uploaded_file: dict[str, str] = {
+            "filepath": filepath,
+            "filename": filepath.split("/")[-1],
+        }
+        uploaded_files.append(uploaded_file)
+
     # list of the allowed file types to upload
     if request.method == HTTPMethod.POST and form.validate():
         # if submit button is pressed for the file upload
@@ -128,7 +138,7 @@ def index() -> str | Response:
         return redirect(url_for("tools.select_tool"))
 
     # default tool page, to upload files
-    return render_template("tools/index.html", form=form)
+    return render_template("tools/index.html", form=form, uploaded_files=uploaded_files)
 
 
 @blueprint.route("/select_tool", methods=["GET", "POST"])
