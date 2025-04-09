@@ -100,11 +100,11 @@ def index() -> str | Response:
     filepaths: list[str] = get_filepaths_from_dir(uploads_dir)
     uploaded_files: list[dict[str, str]] = []
     for filepath in filepaths:
-        file: dict[str, str] = {
+        uploaded_file: dict[str, str] = {
             "filepath": filepath,
             "filename": filepath.split("/")[-1],
         }
-        uploaded_files.append(file)
+        uploaded_files.append(uploaded_file)
 
     # list of the allowed file types to upload
     if request.method == HTTPMethod.POST and form.validate():
