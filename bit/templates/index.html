@@ -6,40 +6,44 @@
 
 {% block content %}
 <section>
-  <h2>Welcome to WGD Wizard</h2>
+  <h2>Welcome to WGD Wizard</h2><br>
   <p>
     Quickly date, identify and visualise whole genome duplication events in a matter of minutes!
   </p>
 </section>
 <section>
   <p>
-    Get clear graphs of your data based on your preferred configurable settings by submitting Multi-Fasta files.
-    <img src="{{ url_for('static', filename='images/homepage/WGD_dating.png') }}" alt="WGD dating example graph" style="width: 500px; height: auto;"><img src="{{ url_for('static', filename='images/homepage/WGD_KsDistribution.png') }}" alt="WGD Ks Distribution example graph" style="width: 500px; height: auto;"><br>
+    Get clear graphs of your data based on your preferred configurable settings by submitting Multi-Fasta files.<br>
+    <img src="{{ url_for('static', filename='images/homepage/WGD_dating.png') }}" alt="WGD dating example graph" style="width: 500px; height: auto;">
+    <img src="{{ url_for('static', filename='images/homepage/WGD_KsDistribution.png') }}" alt="WGD Ks Distribution example graph" style="width: 500px; height: auto;"><br>
     <i>
-      Images from <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">WGD documents</a>
+      Images from <a href="https://wgdv2.readthedocs.io/en/latest/recipes.html">WGD documents</a><br><br>
     </i>
   </p>
 </section>
 <section>
-  <p>
+  <h4>
     Quick guide on how to use wgd tool.
-  </p>
+  </h4>
   <p>
     Step 1:<br>
     Upload the .fasta files and press submit.<br>
     <img src="{{ url_for('static', filename='')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
     Step 2:<br>
-    Select the subtool you want to run and press submit. Here we have chosen dmd which is the default.
+    Select the subtool you want to run and press submit. Here we have chosen dmd which is the default.<br>
     <img src="{{ url_for('static', filename='')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
-    Step 3:
-    Select the files you want to have run and check or fill in all aditional information in the designated boxes.
+    Step 3:<br>
+    Select the files you want to have run and check or fill in any aditional information in the designated boxes.<br>
     <img src="{{ url_for('static', filename='')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
-    Step 4:
-    Now you can select what kind of graphs you would like to have plotted and press submit.
+    Step 4:<br>
+    Now you can select what kind of graphs you would like to have plotted and press submit.<br>
     <img src="{{ url_for('static', filename='')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
-    Step 5:
-    If all went well you now have your graphs. Enjoy your graphs of your .fasta files and happy researching!
-    <img src="{{ url_for('static', filename='')}}" alt="Test example graphs" style="width: 500px; height: auto;">
+    Step 5:<br>
+    If all went well you now have your graphs. Enjoy your graphs of your .fasta files and happy researching!<br>
+    <img src="{{ url_for('static', filename='')}}" alt="Test example graphs" style="width: 500px; height: auto;"><br>
+    <i>
+      Images taken from our own tests of the website using egu1000.fasta
+    </i>
   </p>
 </section>
 {% endblock content %}
