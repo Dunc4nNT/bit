@@ -5,7 +5,7 @@ Tests if all the requirements are installed,
 and if the used wgd sub tools work (don't give errors).
 
 Authors: Duncan Huizer, Johanna Veenstra, Pascal Reumer, Sven Staats
-Date last modified: 8-4-2025
+Date last modified: 9-4-2025
 """
 
 import subprocess
@@ -33,15 +33,17 @@ def test_conda() -> None:
     assert output != ""
 
 
-@pytest.mark.parametrize("requirement", [
-    "wgd",
-    "diamond",
-    "mcl",
-    "codeml",
-    "fasttree",
-    "mafft",
-    "i-adhore"
-])
+@pytest.mark.parametrize(
+    "requirement",
+    [
+        "wgd",
+        "diamond",
+        "mcl",
+        "codeml",
+        "fasttree",
+        "mafft",
+    ],
+)
 def test_requirements(requirement: str) -> None:
     """
     Check if the all the requirements are installed.
@@ -85,10 +87,10 @@ def test_wgd_help() -> None:
     assert output != ""
 
 
-@pytest.mark.parametrize("fasta_file", [
-    "tests/test_files/wgd/input/egu1000.fasta",
-    "tests/test_files/wgd/input/ugi1000.fasta"
-])
+@pytest.mark.parametrize(
+    "fasta_file",
+    ["tests/test_files/wgd/input/egu1000.fasta", "tests/test_files/wgd/input/ugi1000.fasta"],
+)
 def test_dmd(fasta_file: str) -> None:
     """
     Test the wgd sub tool dmd.
@@ -112,12 +114,8 @@ def test_dmd(fasta_file: str) -> None:
     assert error == "" or "BiopythonWarning: Partial codon" in error
 
 
-@pytest.mark.parametrize("fasta_file", [
-    "tests/test_files/wgd/input/egu1000.fasta"
-])
-@pytest.mark.parametrize("tsv_file", [
-    "tests/test_files/wgd/input/egu1000.fasta.tsv"
-])
+@pytest.mark.parametrize("fasta_file", ["tests/test_files/wgd/input/egu1000.fasta"])
+@pytest.mark.parametrize("tsv_file", ["tests/test_files/wgd/input/egu1000.fasta.tsv"])
 def test_ksd(fasta_file: str, tsv_file: str) -> None:
     """
     Test the wgd sub tool ksd.
@@ -144,9 +142,12 @@ def test_ksd(fasta_file: str, tsv_file: str) -> None:
     assert error == ""
 
 
-@pytest.mark.parametrize("ks_file", [
-    "tests/test_files/wgd/input/ath_test.ks.tsv",
-])
+@pytest.mark.parametrize(
+    "ks_file",
+    [
+        "tests/test_files/wgd/input/ath_test.ks.tsv",
+    ],
+)
 def test_viz(ks_file: str) -> None:
     """
     Test the wgd sub tool viz.
