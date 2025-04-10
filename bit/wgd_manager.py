@@ -226,7 +226,9 @@ class WgdManager:
 
         return result
 
-    def run_ksd(self, families: str, *sequences: str, **kwargs: Ksd) -> CompletedProcess[str]:
+    def run_ksd(
+        self, families: str, *sequences: str, **kwargs: Unpack[Ksd]
+    ) -> CompletedProcess[str]:
         """Run the wgd sub tool ksd.
 
         ksd is used to construct Ks distributions (Ks being synonymous substitutions).
@@ -262,7 +264,7 @@ class WgdManager:
 
         return result
 
-    def run_viz(self, data: str, **kwargs: Viz) -> CompletedProcess[str]:
+    def run_viz(self, data: str, **kwargs: Unpack[Viz]) -> CompletedProcess[str]:
         """Run the wgd sub tool viz.
 
         Used to visualize Ks distributions (output of the sub tool ksd)
