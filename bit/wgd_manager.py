@@ -244,6 +244,8 @@ class WgdManager:
             Path to files containing a genome's DNA coding sequences.
             These genomes should match the genomes in the families file.
             Gene IDs must be unique, e.g. like you get from RefSeq Select.
+        **kwargs : Ksd
+            Kwargs to parse to wgd ksd.
 
         Returns
         -------
@@ -275,6 +277,8 @@ class WgdManager:
         ----------
         data : str
             Path to a data file, for example the one constructed by wgd ksd.
+        **kwargs : Viz
+            Kwargs to parse to wgd viz.
 
         Returns
         -------
