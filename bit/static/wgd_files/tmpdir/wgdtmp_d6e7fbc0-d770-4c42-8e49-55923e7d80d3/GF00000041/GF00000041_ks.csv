@@ -1,2 +1,0 @@
-t,S,N,dN/dS,dN,dS,gene1,gene2,l,node,family,alignmentcoverage,alignmentidentity,alignmentlength,strippedalignmentlength,weightoutlierincluded,weightoutlierexcluded,node_averaged_dS_outlierincluded,node_averaged_dS_outlierexcluded
-10.2778,87.4,344.6,0.02,0.3143,15.6887,egu1000.fasta_00098,egu1000.fasta_00099,-968.219794,0,GF00000041,0.7422680412371134,0.6296296296296297,582,432,1.0,,15.6887,
